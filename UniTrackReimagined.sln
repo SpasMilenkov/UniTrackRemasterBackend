@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Api", "UniTrackReimagined.Api\UniTrackReimagined.Api.csproj", "{D30D4D66-160B-4DFA-ACE6-8E7E60D5EFEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{F69694F2-1429-4526-B037-BA2ED876CB86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{90AA7C15-CAD5-49F4-B35C-58EA8755242E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1AC14D13-18EE-4C42-A58D-618884C1CA2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{8DA00993-E274-4A82-8492-BE5D0A1D0BCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Data", "UniTrackReimagined.Data\UniTrackReimagined.Data.csproj", "{429296FD-6904-4F88-85F5-DF5C77311414}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Data.Commons", "UniTrackReimagined.Data.Commons\UniTrackReimagined.Data.Commons.csproj", "{6929573E-F68C-48F7-95CA-35EF20E3E3C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Data.Repositories", "UniTrackReimagined.Data.Repositories\UniTrackReimagined.Data.Repositories.csproj", "{7515D534-9148-4D48-B9D9-95CC400872A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Services.Authentication", "UniTrackReimagined.Services.Authentication\UniTrackReimagined.Services.Authentication.csproj", "{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackBackend.Services.Student", "UniTrackBackend.Services.Student\UniTrackBackend.Services.Student.csproj", "{171A034F-D000-451A-9E09-04E1BABF55B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Api.Dto", "UniTrackReimagined.Api.Dto\UniTrackReimagined.Api.Dto.csproj", "{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Data.Models", "UniTrackReimagined.Data.Models\UniTrackReimagined.Data.Models.csproj", "{F6541CF7-1BFA-4572-9F66-902E797DE3D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Infrastructure", "UniTrackReimagined.Infrastructure\UniTrackReimagined.Infrastructure.csproj", "{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D30D4D66-160B-4DFA-ACE6-8E7E60D5EFEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30D4D66-160B-4DFA-ACE6-8E7E60D5EFEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30D4D66-160B-4DFA-ACE6-8E7E60D5EFEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30D4D66-160B-4DFA-ACE6-8E7E60D5EFEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429296FD-6904-4F88-85F5-DF5C77311414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429296FD-6904-4F88-85F5-DF5C77311414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429296FD-6904-4F88-85F5-DF5C77311414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429296FD-6904-4F88-85F5-DF5C77311414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6929573E-F68C-48F7-95CA-35EF20E3E3C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6929573E-F68C-48F7-95CA-35EF20E3E3C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6929573E-F68C-48F7-95CA-35EF20E3E3C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6929573E-F68C-48F7-95CA-35EF20E3E3C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7515D534-9148-4D48-B9D9-95CC400872A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7515D534-9148-4D48-B9D9-95CC400872A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7515D534-9148-4D48-B9D9-95CC400872A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7515D534-9148-4D48-B9D9-95CC400872A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171A034F-D000-451A-9E09-04E1BABF55B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171A034F-D000-451A-9E09-04E1BABF55B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171A034F-D000-451A-9E09-04E1BABF55B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171A034F-D000-451A-9E09-04E1BABF55B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6541CF7-1BFA-4572-9F66-902E797DE3D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6541CF7-1BFA-4572-9F66-902E797DE3D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6541CF7-1BFA-4572-9F66-902E797DE3D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6541CF7-1BFA-4572-9F66-902E797DE3D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D30D4D66-160B-4DFA-ACE6-8E7E60D5EFEC} = {F69694F2-1429-4526-B037-BA2ED876CB86}
+		{429296FD-6904-4F88-85F5-DF5C77311414} = {90AA7C15-CAD5-49F4-B35C-58EA8755242E}
+		{6929573E-F68C-48F7-95CA-35EF20E3E3C7} = {90AA7C15-CAD5-49F4-B35C-58EA8755242E}
+		{7515D534-9148-4D48-B9D9-95CC400872A1} = {90AA7C15-CAD5-49F4-B35C-58EA8755242E}
+		{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0} = {1AC14D13-18EE-4C42-A58D-618884C1CA2F}
+		{171A034F-D000-451A-9E09-04E1BABF55B6} = {1AC14D13-18EE-4C42-A58D-618884C1CA2F}
+		{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3} = {F69694F2-1429-4526-B037-BA2ED876CB86}
+		{F6541CF7-1BFA-4572-9F66-902E797DE3D2} = {90AA7C15-CAD5-49F4-B35C-58EA8755242E}
+		{DF4376CA-716D-43A2-96EE-01D4AB96A9F3} = {F69694F2-1429-4526-B037-BA2ED876CB86}
+	EndGlobalSection
+EndGlobal
