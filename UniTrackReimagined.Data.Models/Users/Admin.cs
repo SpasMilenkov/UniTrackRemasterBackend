@@ -4,7 +4,7 @@ public class Admin
 {
     #region Properties
 
-        public required Guid AdminId { get; set; }
+        public required Guid Id { get; set; }
 
     #endregion
     

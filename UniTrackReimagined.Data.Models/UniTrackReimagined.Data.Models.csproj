@@ -10,8 +10,4 @@
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="JunctionEntities\" />
-    </ItemGroup>
-
 </Project>

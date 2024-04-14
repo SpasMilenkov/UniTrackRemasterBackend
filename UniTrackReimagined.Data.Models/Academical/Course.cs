@@ -1,6 +1,14 @@
-namespace UniTrackReimagined.Data.Models;
+namespace UniTrackReimagined.Data.Models.Academical;
 
 public class Course
 {
+    #region Properties
+
+    public Guid Id { get; set; }
+
+    #endregion
+    #region NavigationProperties
     
+
+    #endregion
 }

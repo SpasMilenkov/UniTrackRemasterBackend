@@ -1,6 +1,6 @@
 namespace UniTrackReimagined.Data.Models.Analytics;
 
-public class SchoolReport
+public class AcademicalGroupReport
 {
     #region Properties
 
@@ -11,10 +11,6 @@ public class SchoolReport
         public required string ShortDescription { get; set; }
         public required string DetailedDescription { get; set; }
         public required decimal NumericalRating { get; set; }
-
-    #endregion
-    #region NavigationProperties
-        public ICollection<AcademicalGroupReport>? ClassReport { get; set; }
-
+        
     #endregion
 }

@@ -1,3 +1,4 @@
+using UniTrackReimagined.Data.Models.Academical;
 using UniTrackReimagined.Data.Models.Analytics;
 using UniTrackReimagined.Data.Models.Events;
 using UniTrackReimagined.Data.Models.Organizations;
@@ -9,7 +10,7 @@ public class Student
     #region Properties
     
         //PrimaryKey
-        public required Guid StudentId { get; set; }
+        public required Guid Id { get; set; }
 
         public required bool IsSchoolStudent { get; set; }
         

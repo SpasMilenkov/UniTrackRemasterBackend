@@ -4,7 +4,7 @@ public class Parent
 {
     #region Properties
 
-        public required Guid ParentId { get; set; }
+        public required Guid Id { get; set; }
 
     #endregion
     

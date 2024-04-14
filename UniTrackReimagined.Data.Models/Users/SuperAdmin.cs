@@ -4,7 +4,7 @@ public class SuperAdmin
 {
     #region Properties
 
-        public required Guid SuperAdminId { get; set; }
+        public required Guid Id { get; set; }
     
     #endregion
     

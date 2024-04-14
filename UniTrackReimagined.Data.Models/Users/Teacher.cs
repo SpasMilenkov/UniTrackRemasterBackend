@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using UniTrackReimagined.Data.Models.Academical;
 using UniTrackReimagined.Data.Models.Events;
+using UniTrackReimagined.Data.Models.JunctionEntities;
 using UniTrackReimagined.Data.Models.Organizations;
 
 namespace UniTrackReimagined.Data.Models.Users;
@@ -12,7 +14,7 @@ public class Teacher
         public string? Title { get; set; }
         
         //PrimaryKey
-        public required Guid TeacherId { get; set; }
+        public required Guid Id { get; set; }
         
     #endregion
 
@@ -21,9 +23,6 @@ public class Teacher
         //User relation
         public required Guid UserId { get; set; }
         public ApplicationUser? User { get; set; }
-
-        //Subject relation
-        public ICollection<Subject>? Subjects { get; set; }
 
         //Events relation
         public ICollection<Event>? Events { get; set; }
