@@ -14,8 +14,8 @@ public static class IdentityServicesExtensions
     {
         services.AddDbContext<UniTrackDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Database")));
-        
-        services.AddIdentityCore<ApplicationUser>(options =>
+
+        services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
 
                 options.Password.RequireDigit = true;
@@ -25,8 +25,8 @@ public static class IdentityServicesExtensions
                 options.Password.RequiredLength = 8;
                 options.User.RequireUniqueEmail = true;
             })
-            .AddEntityFrameworkStores<UniTrackDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddEntityFrameworkStores<UniTrackDbContext>();
         
 
         
