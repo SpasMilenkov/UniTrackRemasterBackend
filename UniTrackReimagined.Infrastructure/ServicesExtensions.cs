@@ -1,6 +1,6 @@
 namespace Infrastructure;
 
-public class ServicesExtensions
+public static class ServicesExtensions
 {
     
 }
