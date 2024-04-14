@@ -16,7 +16,7 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -26,7 +26,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Mappings\Mappings.csproj" />
+      <ProjectReference Include="..\Messaging\Messaging.csproj" />
+      <ProjectReference Include="..\UniTrackReimagined.Api.Dto\UniTrackReimagined.Api.Dto.csproj" />
       <ProjectReference Include="..\UniTrackReimagined.Infrastructure\UniTrackReimagined.Infrastructure.csproj" />
+      <ProjectReference Include="..\UniTrackReimagined.Services.Authentication\UniTrackReimagined.Services.Authentication.csproj" />
     </ItemGroup>
 
     <ItemGroup>
