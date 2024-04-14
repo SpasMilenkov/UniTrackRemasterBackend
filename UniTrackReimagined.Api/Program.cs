@@ -1,19 +1,18 @@
 using Infrastructure;
-using Microsoft.AspNetCore.Identity;
-using UniTrackReimagined.Data.Context;
-using UniTrackReimagined.Data.Models.Users;
+using UniTrackReimagined.Data.Seeding;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
-    .AddEntityFrameworkStores<UniTrackDbContext>();
-
+builder.Services.AddJwtToken(builder.Configuration);
+builder.Services.AddServices(builder.Configuration);
+builder.Services.AddSwagger();
 
 var app = builder.Build();
 
@@ -23,7 +22,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowOrigin");
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
+DataSeeder.SeedData(app.Services).Wait();
 app.Run();
