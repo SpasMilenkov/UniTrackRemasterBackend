@@ -1,6 +1,6 @@
 namespace UniTrackReimagined.Data;
 
-public class UnitOfWork : IUnitOfWork
+public interface IUnitOfWork
 {
     
 }
