@@ -5,7 +5,7 @@ namespace UniTrackReimagined.Data.Models.Events;
 public class Event
 {
     #region Properties
-        
+        public required Guid Id { get; set; }
         [Length(0, 255)]
         public required string Title { get; set; }
         [Length(0, 255)]
