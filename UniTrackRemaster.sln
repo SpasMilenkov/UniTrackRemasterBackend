@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Api", "UniTrackReimagined.Api\UniTrackReimagined.Api.csproj", "{D30D4D66-160B-4DFA-ACE6-8E7E60D5EFEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Api", "UniTrackRemaster.Api\UniTrackRemaster.Api.csproj", "{D30D4D66-160B-4DFA-ACE6-8E7E60D5EFEC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{F69694F2-1429-4526-B037-BA2ED876CB86}"
 EndProject
@@ -10,25 +10,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{8DA00993-E274-4A82-8492-BE5D0A1D0BCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Data", "UniTrackReimagined.Data\UniTrackReimagined.Data.csproj", "{429296FD-6904-4F88-85F5-DF5C77311414}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Data", "UniTrackRemaster.Data\UniTrackRemaster.Data.csproj", "{429296FD-6904-4F88-85F5-DF5C77311414}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Data.Commons", "UniTrackReimagined.Data.Commons\UniTrackReimagined.Data.Commons.csproj", "{6929573E-F68C-48F7-95CA-35EF20E3E3C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Data.Commons", "UniTrackRemaster.Data.Commons\UniTrackRemaster.Data.Commons.csproj", "{6929573E-F68C-48F7-95CA-35EF20E3E3C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Data.Repositories", "UniTrackReimagined.Data.Repositories\UniTrackReimagined.Data.Repositories.csproj", "{7515D534-9148-4D48-B9D9-95CC400872A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Data.Repositories", "UniTrackRemaster.Data.Repositories\UniTrackRemaster.Data.Repositories.csproj", "{7515D534-9148-4D48-B9D9-95CC400872A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Services.Authentication", "UniTrackReimagined.Services.Authentication\UniTrackReimagined.Services.Authentication.csproj", "{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Services.Authentication", "UniTrackRemaster.Services.Authentication\UniTrackRemaster.Services.Authentication.csproj", "{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackBackend.Services.Student", "UniTrackBackend.Services.Student\UniTrackBackend.Services.Student.csproj", "{171A034F-D000-451A-9E09-04E1BABF55B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Api.Dto", "UniTrackReimagined.Api.Dto\UniTrackReimagined.Api.Dto.csproj", "{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Api.Dto", "UniTrackRemaster.Api.Dto\UniTrackRemaster.Api.Dto.csproj", "{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Data.Models", "UniTrackReimagined.Data.Models\UniTrackReimagined.Data.Models.csproj", "{F6541CF7-1BFA-4572-9F66-902E797DE3D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Data.Models", "UniTrackRemaster.Data.Models\UniTrackRemaster.Data.Models.csproj", "{F6541CF7-1BFA-4572-9F66-902E797DE3D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackReimagined.Infrastructure", "UniTrackReimagined.Infrastructure\UniTrackReimagined.Infrastructure.csproj", "{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Infrastructure", "UniTrackRemaster.Infrastructure\UniTrackRemaster.Infrastructure.csproj", "{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mappings", "Mappings\Mappings.csproj", "{9E009901-D29A-4978-BD83-99F207CF8193}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Mappings", "UniTrackRemaster.Mappings\UniTrackRemaster.Mappings.csproj", "{9E009901-D29A-4978-BD83-99F207CF8193}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messaging", "Messaging\Messaging.csproj", "{66D198F8-7526-4316-A0BB-AF4568E11448}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Messaging", "UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj", "{66D198F8-7526-4316-A0BB-AF4568E11448}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{711F88C4-CD1C-484F-958D-573C954934DC}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
