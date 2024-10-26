@@ -1,4 +1,4 @@
-namespace UniTrackBackend.Api.Dto.Response;
+namespace UniTrackRemaster.Api.Dto.Response;
 
 public class LoginResponseDto
 {

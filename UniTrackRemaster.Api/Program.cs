@@ -1,5 +1,5 @@
 using Infrastructure;
-using UniTrackReimagined.Data.Seeding;
+using UniTrackRemaster.Data.Seeding;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.ApplyMigrations();
 app.UseCors("AllowOrigin");
 app.UseRouting();
 app.UseAuthentication();

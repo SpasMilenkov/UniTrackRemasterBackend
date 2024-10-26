@@ -4,11 +4,11 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>UniTrackRemaster.Api.Dto</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UniTrackReimagined.Api.Dto\UniTrackReimagined.Api.Dto.csproj" />
-      <ProjectReference Include="..\UniTrackReimagined.Data.Models\UniTrackReimagined.Data.Models.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Data.Models\UniTrackRemaster.Data.Models.csproj" />
     </ItemGroup>
 
 </Project>

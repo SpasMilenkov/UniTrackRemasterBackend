@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>UniTrackReimagined</RootNamespace>
+        <RootNamespace>UniTrackRemaster</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,11 +26,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Mappings\Mappings.csproj" />
-      <ProjectReference Include="..\Messaging\Messaging.csproj" />
-      <ProjectReference Include="..\UniTrackReimagined.Api.Dto\UniTrackReimagined.Api.Dto.csproj" />
-      <ProjectReference Include="..\UniTrackReimagined.Infrastructure\UniTrackReimagined.Infrastructure.csproj" />
-      <ProjectReference Include="..\UniTrackReimagined.Services.Authentication\UniTrackReimagined.Services.Authentication.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Mappings\UniTrackRemaster.Mappings.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Api.Dto\UniTrackRemaster.Api.Dto.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Infrastructure\UniTrackRemaster.Infrastructure.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Authentication\UniTrackRemaster.Services.Authentication.csproj" />
     </ItemGroup>
 
     <ItemGroup>

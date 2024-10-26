@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using UniTrackRemaster.Data.Models.Enums;
 
-namespace UniTrackBackend.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Request;
 
 public class RegisterDto
 {
@@ -28,7 +29,7 @@ public class RegisterDto
     public required string ConfirmPassword { get; set; }
 
     [Required(ErrorMessage = "Organization type is required.")]
-    public required string OrgType { get; set; }
+    public required OrgType OrgType { get; set; }
 
     [Required(ErrorMessage = "Organization ID is required.")]
     public required Guid OrgId { get; set; }

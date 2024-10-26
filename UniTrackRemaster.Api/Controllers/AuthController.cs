@@ -1,28 +1,18 @@
 using System.Web;
 using Infrastructure;
-using Mappings;
+using UniTrackRemaster.Mappings;
 using Microsoft.AspNetCore.Mvc;
-using UniTrackBackend.Api.Dto.Request;
-using UniTrackBackend.Services;
-using UniTrackReimagined.Services.Authentication;
+using UniTrackRemaster.Api.Dto.Request;
+using UniTrackRemaster.Messaging;
+using UniTrackRemaster.Services.Authentication;
 
-namespace UniTrackReimagined.Controllers
+namespace UniTrackRemaster.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController(IAuthService authService, IMapper mapper, IEmailService emailService)
+        : ControllerBase
     {
-        private readonly IAuthService _authService;
-        private readonly IMapper _mapper;
-        private IEmailService _emailService;
-
-        public AuthController(IAuthService authService, IMapper mapper, IEmailService emailService)
-        {
-            _authService = authService;
-            _mapper = mapper;
-            _emailService = emailService;
-        }
-
         /// <summary>
         /// Authenticates a user and provides a JWT and refresh token.
         /// </summary>
@@ -41,13 +31,13 @@ namespace UniTrackReimagined.Controllers
         {
             try
             {
-                var user = await _authService.LoginUser(model);
+                var user = await authService.LoginUser(model);
                 if (user is null)
                     return Unauthorized();
 
-                var token = _authService.GenerateJwtToken(user);
-                var refreshToken = await _authService.GenerateRefreshToken(user);
-                var resultModel = _mapper.MapLoginResult(userId: user.Id, role: await _authService.GetUserRole(user));
+                var token = authService.GenerateJwtToken(user);
+                var refreshToken = await authService.GenerateRefreshToken(user);
+                var resultModel = mapper.MapLoginResult(userId: user.Id, role: await authService.GetUserRole(user));
 
                 Response.Cookies.Append("RefreshToken", refreshToken,
                     CookieOptionManager.GenerateRefreshCookieOptions());
@@ -81,9 +71,9 @@ namespace UniTrackReimagined.Controllers
                 return BadRequest("User registration failed");
             try
             {
-                var user = await _authService.RegisterUser(model);
+                var user = await authService.RegisterUser(model);
 
-                var emailToken = await _authService.GetEmailConfirmationToken(user);
+                var emailToken = await authService.GetEmailConfirmationToken(user);
 
                 if (emailToken is null)
                     return BadRequest("User registration failed");
@@ -101,9 +91,9 @@ namespace UniTrackReimagined.Controllers
                 //     await _emailService.SendEmailAsync(user.FirstName, user.LastName, user.Email, callbackUrl,
                 //         "verification");
 
-                var token = _authService.GenerateJwtToken(user);
-                var refreshToken = await _authService.GenerateRefreshToken(user);
-                await _authService.SignInUser(user);
+                var token = authService.GenerateJwtToken(user);
+                var refreshToken = await authService.GenerateRefreshToken(user);
+                await authService.SignInUser(user);
 
                 return Ok(new { token, refreshToken });
             }
@@ -136,15 +126,15 @@ namespace UniTrackReimagined.Controllers
                     return BadRequest("Refresh token is required");
                 }
 
-                var user = await _authService.GetUserFromRefreshToken(refreshToken);
+                var user = await authService.GetUserFromRefreshToken(refreshToken);
 
                 if (user is null)
                 {
                     return BadRequest("Invalid refresh token");
                 }
 
-                var newAccessToken = _authService.GenerateJwtToken(user);
-                var newRefreshToken = await _authService.GenerateRefreshToken(user);
+                var newAccessToken = authService.GenerateJwtToken(user);
+                var newRefreshToken = await authService.GenerateRefreshToken(user);
 
                 Response.Cookies.Append("RefreshToken", newRefreshToken,
                     CookieOptionManager.GenerateRefreshCookieOptions());
@@ -175,9 +165,9 @@ namespace UniTrackReimagined.Controllers
 
             if (!string.IsNullOrEmpty(refreshToken))
             {
-                var user = await _authService.GetUserFromRefreshToken(refreshToken);
+                var user = await authService.GetUserFromRefreshToken(refreshToken);
                 if (user != null)
-                    await _authService.LogoutUser(user);
+                    await authService.LogoutUser(user);
             }
 
             Response.Cookies.Delete("RefreshToken", new CookieOptions { Secure = true, HttpOnly = true });
@@ -205,9 +195,9 @@ namespace UniTrackReimagined.Controllers
                 return BadRequest("User ID and Token are required");
             }
 
-            var user = await _authService.GetUserById(userId);
+            var user = await authService.GetUserById(userId);
 
-            var result = await _authService.ConfirmEmail(user, token);
+            var result = await authService.ConfirmEmail(user, token);
 
             if (result.Succeeded)
             {
@@ -235,14 +225,14 @@ namespace UniTrackReimagined.Controllers
                 return BadRequest("Email is required");
             }
 
-            var user = await _authService.GetUserByEmail(email);
+            var user = await authService.GetUserByEmail(email);
             if (user is null)
                 return NotFound("If user with this email exists an email has been sent.");
-            var token = await _authService.GenerateForgottenPasswordLink(user);
+            var token = await authService.GenerateForgottenPasswordLink(user);
             var callbackUrl = Url.Action("ResetPassword", "Auth",
                 new { email = user.Email, token = HttpUtility.UrlEncode(token) }, Request.Scheme);
             if (callbackUrl != null)
-                await _emailService.SendEmailAsync(user.FirstName, user.LastName, user.Email!, callbackUrl,
+                await emailService.SendEmailAsync(user.FirstName, user.LastName, user.Email!, callbackUrl,
                     "resetpassword");
 
             return Ok("If an account with this email exists, a password reset link has been sent.");
@@ -261,7 +251,7 @@ namespace UniTrackReimagined.Controllers
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
         {
-            var result = await _authService.ResetPassword(dto);
+            var result = await authService.ResetPassword(dto);
             if (result.Succeeded)
             {
                 return Ok("Password has been reset successfully");
