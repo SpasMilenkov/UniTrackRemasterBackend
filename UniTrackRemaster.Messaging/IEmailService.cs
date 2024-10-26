@@ -1,5 +1,5 @@
 
-namespace UniTrackBackend.Services;
+namespace UniTrackRemaster.Messaging;
 
 public interface IEmailService
 {

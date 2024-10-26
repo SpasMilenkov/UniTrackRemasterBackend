@@ -1,9 +1,8 @@
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
-using UniTrackBackend.Services;
 
-namespace Messaging;
+namespace UniTrackRemaster.Messaging;
 
 public class EmailService : IEmailService
 {
@@ -26,10 +25,10 @@ public class EmailService : IEmailService
         {
             case "verification":
                 email.Subject = "Confirm Email";
-                emailContent = await File.ReadAllTextAsync("../UniTrackBackend.Services/Messaging/Templates/ConfirmEmailTemplate.html");
+                emailContent = await File.ReadAllTextAsync("../UniTrackBackend.Services/UniTrackRemaster.Messaging/Templates/ConfirmEmailTemplate.html");
                 break;
             case "resetpassword":
-                emailContent = await File.ReadAllTextAsync("../UniTrackBackend.Services/Messaging/Templates/ResetPasswordTemplate.html");
+                emailContent = await File.ReadAllTextAsync("../UniTrackBackend.Services/UniTrackRemaster.Messaging/Templates/ResetPasswordTemplate.html");
                 emailContent = emailContent.Replace("{LINK_TOKEN}", link);
                 break;
                 

@@ -1,6 +1,6 @@
-﻿using UniTrackBackend.Api.Dto.Response;
+﻿using UniTrackRemaster.Api.Dto.Response;
 
-namespace Mappings;
+namespace UniTrackRemaster.Mappings;
 
 public class Mapper : IMapper
 {
