@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\StorageService\StorageService.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Mappings\UniTrackRemaster.Mappings.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data\UniTrackRemaster.Data.csproj" />
