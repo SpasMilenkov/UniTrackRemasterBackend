@@ -4,6 +4,7 @@ using UniTrackRemaster.Data.Models.Academical;
 using UniTrackRemaster.Data.Models.Analytics;
 using UniTrackRemaster.Data.Models.Events;
 using UniTrackRemaster.Data.Models.JunctionEntities;
+using UniTrackRemaster.Data.Models.Location;
 using UniTrackRemaster.Data.Models.Organizations;
 using UniTrackRemaster.Data.Models.Users;
 
@@ -58,29 +59,27 @@ public class UniTrackDbContext : IdentityDbContext<ApplicationUser, ApplicationR
     #endregion
 
     #region JunctionEntities
-
+    
     public DbSet<SubjectGradeTeacher> SubjectGradeTeacher { get; set; }
-
-
+    
     #endregion
 
+    #region Locations
+    public DbSet<SchoolAddress> SchoolAddress { get; set; }
+    #endregion
+    
     #region Organizations
 
     public DbSet<School> Schools { get; set; }
     public DbSet<University> Universities { get; set; }
-
+    public DbSet<Application> Applications { get; set; }
     #endregion
-
 
     #endregion
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-    
-
-
         
-        //Set the context to generate new GUIDS as primary keys for each table
         #region PrimaryKeyConfiguration
 
             #region Users
@@ -123,6 +122,10 @@ public class UniTrackDbContext : IdentityDbContext<ApplicationUser, ApplicationR
             
             modelBuilder.Entity<University>()
                 .Property(u => u.Id)
+                .HasDefaultValueSql("uuid_generate_v4()");
+            
+            modelBuilder.Entity<Application>()
+                .Property(a => a.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
 
             #endregion
@@ -173,6 +176,15 @@ public class UniTrackDbContext : IdentityDbContext<ApplicationUser, ApplicationR
             
 
             #endregion
+            
+            #region Location
+            
+            modelBuilder.Entity<SchoolAddress>()
+                .Property(s => s.Id)
+                .HasDefaultValueSql("uuid_generate_v4()");
+            
+            #endregion
+            
         #endregion
 
         #region Relations
