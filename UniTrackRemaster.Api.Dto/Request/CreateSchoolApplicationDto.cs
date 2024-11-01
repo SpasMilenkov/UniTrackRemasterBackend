@@ -23,18 +23,18 @@ public record CreateSchoolApplicationDto
     public required string Phone { get; init; }
 
     [Required]
-    public AddressRequestDto Address { get; init; }
+    public required AddressRequestDto Address { get; init; }
     
     [Required]
     public required string SchoolName { get; init; }
     
-    public Application ToEntity(Guid schoolId) => new Application
+    public static Application ToEntity(CreateSchoolApplicationDto application, Guid schoolId) => new Application
     {
         Id = Guid.NewGuid(),
-        FirstName = this.FirstName,
-        LastName = this.LastName,
-        Email = this.Email,
-        Phone = this.Phone,
-        Address = Address.ToEntity(schoolId)
+        FirstName = application.FirstName,
+        LastName = application.LastName,
+        Email = application.Email,
+        Phone = application.Phone,
+        SchoolId = schoolId,
     };
 }
