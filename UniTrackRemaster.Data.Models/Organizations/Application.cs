@@ -4,6 +4,7 @@ namespace UniTrackRemaster.Data.Models.Organizations;
 
 public class Application
 {
+    #region Propeties
     public required Guid Id { get; set; }
 
     public required string FirstName { get; set; }
@@ -14,5 +15,12 @@ public class Application
     
     public required string Phone { get; set; }
 
-    public SchoolAddress Address { get; set; }
+    
+    #endregion
+
+    #region NavigationProperties
+    public School? School { get; set; }
+    public required Guid SchoolId { get; set; }
+
+    #endregion
 }
