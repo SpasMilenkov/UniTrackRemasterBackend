@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UniTrackRemaster.Api.Dto.Request;
 
-public class ResetPasswordDto
+public record ResetPasswordDto
 {
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(ErrorMessage = "Invalid email format.")]
