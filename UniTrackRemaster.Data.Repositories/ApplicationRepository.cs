@@ -5,17 +5,18 @@ using UniTrackRemaster.Data.Models.Organizations;
 
 namespace UniTrackRemaster.Data.Repositories;
 
-public class ApplicationRepository(UniTrackDbContext context, ISchoolRepository schoolRepository)
+public class ApplicationRepository(UniTrackDbContext context): IApplicationRepository
 {
-    public async Task<Application?> GetApplicationByIdAsync(Guid id) =>
-        await context.Applications.Include(a => a.Address).FirstOrDefaultAsync(a => a.Id == id);
+    public async Task<Application?> GetApplicationByIdAsync(Guid id) => await context.Applications
+            .Include(a => a.School)
+            .FirstOrDefaultAsync(a => a.Id == id);
+        
+    
 
-    public async Task<List<Application>> GetAllApplicationsAsync() =>
-        await context.Applications.Include(a => a.Address).ToListAsync();
+    public async Task<List<Application>> GetAllApplicationsAsync() => await context.Applications.Include(a => a.School).ToListAsync();
 
     public async Task<Application> CreateApplicationAsync(Application application)
     {
-        
         context.Applications.Add(application);
         await context.SaveChangesAsync();
         return application;
@@ -30,7 +31,6 @@ public class ApplicationRepository(UniTrackDbContext context, ISchoolRepository 
         application.LastName = updatedApplication.LastName;
         application.Email = updatedApplication.Email;
         application.Phone = updatedApplication.Phone;
-        application.Address = updatedApplication.Address;
 
         await context.SaveChangesAsync();
         return application;

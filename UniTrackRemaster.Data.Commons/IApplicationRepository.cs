@@ -9,5 +9,4 @@ public interface IApplicationRepository
     public Task<Application> CreateApplicationAsync(Application application);
     public Task<Application?> UpdateApplicationAsync(Guid id, Application updatedApplication);
     public Task<bool> DeleteApplicationAsync(Guid id);
-
 }
