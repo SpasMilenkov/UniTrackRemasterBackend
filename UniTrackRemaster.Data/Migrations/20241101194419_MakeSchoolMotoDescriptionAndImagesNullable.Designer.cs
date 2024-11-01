@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UniTrackRemaster.Data.Context;
@@ -11,9 +12,11 @@ using UniTrackRemaster.Data.Context;
 namespace UniTrackRemaster.Data.Migrations
 {
     [DbContext(typeof(UniTrackDbContext))]
-    partial class UniTrackDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241101194419_MakeSchoolMotoDescriptionAndImagesNullable")]
+    partial class MakeSchoolMotoDescriptionAndImagesNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -687,7 +690,7 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<string[]>("Programs")
                         .HasColumnType("text[]");
 
-                    b.Property<Guid?>("SchoolReportId")
+                    b.Property<Guid>("SchoolReportId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Type")
@@ -1248,7 +1251,9 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasOne("UniTrackRemaster.Data.Models.Analytics.SchoolReport", "SchoolReport")
                         .WithMany()
-                        .HasForeignKey("SchoolReportId");
+                        .HasForeignKey("SchoolReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
 

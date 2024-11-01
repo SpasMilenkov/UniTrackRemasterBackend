@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UniTrackRemaster.Data.Context;
@@ -11,9 +12,11 @@ using UniTrackRemaster.Data.Context;
 namespace UniTrackRemaster.Data.Migrations
 {
     [DbContext(typeof(UniTrackDbContext))]
-    partial class UniTrackDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241101194712_MakeSchoolReportIdNullable")]
+    partial class MakeSchoolReportIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
