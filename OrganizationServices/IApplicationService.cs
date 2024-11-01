@@ -9,7 +9,7 @@ public interface IApplicationService
     public Task<List<ApplicationResponseDto>> GetAllApplicationsAsync();
     public Task<ApplicationResponseDto> CreateApplicationAsync(CreateSchoolApplicationDto application);
     public Task<ApplicationResponseDto?> UpdateApplicationAsync(Guid id,
-        CreateSchoolApplicationDto updatedApplication);
+        UpdateSchoolApplicationDto updatedApplication);
     public Task<bool> DeleteApplicationAsync(Guid id);
 
 }
