@@ -22,16 +22,15 @@ public record AddressRequestDto
     [RegularExpression(@"^\d{4,10}$", ErrorMessage = "Postal code must be between 4 and 10 digits.")]
     public required string PostalCode { get; init; }
     
-    public SchoolAddress ToEntity(Guid schoolId)
+    public static SchoolAddress ToEntity(AddressRequestDto addressRequest)
     {
         return new SchoolAddress()
         {
             Id = Guid.NewGuid(),
-            Country = Country,
-            Settlement = Settlement,
-            Street = Street,
-            PostalCode = PostalCode,
-            SchoolId = schoolId
+            Country = addressRequest.Country,
+            Settlement = addressRequest.Settlement,
+            Street = addressRequest.Street,
+            PostalCode = addressRequest.PostalCode,
         };
     }
 }
