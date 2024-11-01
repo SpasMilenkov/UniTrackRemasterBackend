@@ -9,6 +9,4 @@ public class SchoolAddress
     public string Settlement { get; set; }
     public string PostalCode { get; set; }
     public string Street { get; set; }
-    public School School { get; set; }
-    public Guid SchoolId { get; set; }
 }
