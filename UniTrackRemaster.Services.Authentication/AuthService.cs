@@ -149,7 +149,8 @@ public class AuthService : IAuthService
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                SchoolId = model.OrgId
+                SchoolId = model.OrgId,
+                AvatarUrl = "https://www.world-stroke.org/images/remote/https_secure.gravatar.com/avatar/9c62f39db51175255c24ef887c0b7101/"
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
