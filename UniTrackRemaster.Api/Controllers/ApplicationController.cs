@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationServices;
 using UniTrackRemaster.Api.Dto.Request;
@@ -19,6 +20,21 @@ namespace UniTrackRemaster.Controllers
             return Ok(application);
         }
 
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<ApplicationResponseDto>> GetApplicationBySchoolId(Guid schoolId)
+        {
+            var application = await service.GetApplicationBySchoolIdAsync(schoolId);
+            if(application == null) return NotFound();
+            return Ok(application);
+        }
+
+        [HttpPut("approve")]
+        public async Task<IActionResult> ApproveApplication(Guid applicationId)
+        {
+            await service.ApproveApplicationAsync(applicationId);
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<ApplicationResponseDto>>> GetAllApplications() =>
             Ok(await service.GetAllApplicationsAsync());
@@ -28,6 +44,13 @@ namespace UniTrackRemaster.Controllers
         {
             var createdApplication = await service.CreateApplicationAsync(dto);
             return CreatedAtAction(nameof(GetApplicationById), new { id = createdApplication.Id }, createdApplication);
+        }
+
+        [HttpPost("login-with-code")]
+        public async Task<ActionResult<ApplicationResponseDto>> LoginWithCode(string code, string email)
+        {
+            var application = await service.GetApplicationByCodeAsync(code, email);
+            return Ok(application);
         }
 
         [HttpPut("{id}")]
