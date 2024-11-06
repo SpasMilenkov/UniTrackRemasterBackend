@@ -10,6 +10,7 @@ public class FirebaseStorageService: IFirebaseStorageService
 
     public FirebaseStorageService(string credentialsPath, string bucketName)
     {
+        
         var credential = Google.Apis.Auth.OAuth2.GoogleCredential
             .FromFile(credentialsPath)
             .CreateScoped(Google.Apis.Storage.v1.StorageService.Scope.CloudPlatform);
@@ -32,6 +33,20 @@ public class FirebaseStorageService: IFirebaseStorageService
             file.ContentType,
             memoryStream);
 
-        return $"https://storage.googleapis.com/{_bucketName}/{dataObject.Name}";
+        return dataObject.Name;
+    }
+
+    public async Task<string> CreateSignedUrl(string objectName)
+    {
+        var urlSigner = _storageClient.CreateUrlSigner();
+        if(urlSigner is null) throw new InvalidOperationException("Url signer is null");
+        // Generate a signed URL with read-only access
+        var signedUrl = await urlSigner.SignAsync(
+            _bucketName,
+            objectName,
+            duration: new TimeSpan(0, 15, 0), // Expires in 15 minutes
+            HttpMethod.Get);
+        
+        return signedUrl;
     }
 }
