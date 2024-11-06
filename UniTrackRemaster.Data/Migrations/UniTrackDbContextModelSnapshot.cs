@@ -162,6 +162,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("DetailedDescription")
                         .IsRequired()
                         .HasColumnType("text");
@@ -177,6 +182,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid?>("UniversityId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UniversityId");
@@ -190,9 +200,19 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.HasKey("Id");
 
@@ -205,12 +225,22 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<Guid?>("FacultyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.HasKey("Id");
 
@@ -224,6 +254,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -240,6 +275,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<string>("Topic")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("numeric");
@@ -261,6 +301,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("DetailedDescription")
                         .HasColumnType("text");
 
@@ -272,6 +317,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
@@ -282,6 +332,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DetailedDescription")
                         .IsRequired()
@@ -310,6 +365,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid?>("UniversityReportId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SchoolReportId");
@@ -324,6 +384,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DetailedDescription")
                         .IsRequired()
@@ -345,6 +410,11 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.Property<DateTime>("To")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -362,6 +432,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
@@ -372,6 +447,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<string>("Topic")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -389,6 +469,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("DetailedDescription")
                         .IsRequired()
                         .HasColumnType("text");
@@ -409,6 +494,11 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.Property<DateTime>("To")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.HasKey("Id");
 
@@ -421,6 +511,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("DetailedDescription")
                         .IsRequired()
                         .HasColumnType("text");
@@ -442,6 +537,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<DateTime>("To")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.HasKey("Id");
 
                     b.ToTable("UniversityReports");
@@ -452,6 +552,16 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -469,6 +579,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -496,6 +611,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid?>("UniversityId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizerId");
@@ -517,6 +637,16 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
@@ -533,8 +663,18 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<Guid?>("EventId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -551,10 +691,22 @@ namespace UniTrackRemaster.Data.Migrations
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Images.SchoolImage", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<Guid?>("SchoolId")
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<Guid>("SchoolId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -564,7 +716,7 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("SchoolImage");
+                    b.ToTable("SchoolImages");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.JunctionEntities.SubjectGradeTeacher", b =>
@@ -611,6 +763,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasColumnType("text");
@@ -623,6 +780,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.HasKey("Id");
 
                     b.ToTable("SchoolAddress");
@@ -634,6 +796,16 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Code");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -654,7 +826,18 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid>("SchoolId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Phone")
+                        .IsUnique();
 
                     b.HasIndex("SchoolId");
 
@@ -671,13 +854,18 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid>("AddressId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
                     b.Property<int>("IntegrationStatus")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Moto")
+                    b.Property<string>("Motto")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -691,6 +879,14 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Website")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -709,6 +905,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -718,6 +919,11 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.Property<Guid>("UniversityReportId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.HasKey("Id");
 
@@ -732,6 +938,16 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -865,6 +1081,16 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
@@ -881,6 +1107,11 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("GradeId")
                         .HasColumnType("uuid");
@@ -902,6 +1133,11 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.Property<Guid>("UniversityId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -930,6 +1166,16 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
@@ -950,11 +1196,21 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid?>("ClassGradeId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
                     b.Property<Guid?>("UniversityId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -1193,7 +1449,9 @@ namespace UniTrackRemaster.Data.Migrations
                 {
                     b.HasOne("UniTrackRemaster.Data.Models.Organizations.School", null)
                         .WithMany("Images")
-                        .HasForeignKey("SchoolId");
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.JunctionEntities.SubjectGradeTeacher", b =>
