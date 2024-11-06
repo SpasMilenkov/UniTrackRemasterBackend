@@ -1,6 +1,0 @@
-namespace UniTrackReimagined.Data;
-
-public class UnitOfWork : IUnitOfWork
-{
-    
-}
