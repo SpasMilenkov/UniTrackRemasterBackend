@@ -5,6 +5,9 @@ namespace UniTrackRemaster.Api.Dto.Request;
 public record InitSchoolDto
 {
     [Required]
+    public required Guid Id { get; init; }
+    
+    [Required]
     [StringLength(200, MinimumLength = 2, ErrorMessage = "Name should be between 2 and 200 characters.")]
     public required string Name { get; init; }
 

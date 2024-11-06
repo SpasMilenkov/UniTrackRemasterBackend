@@ -7,10 +7,10 @@ public record SchoolResponseDto
     public Guid Id { get; init; }
     public string Name { get; init; }
     public string Description { get; init; }
-    public string Moto { get; init; }
+    public string Motto { get; init; }
     public string Type { get; init; }
     public string[] Programs { get; init; }
-    public string[] Images { get; init; }
+    public string[] Images { get; set; }
     
     public static SchoolResponseDto FromEntity(School school)
     {
@@ -19,10 +19,10 @@ public record SchoolResponseDto
             Id = school.Id,
             Name = school.Name,
             Description = school.Description,
-            Moto = school.Moto,
+            Motto = school.Motto,
             Type = school.Type,
-            Programs = school.Programs.ToArray(),   
-            Images = school.Images.Select(img => img.Url).ToArray()
+            Programs = school.Programs.Length == 0 ? school.Programs.ToArray() : [],   
+            Images = school.Images.Count == 0 ? school.Images.Select(img => img.Url).ToArray() : []
         };
     }
 }
