@@ -2,7 +2,7 @@ using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Analytics;
 
-public class PersonalReport
+public class PersonalReport: BaseEntity
 {
     #region Properties
 

@@ -5,7 +5,7 @@ using UniTrackRemaster.Data.Models.Organizations;
 
 namespace UniTrackRemaster.Data.Models.Users;
 
-public class Student
+public class Student: BaseEntity
 {
     #region Properties
     

@@ -2,7 +2,7 @@ using UniTrackRemaster.Data.Models.JunctionEntities;
 
 namespace UniTrackRemaster.Data.Models.Academical;
 
-public class Subject
+public class Subject: BaseEntity
 {
     #region Properties
 

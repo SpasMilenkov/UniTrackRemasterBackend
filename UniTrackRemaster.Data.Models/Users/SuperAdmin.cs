@@ -1,6 +1,6 @@
 namespace UniTrackRemaster.Data.Models.Users;
 
-public class SuperAdmin
+public class SuperAdmin: BaseEntity
 {
     #region Properties
 

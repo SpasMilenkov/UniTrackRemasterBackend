@@ -2,7 +2,7 @@ using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Events;
 
-public class Participant
+public class Participant: BaseEntity
 {
     #region Properties
 

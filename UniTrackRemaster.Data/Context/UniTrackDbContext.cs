@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using UniTrackRemaster.Data.Models;
 using UniTrackRemaster.Data.Models.Academical;
 using UniTrackRemaster.Data.Models.Analytics;
 using UniTrackRemaster.Data.Models.Events;
+using UniTrackRemaster.Data.Models.Images;
 using UniTrackRemaster.Data.Models.JunctionEntities;
 using UniTrackRemaster.Data.Models.Location;
 using UniTrackRemaster.Data.Models.Organizations;
@@ -73,6 +75,7 @@ public class UniTrackDbContext : IdentityDbContext<ApplicationUser, ApplicationR
     public DbSet<School> Schools { get; set; }
     public DbSet<University> Universities { get; set; }
     public DbSet<Application> Applications { get; set; }
+    public DbSet<SchoolImage> SchoolImages { get; set; }
     #endregion
 
     #endregion
@@ -162,6 +165,7 @@ public class UniTrackDbContext : IdentityDbContext<ApplicationUser, ApplicationR
                 .Property(u => u.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
             
+            modelBuilder.Entity<SchoolImage>().Property(s => s.Id).HasDefaultValueSql("uuid_generate_v4()");
 
             #endregion
 
@@ -187,11 +191,28 @@ public class UniTrackDbContext : IdentityDbContext<ApplicationUser, ApplicationR
             
         #endregion
 
+        #region CreatedAtUpadtedAt
+        
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+            {
+                modelBuilder.Entity(entityType.ClrType).Property<DateTime>("CreatedAt").HasDefaultValueSql("NOW()").ValueGeneratedOnAdd();
+                modelBuilder.Entity(entityType.ClrType).Property<DateTime>("UpdatedAt").HasDefaultValueSql("NOW()").ValueGeneratedOnAddOrUpdate();
+            }
+        }
+        
+        #endregion
+        
         #region Relations
         
 
         #endregion
-        
+
+        #region Unique
+        modelBuilder.Entity<Application>().HasIndex(a => a.Email).IsUnique();
+        modelBuilder.Entity<Application>().HasIndex(a => a.Phone).IsUnique();
+        #endregion
         base.OnModelCreating(modelBuilder);
         // Ensure the `uuid-ossp` extension is added when creating the database
         modelBuilder.HasPostgresExtension("uuid-ossp");

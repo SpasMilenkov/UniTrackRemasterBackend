@@ -3,7 +3,7 @@ using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Academical;
 
-public class Grade
+public class Grade: BaseEntity
 {
     #region Properties
 

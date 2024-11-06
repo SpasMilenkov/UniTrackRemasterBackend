@@ -1,6 +1,6 @@
 namespace UniTrackRemaster.Data.Models.Academical;
 
-public class Faculty
+public class Faculty: BaseEntity
 {
     #region Properties
 

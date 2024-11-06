@@ -1,6 +1,6 @@
 namespace UniTrackRemaster.Data.Models.Analytics;
 
-public class AcademicalGroupReport
+public class AcademicalGroupReport: BaseEntity
 {
     #region Properties
 

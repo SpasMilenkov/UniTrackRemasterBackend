@@ -1,6 +1,6 @@
 namespace UniTrackRemaster.Data.Models.Users;
 
-public class Parent
+public class Parent: BaseEntity
 {
     #region Properties
 

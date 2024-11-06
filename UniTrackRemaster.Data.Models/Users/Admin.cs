@@ -1,6 +1,6 @@
 namespace UniTrackRemaster.Data.Models.Users;
 
-public class Admin
+public class Admin: BaseEntity
 {
     #region Properties
 

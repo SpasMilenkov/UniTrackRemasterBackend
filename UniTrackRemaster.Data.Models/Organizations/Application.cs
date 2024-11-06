@@ -1,8 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using UniTrackRemaster.Data.Models.Location;
 
 namespace UniTrackRemaster.Data.Models.Organizations;
 
-public class Application
+public class Application: BaseEntity
 {
     #region Propeties
     public required Guid Id { get; set; }
@@ -14,8 +15,7 @@ public class Application
     public required string Email { get; set; }
     
     public required string Phone { get; set; }
-
-    
+    public string Code { get; set; }
     #endregion
 
     #region NavigationProperties

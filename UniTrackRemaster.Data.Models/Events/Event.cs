@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UniTrackRemaster.Data.Models.Events;
 
-public class Event
+public class Event: BaseEntity
 {
     #region Properties
         public required Guid Id { get; set; }

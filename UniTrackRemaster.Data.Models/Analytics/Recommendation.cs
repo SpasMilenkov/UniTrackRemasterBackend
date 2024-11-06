@@ -2,7 +2,7 @@ using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Analytics;
 
-public class Recommendation
+public class Recommendation: BaseEntity
 {
     #region Properties
 

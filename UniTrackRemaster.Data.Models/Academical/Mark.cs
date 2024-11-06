@@ -2,7 +2,7 @@ using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Academical;
 
-public class Mark
+public class Mark: BaseEntity
 {
     #region Properties
 
