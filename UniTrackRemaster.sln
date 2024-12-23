@@ -30,11 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Mappings",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Messaging", "UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj", "{66D198F8-7526-4316-A0BB-AF4568E11448}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{711F88C4-CD1C-484F-958D-573C954934DC}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageService", "StorageService\StorageService.csproj", "{9A7C9835-CA87-4231-A68A-AC63E116AD5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrganizationServices", "OrganizationServices\OrganizationServices.csproj", "{02F7DB76-698C-416C-98CC-8B8CC4FF23C3}"
