@@ -95,7 +95,7 @@ namespace UniTrackRemaster.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SchoolImage",
+                name: "SchoolImages",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -123,8 +123,8 @@ namespace UniTrackRemaster.Data.Migrations
                 column: "SchoolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SchoolImage_SchoolId",
-                table: "SchoolImage",
+                name: "IX_SchoolImages_SchoolId",
+                table: "SchoolImages",
                 column: "SchoolId");
 
             migrationBuilder.AddForeignKey(
@@ -150,7 +150,7 @@ namespace UniTrackRemaster.Data.Migrations
                 name: "SchoolAddress");
 
             migrationBuilder.DropTable(
-                name: "SchoolImage");
+                name: "SchoolImages");
 
             migrationBuilder.DropIndex(
                 name: "IX_Schools_AddressId",
