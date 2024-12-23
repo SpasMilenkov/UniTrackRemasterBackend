@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationServices;
 using UniTrackRemaster.Api.Dto.Request;
@@ -12,7 +10,7 @@ namespace UniTrackRemaster.Controllers
     public class ApplicationController(IApplicationService service) : ControllerBase
     {
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<ApplicationResponseDto>> GetApplicationById(Guid id)
         {
             var application = await service.GetApplicationByIdAsync(id);
@@ -20,7 +18,7 @@ namespace UniTrackRemaster.Controllers
             return Ok(application);
         }
 
-        [HttpGet("school/{schoolId}")]
+        [HttpGet("school/{schoolId:guid}")]
         public async Task<ActionResult<ApplicationResponseDto>> GetApplicationBySchoolId(Guid schoolId)
         {
             var application = await service.GetApplicationBySchoolIdAsync(schoolId);
@@ -53,7 +51,7 @@ namespace UniTrackRemaster.Controllers
             return Ok(application);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateApplication(Guid id, UpdateSchoolApplicationDto dto)
         {
             var updatedApplication = await service.UpdateApplicationAsync(id, dto);
@@ -61,7 +59,7 @@ namespace UniTrackRemaster.Controllers
             return Ok(updatedApplication);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteApplication(Guid id)
         {
             var success = await service.DeleteApplicationAsync(id);

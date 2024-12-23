@@ -1,17 +1,18 @@
 using MailKit.Net.Smtp;
-using Microsoft.Extensions.Configuration;
+using MailKit.Security;
+// using Microsoft.Extensions.Configuration;
 using MimeKit;
 
 namespace UniTrackRemaster.Messaging;
 
 public class EmailService : IEmailService
 {
-    private readonly IConfiguration _config;
+    // private readonly IConfiguration _config;
 
-    public EmailService(IConfiguration config)
-    {
-        _config = config;
-    }
+    // public EmailService(IConfiguration config)
+    // {
+    //     _config = config;
+    // }
 
     public async Task SendEmailAsync(string firstName, string lastName, string emailAddress, string link, string templateType)
     {
@@ -39,8 +40,8 @@ public class EmailService : IEmailService
         };
 
         using var smtp = new SmtpClient();
-        await smtp.ConnectAsync(_config["Smtp:EmailHost"], 2525, false);
-        await smtp.AuthenticateAsync(_config["Smtp:EmailUsername"], _config["Smtp:EmailPassword"]);
+        // await smtp.ConnectAsync(_config["Smtp:EmailHost"], 2525, false);
+        // await smtp.AuthenticateAsync(_config["Smtp:EmailUsername"], _config["Smtp:EmailPassword"]);
 
         await smtp.SendAsync(email);
         await smtp.DisconnectAsync(true); 

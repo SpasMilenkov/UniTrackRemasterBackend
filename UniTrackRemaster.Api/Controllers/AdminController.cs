@@ -8,13 +8,13 @@ namespace UniTrackRemaster.Controllers
     public class AdminController : ControllerBase
     {
         [HttpGet("school/statistics")]
-        public async Task<IActionResult> GetSchoolStatistics()
+        public Task<IActionResult> GetSchoolStatistics()
         {
             throw new NotImplementedException();
         }
 
         [HttpPost("student/approve")]
-        public async Task<IActionResult> ApproveStudent()
+        public Task<IActionResult> ApproveStudent()
         {
             throw new NotImplementedException();
         }
@@ -26,25 +26,25 @@ namespace UniTrackRemaster.Controllers
         }
 
         [HttpPut("student/update")]
-        public async Task<IActionResult> UpdateStudent()
+        public Task<IActionResult> UpdateStudent()
         {
             throw new NotImplementedException();
         }
 
         [HttpPut("teacher/update")]
-        public async Task<IActionResult> UpdateTeacher()
+        public Task<IActionResult> UpdateTeacher()
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("student/delete")]
-        public async Task<IActionResult> DeleteStudent()
+        public Task<IActionResult> DeleteStudent()
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("teacher/delete")]
-        public async Task<IActionResult> DeleteTeacher()
+        public Task<IActionResult> DeleteTeacher()
         {
             throw new NotImplementedException();
         }

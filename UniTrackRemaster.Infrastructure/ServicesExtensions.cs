@@ -19,11 +19,9 @@ public static class ServicesExtensions
         {
             c.AddPolicy("AllowOrigin",
                 options => options.WithOrigins(
-                        "https://localhost:5500",
-                        "http://localhost:5173",
-                        "http://localhost:4200",
+                        "https://unitrack.io:8080",
                         "http://localhost:3000",
-                        "http://localhost:3001")
+                        "http://localhost:8080")
                     .AllowCredentials()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
