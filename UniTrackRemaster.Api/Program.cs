@@ -19,8 +19,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddJwtToken(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 builder.Services.AddSwagger();
-builder.WebHost.UseKestrel()
-               .UseUrls("http://*:5086");
+// builder.WebHost.UseKestrel()
+//                .UseUrls("http://*:5086");
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
@@ -37,11 +37,15 @@ try
     app.UseHttpMetrics(); 
     CookieOptionManager.Initialize(builder.Configuration);
     await DataSeeder.SeedData(app.Services);
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
     
-    // Add shutdown handling
     app.Lifetime.ApplicationStopping.Register(() =>
     {
-        Console.WriteLine("Application is stopping. Checking for reason...");
+        Console.WriteLine("Application is stopping");
     });
 
     app.Run();
