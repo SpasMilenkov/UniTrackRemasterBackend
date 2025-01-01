@@ -16,6 +16,7 @@
 **/obj/
 **/appsettings.json
 appsettings.json
+appsettings.Development.json
 unitrack-firebase-credentials.json
 .idea/.idea.UniTrackRemaster/.idea/.gitignore
 .idea/.idea.UniTrackRemaster/.idea/.name
