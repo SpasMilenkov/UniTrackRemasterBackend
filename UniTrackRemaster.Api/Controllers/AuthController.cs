@@ -93,7 +93,7 @@ namespace UniTrackRemaster.Controllers
 
                 var token = authService.GenerateJwtToken(user);
                 var refreshToken = await authService.GenerateRefreshToken(user);
-                await authService.SignInUser(user);
+                // await authService.SignInUser(user);
 
                 return Ok(new { token, refreshToken });
             }
@@ -197,6 +197,7 @@ namespace UniTrackRemaster.Controllers
 
             var user = await authService.GetUserById(userId);
 
+            if (user == null) return BadRequest("Email could not be confirmed");
             var result = await authService.ConfirmEmail(user, token);
 
             if (result.Succeeded)
@@ -252,7 +253,7 @@ namespace UniTrackRemaster.Controllers
         public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
         {
             var result = await authService.ResetPassword(dto);
-            if (result.Succeeded)
+            if (result is { Succeeded: true })
             {
                 return Ok("Password has been reset successfully");
             }

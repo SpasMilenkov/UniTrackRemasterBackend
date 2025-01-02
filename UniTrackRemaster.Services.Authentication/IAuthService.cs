@@ -12,7 +12,6 @@ public interface IAuthService
     public Task<string?> GetEmailConfirmationToken(ApplicationUser user);
     public Task<ApplicationUser> RegisterUser(RegisterDto model);
     public Task<ApplicationUser?> LoginUser(LoginDto model);
-    public Task SignInUser(ApplicationUser user);
     public Task LogoutUser(ApplicationUser user);
     public Task<IdentityResult> ConfirmEmail(ApplicationUser user, string token);
     public Task<IdentityResult?> ResetPassword(ResetPasswordDto dto);

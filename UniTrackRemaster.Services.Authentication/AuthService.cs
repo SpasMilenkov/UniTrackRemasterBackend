@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using UniTrackRemaster.Api.Dto.Request;
-using UniTrackRemaster.Data;
 using UniTrackRemaster.Data.Context;
 using UniTrackRemaster.Data.Models.TypeSafe;
 using UniTrackRemaster.Data.Models.Users;
@@ -23,22 +22,19 @@ public class AuthService : IAuthService
     private readonly IConfiguration _config;
 
     private readonly UniTrackDbContext _context;
-    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<AuthService> _logger;
-    private readonly IUnitOfWork _unitOfWork;
         
     public AuthService(UserManager<ApplicationUser> userManager,
         IConfiguration config,
         UniTrackDbContext context,
-        SignInManager<ApplicationUser> signInManager,
-        ILogger<AuthService> logger, IUnitOfWork unitOfWork)
+        // SignInManager<ApplicationUser> signInManager,
+        ILogger<AuthService> logger)
     {
         _userManager = userManager;
         _config = config;
         _context = context;
-        _signInManager = signInManager;
+        // _signInManager = signInManager;
         _logger = logger;
-        _unitOfWork = unitOfWork;
     }
     
     public string GenerateJwtToken(ApplicationUser user)
@@ -183,19 +179,19 @@ public class AuthService : IAuthService
         }
 
     }
-
-    public async Task SignInUser(ApplicationUser user)
-    {
-        try
-        {
-            await _signInManager.SignInAsync(user, isPersistent: false);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "An error occurred while signing in the user");
-            throw;
-        }
-    }
+    //
+    // public async Task SignInUser(ApplicationUser user)
+    // {
+    //     try
+    //     {
+    //         await _signInManager.SignInAsync(user, isPersistent: false);
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         _logger.LogError(e, "An error occurred while signing in the user");
+    //         throw;
+    //     }
+    // }
 
     public async Task LogoutUser(ApplicationUser user)
     {
@@ -290,7 +286,7 @@ public class AuthService : IAuthService
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user is null)
-                _logger.LogWarning("User with that id does not exist", id);
+                _logger.LogWarning("User with that id does not exist ${id}", id);
             return user;
         }
         catch (Exception e)

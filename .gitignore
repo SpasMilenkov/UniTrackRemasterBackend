@@ -16,3 +16,11 @@
 **/obj/
 **/appsettings.json
 appsettings.json
+appsettings.Development.json
+unitrack-firebase-credentials.json
+.idea/.idea.UniTrackRemaster/.idea/.gitignore
+.idea/.idea.UniTrackRemaster/.idea/.name
+.idea/.idea.UniTrackRemaster/.idea/dataSources.xml
+.idea/.idea.UniTrackRemaster/.idea/encodings.xml
+.idea/.idea.UniTrackRemaster/.idea/indexLayout.xml
+.idea/.idea.UniTrackRemaster/.idea/vcs.xml

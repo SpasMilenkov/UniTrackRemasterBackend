@@ -9,8 +9,16 @@ public static class MigrationBuilder
 {
     public static void ApplyMigrations(this IApplicationBuilder app)
     {
-        using var scope = app.ApplicationServices.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<UniTrackDbContext>();
-        dbContext.Database.Migrate();
+        try
+        {
+            using var scope = app.ApplicationServices.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<UniTrackDbContext>();
+            dbContext.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error applying migrations: {ex}");
+            throw;
+        }
     }
 }

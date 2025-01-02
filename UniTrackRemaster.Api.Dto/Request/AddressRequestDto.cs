@@ -6,6 +6,14 @@ namespace UniTrackRemaster.Api.Dto.Request;
 
 public record AddressRequestDto
 {
+    public AddressRequestDto(string country, string settlement, string street, string postalCode)
+    {
+        Country = country;
+        Settlement = settlement;
+        Street = street;
+        PostalCode = postalCode;
+    }
+
     [Required]
     [StringLength(100, MinimumLength = 2, ErrorMessage = "Country name should be between 2 and 100 characters.")]
     public required string Country { get; init; }

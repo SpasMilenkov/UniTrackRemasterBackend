@@ -125,14 +125,14 @@ namespace UniTrackRemaster.Data.Migrations
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedAt",
-                table: "SchoolImage",
+                table: "SchoolImages",
                 type: "timestamp with time zone",
                 nullable: false,
                 defaultValueSql: "NOW()");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "UpdatedAt",
-                table: "SchoolImage",
+                table: "SchoolImages",
                 type: "timestamp with time zone",
                 nullable: false,
                 defaultValueSql: "NOW()");
@@ -437,11 +437,11 @@ namespace UniTrackRemaster.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "CreatedAt",
-                table: "SchoolImage");
+                table: "SchoolImages");
 
             migrationBuilder.DropColumn(
                 name: "UpdatedAt",
-                table: "SchoolImage");
+                table: "SchoolImages");
 
             migrationBuilder.DropColumn(
                 name: "CreatedAt",
