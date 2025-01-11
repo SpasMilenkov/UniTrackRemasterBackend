@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using UniTrackRemaster.Data.Models.TypeSafe;
 using UniTrackRemaster.Data.Models.Users;
+using UniTrackRemaster.Commons.Enums;
 
 namespace UniTrackRemaster.Data.Seeding;
 
@@ -13,7 +13,6 @@ public class DataSeeder
         using var scope = serviceProvider.CreateScope();
         
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-        var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     }
     public static async Task SeedData(IServiceProvider serviceProvider)
@@ -21,7 +20,6 @@ public class DataSeeder
         using var scope = serviceProvider.CreateScope();
         
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-        var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         _userManager = userManager;
         
@@ -29,12 +27,12 @@ public class DataSeeder
     }
     private static async Task SeedRolesAsync(RoleManager<ApplicationRole> roleManager)
     {
-        await EnsureRoleExistsAsync(roleManager, Ts.Roles.SuperAdmin);
-        await EnsureRoleExistsAsync(roleManager, Ts.Roles.Admin);
-        await EnsureRoleExistsAsync(roleManager, Ts.Roles.Guest);
-        await EnsureRoleExistsAsync(roleManager, Ts.Roles.Teacher);
-        await EnsureRoleExistsAsync(roleManager, Ts.Roles.Student);
-        await EnsureRoleExistsAsync(roleManager, Ts.Roles.Parent);
+        await EnsureRoleExistsAsync(roleManager, nameof(Roles.SuperAdmin));
+        await EnsureRoleExistsAsync(roleManager, nameof(Roles.Admin));
+        await EnsureRoleExistsAsync(roleManager, nameof(Roles.Guest));
+        await EnsureRoleExistsAsync(roleManager, nameof(Roles.Teacher));
+        await EnsureRoleExistsAsync(roleManager, nameof(Roles.Student));
+        await EnsureRoleExistsAsync(roleManager, nameof(Roles.Parent));
     }
 
     private static async Task EnsureRoleExistsAsync(RoleManager<ApplicationRole> roleManager, string roleName)
