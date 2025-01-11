@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\UniTrackRemaster.Data.Commons\UniTrackRemaster.Data.Commons.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data.Models\UniTrackRemaster.Data.Models.csproj" />
     </ItemGroup>
 
