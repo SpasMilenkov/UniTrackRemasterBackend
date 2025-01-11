@@ -161,6 +161,41 @@ public class AuthService(
             throw;
         }
     }
+    
+    public async Task<ApplicationUser> RegisterGuest(RegisterGuestDto model)
+    {
+        try
+        {
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                EmailConfirmed = false,
+                AvatarUrl = "https://www.world-stroke.org/images/remote/https_secure.gravatar.com/avatar/9c62f39db51175255c24ef887c0b7101/"
+            };
+
+            var result = await userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException($"User creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+            }
+
+            if (!await roleManager.RoleExistsAsync(nameof(Roles.Guest)))
+            {
+                await roleManager.CreateAsync(new ApplicationRole { Name = nameof(Roles.Guest) });
+            }
+
+            await userManager.AddToRoleAsync(user, nameof(Roles.Guest));
+            return user;
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error registering user");
+            throw;
+        }
+    }
 
 
     public async Task<ApplicationUser?> LoginUser(LoginDto model)
