@@ -10,61 +10,52 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using UniTrackRemaster.Api.Dto.Request;
+using UniTrackRemaster.Commons.Enums;
 using UniTrackRemaster.Data.Context;
-using UniTrackRemaster.Data.Models.TypeSafe;
 using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Services.Authentication;
 
-public class AuthService : IAuthService
+public class AuthService(
+    UserManager<ApplicationUser> userManager,
+    IConfiguration config,
+    UniTrackDbContext context,
+    ILogger<AuthService> logger,
+    RoleManager<ApplicationRole> roleManager)
+    : IAuthService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IConfiguration _config;
-
-    private readonly UniTrackDbContext _context;
-    private readonly ILogger<AuthService> _logger;
-        
-    public AuthService(UserManager<ApplicationUser> userManager,
-        IConfiguration config,
-        UniTrackDbContext context,
-        // SignInManager<ApplicationUser> signInManager,
-        ILogger<AuthService> logger)
-    {
-        _userManager = userManager;
-        _config = config;
-        _context = context;
-        // _signInManager = signInManager;
-        _logger = logger;
-    }
-    
     public string GenerateJwtToken(ApplicationUser user)
     {
         try
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var roles = userManager.GetRolesAsync(user).Result;
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var claims = new List<Claim>
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim("sub", user.Id.ToString()),
-                    new Claim("iat", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(2), // Short-lived token
-                SigningCredentials = credentials
+                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
             };
+            
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var token = new JwtSecurityToken(
+                issuer: config["Jwt:Issuer"],
+                audience: config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(15),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while generating JWT token");
+            logger.LogError(e, "Error generating JWT token");
             throw;
         }
-
     }
     
     public async Task<string> GenerateRefreshToken(ApplicationUser user)
@@ -76,13 +67,13 @@ public class AuthService : IAuthService
             user.RefreshToken = refreshToken;
             user.RefreshTokenValidity = DateTime.Now.AddHours(2).ToUniversalTime(); // Refresh token valid for 2 hours
 
-            await _userManager.UpdateAsync(user);
+            await userManager.UpdateAsync(user);
 
             return refreshToken;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while generating user refresh token");
+            logger.LogError(e, "An error occurred while generating user refresh token");
             throw;
         }
     }
@@ -95,7 +86,7 @@ public class AuthService : IAuthService
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while authenticating the user");
+            logger.LogError(e, "An error occurred while authenticating the user");
             throw;
         }
     }
@@ -103,19 +94,19 @@ public class AuthService : IAuthService
     {
         try
         {
-            var user = await _context.Users
+            var user = await context.Users
                 .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.RefreshTokenValidity > DateTime.Now.ToUniversalTime());
 
             if (user != null)
             {
-                return await _userManager.FindByIdAsync(user.Id.ToString());
+                return await userManager.FindByIdAsync(user.Id.ToString());
             }
 
             return null;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while attempting to get user from refresh token");
+            logger.LogError(e, "An error occurred while attempting to get user from refresh token");
             throw;
         }
 
@@ -126,11 +117,11 @@ public class AuthService : IAuthService
     {
         try
         {
-            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            return await userManager.GenerateEmailConfirmationTokenAsync(user);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while generating email confirmation token");
+            logger.LogError(e, "An error occurred while generating email confirmation token");
             throw;
         }
     }
@@ -146,63 +137,59 @@ public class AuthService : IAuthService
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 SchoolId = model.OrgId,
+                EmailConfirmed = false,
                 AvatarUrl = "https://www.world-stroke.org/images/remote/https_secure.gravatar.com/avatar/9c62f39db51175255c24ef887c0b7101/"
             };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                throw new DataException();
 
-            await _userManager.AddToRoleAsync(user, Ts.Roles.Guest);
+            var result = await userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException($"User creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+            }
+
+            if (!await roleManager.RoleExistsAsync(nameof(Roles.Guest)))
+            {
+                await roleManager.CreateAsync(new ApplicationRole { Name = nameof(Roles.Guest) });
+            }
+
+            await userManager.AddToRoleAsync(user, nameof(Roles.Guest));
             return user;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while registering the user");
+            logger.LogError(e, "Error registering user");
             throw;
         }
     }
+
 
     public async Task<ApplicationUser?> LoginUser(LoginDto model)
     {
         try
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user is null || !await _userManager.CheckPasswordAsync(user, model.Password))
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user is null || !await userManager.CheckPasswordAsync(user, model.Password))
                 return null;
             
             return user;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while logging in the user");
+            logger.LogError(e, "An error occurred while logging in the user");
             throw;
         }
 
     }
-    //
-    // public async Task SignInUser(ApplicationUser user)
-    // {
-    //     try
-    //     {
-    //         await _signInManager.SignInAsync(user, isPersistent: false);
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         _logger.LogError(e, "An error occurred while signing in the user");
-    //         throw;
-    //     }
-    // }
-
     public async Task LogoutUser(ApplicationUser user)
     {
         try
         {
             user.RefreshToken = null;
-            await _userManager.UpdateAsync(user);
+            await userManager.UpdateAsync(user);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while logging out the user");
+            logger.LogError(e, "An error occurred while logging out the user");
             throw;
         }
     }
@@ -211,12 +198,12 @@ public class AuthService : IAuthService
     {
         try
         {
-            var result = await _userManager.ConfirmEmailAsync(user, WebUtility.UrlDecode(token));
+            var result = await userManager.ConfirmEmailAsync(user, WebUtility.UrlDecode(token));
             return result;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while verifying the user email");
+            logger.LogError(e, "An error occurred while verifying the user email");
             throw;
         }
     }
@@ -225,18 +212,18 @@ public class AuthService : IAuthService
     {
         try
         {
-            var user = await _userManager.FindByEmailAsync(dto.Email);
+            var user = await userManager.FindByEmailAsync(dto.Email);
             if (user is null)
             {
-                _logger.LogWarning("ApplicationUser with that email does not exist", dto.Email);
+                logger.LogWarning("ApplicationUser with that email does not exist", dto.Email);
                 return null;
             }
-            var result = await _userManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
+            var result = await userManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
             return result;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while resetting password");
+            logger.LogError(e, "An error occurred while resetting password");
             throw;
         }
     }
@@ -245,14 +232,14 @@ public class AuthService : IAuthService
     {
         try
         {
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
             if (token is null)
                 throw new NullReferenceException();
             return token;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while generating password reset link");
+            logger.LogError(e, "An error occurred while generating password reset link");
             throw;
         }
     }
@@ -261,16 +248,16 @@ public class AuthService : IAuthService
     {
         try
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await userManager.FindByEmailAsync(email);
             if (user is null )
             {
-                _logger.LogWarning("User with that email doesnt exist or has not confirmed it");
+                logger.LogWarning("User with that email doesnt exist or has not confirmed it");
                 return null;
             }
 
-            if (await _userManager.IsEmailConfirmedAsync(user)) return user;
+            if (await userManager.IsEmailConfirmedAsync(user)) return user;
             
-            _logger.LogWarning("User with that email has not confirmed it");
+            logger.LogWarning("User with that email has not confirmed it");
             return null;
         }
         catch (Exception e)
@@ -284,26 +271,26 @@ public class AuthService : IAuthService
     {
         try
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await userManager.FindByIdAsync(id);
             if (user is null)
-                _logger.LogWarning("User with that id does not exist ${id}", id);
+                logger.LogWarning("User with that id does not exist ${id}", id);
             return user;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "An error occurred while trying to fetch a user");
+            logger.LogError(e, "An error occurred while trying to fetch a user");
             throw;
         }
     }
 
     public async Task<string> GetUserRole(ApplicationUser user)
     {
-        var roleList = await _userManager.GetRolesAsync(user);
+        var roleList = await userManager.GetRolesAsync(user);
         var role = roleList.FirstOrDefault();
-        return role is null ? Ts.Roles.Guest :
+        return role is null ? nameof(Roles.Guest) :
             // the system does not allow more than one role per user
             // no time to allow it to handle more than one :^) so
             // we assume that there is no other thing in the list than the role we need
             roleList.First();
-    }
+    } 
 }
