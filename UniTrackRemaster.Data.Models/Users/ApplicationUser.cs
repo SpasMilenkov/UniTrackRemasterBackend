@@ -8,13 +8,13 @@ public class ApplicationUser : IdentityUser<Guid>
     
     #region Properties
         [Length(1, 50)]
-        public string FirstName { get; set; }
+        public required string FirstName { get; set; }
         [Length(1, 50)]
-        public string LastName { get; set; }
-        public string? RefreshToken { get; set; } = null!;
-        public string AvatarUrl {get; set;}
+        public required string LastName { get; set; }
+        public string? RefreshToken { get; set; }
+        public required string AvatarUrl {get; set;}
         public DateTime? RefreshTokenValidity { get; set; }
-        public Guid SchoolId { get; set; }
+        public Guid? SchoolId { get; set; }
 
-    #endregion
-}
+        #endregion
+}   

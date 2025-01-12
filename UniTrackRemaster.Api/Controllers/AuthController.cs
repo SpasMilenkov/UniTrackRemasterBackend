@@ -103,6 +103,59 @@ namespace UniTrackRemaster.Controllers
                 return BadRequest("User registration failed");
             }
         }
+        
+        /// <summary>
+        /// Registers a new user and provides a JWT and refresh token.
+        /// This user will not be associated with any organization.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint registers a new user with the provided details.
+        /// On successful registration, it returns a JWT and a refresh token.
+        /// </remarks>
+        /// <param name="model">Registration details including email, password, and name.</param>
+        /// <response code="200">Successful registration with JWT and refresh token.</response>
+        /// <response code="400">Bad request if registration fails (e.g., email already in use).</response>
+        [HttpPost("register-guest")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RegisterGuest(RegisterGuestDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("User registration failed");
+            try
+            {
+                var user = await authService.RegisterGuest(model);
+
+                var emailToken = await authService.GetEmailConfirmationToken(user);
+
+                if (emailToken is null)
+                    return BadRequest("User registration failed");
+
+                var callbackUrl = Url.Action(
+                    "ConfirmEmail",
+                    "Auth",
+                    new { userId = user.Id, token = HttpUtility.UrlEncode(emailToken) },
+                    protocol: HttpContext.Request.Scheme);
+
+                if (callbackUrl is null)
+                    return BadRequest("User registration failed");
+
+                // if (user.Email != null)
+                //     await _emailService.SendEmailAsync(user.FirstName, user.LastName, user.Email, callbackUrl,
+                //         "verification");
+
+                var token = authService.GenerateJwtToken(user);
+                var refreshToken = await authService.GenerateRefreshToken(user);
+                // await authService.SignInUser(user);
+
+                return Ok(new { token, refreshToken });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest("User registration failed");
+            }
+        }
 
         /// <summary>
         /// Refreshes the JWT using a refresh token.

@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using OrganizationServices;
 using StorageService;
 using UniTrackRemaster.Commons;
-using UniTrackRemaster.Data;
 using UniTrackRemaster.Data.Repositories;
 using UniTrackRemaster.Messaging;
 using UniTrackRemaster.Services.Authentication;
@@ -27,11 +26,9 @@ public static class ServicesExtensions
                     .AllowAnyHeader()
             );
         });
-        //TODO: one day I might convert the repos to the UniOfWork pattern, not today though
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IMapper, Mapper>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
         services.AddScoped<ISchoolImageRepository, SchoolImageRepository>();
         services.AddScoped<ISchoolImageService, SchoolImageService>();
