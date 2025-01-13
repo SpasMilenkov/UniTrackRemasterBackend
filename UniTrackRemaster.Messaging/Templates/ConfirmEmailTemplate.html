@@ -1,64 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Confirmation Email</title>
-    <style type="text/css">
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #dddddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .header {
-            background-color: #49c5b6;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 24px;
-            border-radius: 5px;
-        }
-        .content {
-            padding: 20px;
-            text-align: center;
-        }
-        .button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .footer {
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            color: #777777;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
 </head>
-<body>
-<div class="container">
-    <div class="header">
-        Confirm Your Email
-    </div>
-    <div class="content">
-        <p>Hi there,</p>
-        <p>Thanks for registering with us! Please confirm your email address by clicking the button below.</p>
-        <a href="{LINK_TOKEN}" class="button">Confirm Email</a>
-        <p>If the button doesn't work, please paste the following link into your browser:</p>
-        <p><a href="{LINK_TOKEN}">Get the link here</a></p>
-    </div>
-    <div class="footer">&#169; 2023 UniTrack</div>
-</div>
+<body style="margin: 0; padding: 0; background-color: #101014; font-family: Arial, sans-serif;">
+<table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <td style="padding: 40px 0; text-align: center; background-color: #101014;">
+            <table role="presentation" style="width: 600px; margin: 0 auto; background-color: #18181c; border-radius: 8px; border: 1px solid #374151;">
+                <!-- Header -->
+                <tr>
+                    <td style="padding: 40px 30px; text-align: center; background: linear-gradient(to right, #4ade80, #3b82f6); border-radius: 8px 8px 0 0;">
+                        <h1 style="margin: 0; color: #f5f5f5; font-size: 24px; font-weight: bold;">Verify Your Email Address</h1>
+                    </td>
+                </tr>
+                <!-- Content -->
+                <tr>
+                    <td style="padding: 30px; background-color: #18181c;">
+                        <p style="margin: 0 0 20px 0; color: #f5f5f5; font-size: 16px; line-height: 1.5;">
+                            Welcome to UniTrack! Please verify your email address to complete your registration.
+                        </p>
+                        <p style="margin: 0 0 30px 0; color: #9ca3af; font-size: 16px; line-height: 1.5;">
+                            Click the button below to verify your email address:
+                        </p>
+                        <table role="presentation" style="margin: 0 auto;">
+                            <tr>
+                                <td style="border-radius: 4px; background-color: #4ade80;">
+                                    <a href="{LINK_TOKEN}" style="display: inline-block; padding: 12px 24px; color: #101014; text-decoration: none; font-weight: bold; font-size: 16px;">Verify Email</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <p style="margin: 30px 0 0 0; color: #9ca3af; font-size: 14px; line-height: 1.5;">
+                            If you didn't create an account, you can safely ignore this email.
+                        </p>
+                    </td>
+                </tr>
+                <!-- Footer -->
+                <tr>
+                    <td style="padding: 30px; text-align: center; background-color: #262629; border-radius: 0 0 8px 8px;">
+                        <p style="margin: 0; color: #9ca3af; font-size: 14px;">
+                            © 2025 UniTrack. All rights reserved.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
