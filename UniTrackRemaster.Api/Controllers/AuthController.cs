@@ -10,7 +10,7 @@ namespace UniTrackRemaster.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IAuthService authService, IMapper mapper, IEmailService emailService)
+    public class AuthController(IAuthService authService, IMapper mapper, ISmtpService ismtpService)
         : ControllerBase
     {
         /// <summary>
@@ -286,8 +286,8 @@ namespace UniTrackRemaster.Controllers
             var callbackUrl = Url.Action("ResetPassword", "Auth",
                 new { email = user.Email, token = HttpUtility.UrlEncode(token) }, Request.Scheme);
             if (callbackUrl != null)
-                await emailService.SendEmailAsync(user.FirstName, user.LastName, user.Email!, callbackUrl,
-                    "resetpassword");
+                await ismtpService.SendEmailAsync(user.FirstName, user.LastName, user.Email!, callbackUrl,
+                    "resetPassword");
 
             return Ok("If an account with this email exists, a password reset link has been sent.");
         }

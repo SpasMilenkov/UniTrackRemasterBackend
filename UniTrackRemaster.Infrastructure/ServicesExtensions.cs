@@ -26,9 +26,13 @@ public static class ServicesExtensions
                     .AllowAnyHeader()
             );
         });
-        services.AddScoped<IEmailService, EmailService>();
+        services.AddLogging();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ITemplateService, TemplateService>();
+        services.AddScoped<IImapService, ImapService>();
+        services.AddScoped<ISmtpService, SmtpService>();
         services.AddScoped<IMapper, Mapper>();
+        services.AddHostedService<EmailProcessingService>();
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
         services.AddScoped<ISchoolImageRepository, SchoolImageRepository>();
         services.AddScoped<ISchoolImageService, SchoolImageService>();
