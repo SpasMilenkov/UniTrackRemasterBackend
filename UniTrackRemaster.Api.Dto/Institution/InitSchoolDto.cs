@@ -1,29 +1,27 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Institution;
 
-public record InitSchoolDto(Guid Id, string Name, string Description, string Motto, string Website, string[] Programs)
-{
+public record InitSchoolDto(
     [Required]
-    public required Guid Id { get; init; } = Id;
-
+    Guid Id, 
     [Required]
     [StringLength(200, MinimumLength = 2, ErrorMessage = "Name should be between 2 and 200 characters.")]
-    public required string Name { get; init; } = Name;
-
+    string Name,
     [Required]
     [StringLength(500, ErrorMessage = "Description should not exceed 500 characters.")]
-    public required string Description { get; init; } = Description;
-
+    string Description,
     [Required]
     [StringLength(200, ErrorMessage = "Motto should not exceed 200 characters.")]
-    public required string Motto { get; init; } = Motto;
-
+    string Motto,
     [Required]
     [Url(ErrorMessage = "Please enter a valid URL for the website.")]
-    public required string Website { get; init; } = Website;
-
+    string Website,
+    [Required]
+    [StringLength(50, ErrorMessage = "School type should not exceed 50 characters.")]
+    string Type,
+    [Required]
+    DateTime EstablishedDate,
     [Required]
     [MinLength(1, ErrorMessage = "At least one program is required.")]
-    public required string[] Programs { get; init; } = Programs;
-}
+    string[] Programs);
