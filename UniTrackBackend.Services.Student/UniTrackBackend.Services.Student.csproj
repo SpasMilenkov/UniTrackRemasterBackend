@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\UniTrackRemaster.Api.Dto\UniTrackRemaster.Api.Dto.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Data.Commons\UniTrackRemaster.Data.Commons.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Data\UniTrackRemaster.Data.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -26,7 +26,7 @@ public class Student: BaseEntity
         
 
         //Events relation
-        public ICollection<Event>? Events { get; set; }
+        public IList<Event>? Events { get; set; }
         
         //School relation
         public Guid? SchoolId { get; set; }
@@ -41,11 +41,14 @@ public class Student: BaseEntity
         public Grade? Grade { get; set; }
         
         //Mark relation
-        public ICollection<Mark> Marks { get; set; }
+        public IList<Mark> Marks { get; set; }
         
         //Report relation
         public Guid? PersonalReportId { get; set; }
         public PersonalReport? PersonalReport { get; set; }
-    
+        
+        public IList<ClubMembership> ClubMemberships { get; set; }
+        public IList<StudentElective> Electives { get; set; } = new List<StudentElective>();
+        public IList<Attendance> AttendanceRecords { get; set; }
     #endregion
 }

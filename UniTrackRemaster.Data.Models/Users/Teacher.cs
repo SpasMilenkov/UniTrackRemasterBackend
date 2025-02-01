@@ -25,14 +25,19 @@ public class Teacher: BaseEntity
         public ApplicationUser? User { get; set; }
 
         //Events relation
-        public ICollection<Event>? Events { get; set; }
+        public IList<Event>? Events { get; set; }
 
         //School relations
-        public ICollection<School>? Schools { get; set; }
+        public Guid InstitutionId { get; set; }
+        public Institution? Institution { get; set; }
 
         //Class grade relation
         public Guid? ClassGradeId { get; set; }
         public Grade? ClassGrade { get; set; }
+        
+        public IList<HomeRoomTeacher> HomeRoomAssignments { get; set; }
+        public IList<Club> SupervisedClubs { get; set; }
+        public IList<ElectiveSubject> ElectiveSubjects { get; set; }
 
     #endregion
 

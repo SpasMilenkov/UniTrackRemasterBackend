@@ -18,8 +18,8 @@ public class Event: BaseEntity
 
         public required Guid OrganizerId { get; set; }
         public Organizer? Organizer { get; set; }
-        public required ICollection<Attender> Attenders { get; set; }
-        public required ICollection<Participant> Participants { get; set; }
+        public required IList<Attender> Attenders { get; set; }
+        public required IList<Participant> Participants { get; set; }
 
 
     #endregion

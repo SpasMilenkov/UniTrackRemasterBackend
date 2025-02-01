@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+using UniTrackRemaster.Api.Dto.Institution;
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Api.Dto.Response;
 
@@ -5,11 +7,10 @@ namespace OrganizationServices;
 
 public interface ISchoolService
 {
-    Task<Guid> CreateSchoolAsync(string name, AddressRequestDto address);
-    
-    Task<Guid> InitSchoolAsync(InitSchoolDto initDto);
-    Task<SchoolResponseDto> GetSchoolAsync(Guid schoolId);
-    Task<List<SchoolResponseDto>> GetSchoolsAsync(int page = 0, int pageSize = 5);
-    Task<SchoolResponseDto> UpdateSchoolAsync(UpdateSchoolDto updateDto);
+    Task<Guid> InitSchoolAsync(InitSchoolDto schoolData, IFormFile? logo,List<IFormFile> images);
+    Task<SchoolWithAddressResponseDto> GetSchoolAsync(Guid schoolId);
+    Task<List<string>> UploadSchoolImagesAsync(Guid schoolId, List<IFormFile> images);
+    Task<List<SchoolWithAddressResponseDto>> GetSchoolsAsync(SchoolFilterDto filter);
+    Task<SchoolBaseResponseDto> UpdateSchoolAsync(UpdateSchoolDto updateDto);
     Task DeleteSchoolAsync(Guid schoolId);
 }

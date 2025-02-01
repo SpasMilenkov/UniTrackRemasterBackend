@@ -14,7 +14,7 @@ public class UniversityReport: BaseEntity
 
     #endregion
     #region NavigationProperties
-    public ICollection<AcademicalGroupReport> FacultyReports { get; set; }
+    public IList<AcademicalGroupReport> FacultyReports { get; set; }
 
     #endregion
 }

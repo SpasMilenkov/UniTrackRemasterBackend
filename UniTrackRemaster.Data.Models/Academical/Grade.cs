@@ -13,6 +13,9 @@ public class Grade: BaseEntity
     #region NavigationProperties
     
     public SubjectGradeTeacher? SubjectGradeTeacher { get; set; }
-    public required ICollection<Student> Students { get; set; }
+    public Guid HomeRoomTeacherId { get; set; }
+    public IList<ElectiveSubject> ElectiveSubjects { get; set; }
+    public HomeRoomTeacher? HomeRoomTeacher { get; set; }
+    public IList<Student>? Students { get; set; }
     #endregion
 }

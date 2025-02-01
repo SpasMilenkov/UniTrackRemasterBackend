@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using UniTrackRemaster.Api.Dto.Request;
+using UniTrackRemaster.Api.Dto.Auth;
 using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Services.Authentication;

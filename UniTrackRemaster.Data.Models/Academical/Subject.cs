@@ -1,4 +1,5 @@
 using UniTrackRemaster.Data.Models.JunctionEntities;
+using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Academical;
 
@@ -14,6 +15,7 @@ public class Subject: BaseEntity
     #endregion
     #region NavigationProperties
 
-    public SubjectGradeTeacher? SubjectGradeTeacher { get; set; }
+    public ICollection<Grade> Grades { get; set; }
+    public ICollection<Teacher> Teachers { get; set; }
     #endregion
 }

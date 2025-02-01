@@ -7,6 +7,9 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <RootNamespace>UniTrackRemaster</RootNamespace>
+    	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    	<DocumentationFile>$(ProjectDir)$(AssemblyName).xml</DocumentationFile>
+    	<NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,15 +25,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\OrganizationServices\OrganizationServices.csproj" />
-      <ProjectReference Include="..\UniTrackRemaster.Mappings\UniTrackRemaster.Mappings.csproj" />
+      <ProjectReference Include="..\UniTrackBackend.Services.Student\UniTrackBackend.Services.Student.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Api.Dto\UniTrackRemaster.Api.Dto.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Infrastructure\UniTrackRemaster.Infrastructure.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Academics\UniTrackRemaster.Services.Academics.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Admin\UniTrackRemaster.Services.Admin.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Services.Authentication\UniTrackRemaster.Services.Authentication.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Controllers\" />
     </ItemGroup>
 
 </Project>

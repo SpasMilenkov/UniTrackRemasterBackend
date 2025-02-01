@@ -11,4 +11,10 @@
       <ProjectReference Include="..\UniTrackRemaster.Data.Models\UniTrackRemaster.Data.Models.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Http.Features">
+        <HintPath>..\..\..\..\..\..\usr\lib\dotnet\shared\Microsoft.AspNetCore.App\8.0.12\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

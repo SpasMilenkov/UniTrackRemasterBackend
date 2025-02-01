@@ -12,7 +12,7 @@ public class Organizer: BaseEntity
     #endregion
     #region NavigationProperties
 
-    public ICollection<Event>? OrganizedEvents { get; set; }
+    public IList<Event>? OrganizedEvents { get; set; }
     public required Guid UserId { get; set; }
     public ApplicationUser? User { get; set; }
     #endregion

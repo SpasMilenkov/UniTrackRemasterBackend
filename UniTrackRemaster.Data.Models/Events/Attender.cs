@@ -13,7 +13,7 @@ public class Attender: BaseEntity
 
     public required Guid UserId { get; set; }
     public ApplicationUser? User { get; set; }
-    public ICollection<Event>? Events { get; set; }
+    public IList<Event>? Events { get; set; }
 
     #endregion
 }

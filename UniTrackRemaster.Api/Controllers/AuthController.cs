@@ -1,16 +1,21 @@
 using System.Web;
 using Infrastructure;
-using UniTrackRemaster.Mappings;
 using Microsoft.AspNetCore.Mvc;
+using UniTrackRemaster.Api.Dto.Auth;
 using UniTrackRemaster.Api.Dto.Request;
+using UniTrackRemaster.Api.Dto.Response;
 using UniTrackRemaster.Messaging;
+using UniTrackRemaster.Messaging.Enums;
 using UniTrackRemaster.Services.Authentication;
 
 namespace UniTrackRemaster.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IAuthService authService, IMapper mapper, ISmtpService ismtpService)
+    public class AuthController(
+        IAuthService authService,
+        ISmtpService smtpService,
+        IConfiguration configuration)
         : ControllerBase
     {
         /// <summary>
@@ -34,17 +39,27 @@ namespace UniTrackRemaster.Controllers
                 var user = await authService.LoginUser(model);
                 if (user is null)
                     return Unauthorized();
+                
+                if(!user.EmailConfirmed) return Unauthorized();
 
                 var token = authService.GenerateJwtToken(user);
                 var refreshToken = await authService.GenerateRefreshToken(user);
-                var resultModel = mapper.MapLoginResult(userId: user.Id, role: await authService.GetUserRole(user));
-
+                var userRole = await authService.GetUserRole(user);
+                
+                var response = new LoginResponseDto(
+                    Id: user.Id,
+                    Email: user.Email,
+                    FirstName: user.FirstName,
+                    LastName: user.LastName,
+                    Role: userRole,
+                    user.IsLinked);
+                
                 Response.Cookies.Append("RefreshToken", refreshToken,
                     CookieOptionManager.GenerateRefreshCookieOptions());
                 Response.Cookies.Append("AccessToken", token, CookieOptionManager.GenerateAccessCookieOptions());
 
-                return Ok(resultModel);
-            }
+                return Ok(response);
+            } 
             catch (Exception e)
             {
                 Console.WriteLine(e);
@@ -87,13 +102,13 @@ namespace UniTrackRemaster.Controllers
                 if (callbackUrl is null)
                     return BadRequest("User registration failed");
 
-                // if (user.Email != null)
-                //     await _emailService.SendEmailAsync(user.FirstName, user.LastName, user.Email, callbackUrl,
-                //         "verification");
+                if (user.Email != null)
+                    await smtpService.SendEmailAsync(user.FirstName, user.LastName, user.Email, callbackUrl,
+                        EmailTemplateType.Verification);
 
                 var token = authService.GenerateJwtToken(user);
                 var refreshToken = await authService.GenerateRefreshToken(user);
-                // await authService.SignInUser(user);
+                
 
                 return Ok(new { token, refreshToken });
             }
@@ -140,13 +155,12 @@ namespace UniTrackRemaster.Controllers
                 if (callbackUrl is null)
                     return BadRequest("User registration failed");
 
-                // if (user.Email != null)
-                //     await _emailService.SendEmailAsync(user.FirstName, user.LastName, user.Email, callbackUrl,
-                //         "verification");
+                if (user.Email != null)
+                    await smtpService.SendEmailAsync(user.FirstName, user.LastName, user.Email, callbackUrl,
+                        EmailTemplateType.Verification);
 
                 var token = authService.GenerateJwtToken(user);
                 var refreshToken = await authService.GenerateRefreshToken(user);
-                // await authService.SignInUser(user);
 
                 return Ok(new { token, refreshToken });
             }
@@ -282,15 +296,19 @@ namespace UniTrackRemaster.Controllers
             var user = await authService.GetUserByEmail(email);
             if (user is null)
                 return NotFound("If user with this email exists an email has been sent.");
+
             var token = await authService.GenerateForgottenPasswordLink(user);
-            var callbackUrl = Url.Action("ResetPassword", "Auth",
-                new { email = user.Email, token = HttpUtility.UrlEncode(token) }, Request.Scheme);
-            if (callbackUrl != null)
-                await ismtpService.SendEmailAsync(user.FirstName, user.LastName, user.Email!, callbackUrl,
-                    "resetPassword");
+    
+            // Generate the frontend URL instead of backend route
+            var resetUrl = $"{configuration["FrontendUrl"]}/reset-password?email={HttpUtility.UrlEncode(user.Email)}&token={HttpUtility.UrlEncode(token)}";
+    
+            if (resetUrl != null)
+                await smtpService.SendEmailAsync(user.FirstName, user.LastName, user.Email!, resetUrl,
+                    EmailTemplateType.ResetPassword);
 
             return Ok("If an account with this email exists, a password reset link has been sent.");
         }
+
 
         /// <summary>
         /// Resets a user's password.
@@ -305,6 +323,11 @@ namespace UniTrackRemaster.Controllers
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
         {
+            if (string.IsNullOrEmpty(dto.Token) || string.IsNullOrEmpty(dto.Email))
+            {
+                return BadRequest("Token and email are required");
+            }
+
             var result = await authService.ResetPassword(dto);
             if (result is { Succeeded: true })
             {
