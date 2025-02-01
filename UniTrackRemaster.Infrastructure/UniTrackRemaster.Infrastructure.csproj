@@ -24,7 +24,6 @@
       <ProjectReference Include="..\StorageService\StorageService.csproj" />
       <ProjectReference Include="..\UniTrackBackend.Services.Student\UniTrackBackend.Services.Student.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data.Repositories\UniTrackRemaster.Data.Repositories.csproj" />
-      <ProjectReference Include="..\UniTrackRemaster.Mappings\UniTrackRemaster.Mappings.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data\UniTrackRemaster.Data.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Services.Academics\UniTrackRemaster.Services.Academics.csproj" />
