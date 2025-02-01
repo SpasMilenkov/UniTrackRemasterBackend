@@ -1,83 +1,200 @@
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Api.Dto.Response;
 using UniTrackRemaster.Commons;
+using UniTrackRemaster.Data.Exceptions;
+using UniTrackRemaster.Data.Models.Organizations;
+using UniTrackRemaster.Messaging;
+using UniTrackRemaster.Messaging.Enums;
 
 namespace OrganizationServices;
-
-public class ApplicationService(IApplicationRepository applicationRepository, ISchoolService schoolService): IApplicationService
+public class ApplicationService(IUnitOfWork unitOfWork, ISmtpService smtpService) : IApplicationService
 {
-    public async Task<ApplicationResponseDto?> GetApplicationByIdAsync(Guid id)
+    public async Task<ApplicationResponseDto> GetByIdAsync(Guid id)
     {
-        var application = await applicationRepository.GetApplicationByIdAsync(id);
-
-        return application == null ? null : ApplicationResponseDto.FromEntity(application, SchoolAddressResponseDto
-            .FromEntity(application.School.Address, application.School.Id));;
+        var application = await unitOfWork.Applications.GetByIdAsync(id)
+            ?? throw new NotFoundException($"Application with ID {id} not found");
+            
+        if(application.Institution is null) 
+            throw new NotFoundException($"Institution not found for application {id}");
+        
+        return ApplicationResponseDto.FromEntity(
+            application, 
+            AddressDto.FromEntity(application.Institution.Address));
     }
 
-    public async Task<ApplicationResponseDto?> GetApplicationByCodeAsync(string code, string email)
+    public async Task<ApplicationResponseDto> GetByCodeAsync(string code, string email)
     {
-        var application = await applicationRepository.GetApplicationByEmailAsync(email);
-        if (application == null) throw new InvalidOperationException();
-        if(application.Code != code) throw new InvalidOperationException();
+        var application = await unitOfWork.Applications.GetByEmailAsync(email)
+            ?? throw new NotFoundException($"Application not found for email {email}");
+            
+        if(application.Institution is null) 
+            throw new NotFoundException($"Institution not found for application {application.Id}");
+            
+        if(application.Code != code) 
+            throw new InvalidOperationException($"Invalid application code: {code}");
 
-        return ApplicationResponseDto.FromEntity(application, SchoolAddressResponseDto
-            .FromEntity(application.School.Address, application.School.Id));;
+        return ApplicationResponseDto.FromEntity(
+            application, 
+            AddressDto.FromEntity(application.Institution.Address));
     }
 
-    public async Task<ApplicationResponseDto?> GetApplicationBySchoolIdAsync(Guid id)
+    public async Task<ApplicationResponseDto> GetByInstitutionIdAsync(Guid id)
     {
-        var application = await applicationRepository.GetApplicationBySchoolIdAsync(id);
-        return application == null ? null : ApplicationResponseDto.FromEntity(application, SchoolAddressResponseDto
-            .FromEntity(application.School.Address, application.School.Id));;
+        var application = await unitOfWork.Applications.GetByInstitutionIdAsync(id)
+                          ?? throw new NotFoundException($"Application not found for institution {id}");
+
+        if (application.Institution is null)
+            throw new NotFoundException($"Institution not found for application {application.Id}");
+
+        return ApplicationResponseDto.FromEntity(
+            application,
+            AddressDto.FromEntity(application.Institution.Address));
     }
     
-    public async Task<List<ApplicationResponseDto>> GetAllApplicationsAsync()
+    public async Task<List<ApplicationResponseDto>> GetAllAsync()
     {
-        var applications = await applicationRepository.GetAllApplicationsAsync();
+        var applications = await unitOfWork.Applications.GetAllAsync();
         
-       return applications
-           .Select(a => ApplicationResponseDto
-               .FromEntity(a, SchoolAddressResponseDto
-                   .FromEntity(a.School.Address, a.School.Id))).ToList();
+        return applications
+            .Where(a => a.Institution != null)
+            .Select(a => ApplicationResponseDto.FromEntity(
+                a, 
+                AddressDto.FromEntity(a.Institution.Address)))
+            .ToList();
     }
 
-    public async Task ApproveApplicationAsync(Guid id)
+    public async Task ApproveAsync(Guid id)
     {
-        await applicationRepository.ApproveApplication(id);
-    }
-    public async Task<ApplicationResponseDto?> GetApplicationByEmailAsync(string email)
-    {
-        var application = await applicationRepository.GetApplicationByEmailAsync(email);
-        return application == null ? null : ApplicationResponseDto.FromEntity(application, SchoolAddressResponseDto
-            .FromEntity(application.School.Address, application.School.Id));
+        try
+        {
+            await unitOfWork.BeginTransactionAsync();
+
+            var application = await unitOfWork.Applications.ApproveAsync(id)
+                              ?? throw new NotFoundException($"Application with ID {id} not found");
+            
+            await unitOfWork.SaveChangesAsync();
+            await unitOfWork.CommitAsync();
+                
+            await smtpService.SendEmailWithCodeAsync(
+                application.FirstName,
+                application.LastName,
+                application.Email,
+                application.Code,
+                EmailTemplateType.ApplicationApproved
+            );
+        }
+        catch
+        {
+            await unitOfWork.RollbackAsync();
+            throw;
+        }
     }
 
-    public async Task<ApplicationResponseDto> CreateApplicationAsync(CreateSchoolApplicationDto application)
+    public async Task<ApplicationResponseDto> CreateAsync(CreateInstitutionApplicationDto application)
     {
-        //Check if a school with such email is not registered already
-        //Probably is not ideal to rely on that only but for now shall do
-        var exisingApplication = await GetApplicationByEmailAsync(application.Email);
-        if (exisingApplication is not null) throw new InvalidOperationException();
-        var schoolId = await schoolService.CreateSchoolAsync(application.SchoolName, application.Address);
+        try
+        {
+            await unitOfWork.BeginTransactionAsync();
+
+            var existingApplication = await unitOfWork.Applications.GetByEmailAsync(application.Email);
+            if (existingApplication is not null) 
+                throw new InvalidOperationException($"Application already exists for email {application.Email}");
+
+            var institution = await unitOfWork.Institutions.AddAsync(new Institution()
+            {
+                Name = application.InstitutionName,
+                Type = application.InstitutionType,
+                Address = AddressDto.ToEntity(application.Address) ,
+                Email = application.Email,
+                Phone = application.Phone
+            });
         
-        var applicationEntity = await applicationRepository
-            .CreateApplicationAsync(CreateSchoolApplicationDto.ToEntity(application, schoolId));
-        return ApplicationResponseDto.FromEntity(applicationEntity, SchoolAddressResponseDto
-            .FromEntity(applicationEntity.School.Address, applicationEntity.School.Id));
+            var applicationEntity = await unitOfWork.Applications.CreateAsync(
+                CreateInstitutionApplicationDto.ToEntity(application, institution.Id));
+            
+            if (applicationEntity is null)
+                throw new InvalidOperationException("Failed to create application");
+            
+            if (applicationEntity.Institution is null) 
+                throw new NotFoundException($"Institution not found for application {applicationEntity.Id}");
+
+            await unitOfWork.SaveChangesAsync();
+            await unitOfWork.CommitAsync();
+        
+            await smtpService.SendEmailWithCodeAsync(
+                application.FirstName,
+                application.LastName,
+                application.Email,
+                applicationEntity.Code,
+                EmailTemplateType.ApplicationCreated
+            );
+        
+            return ApplicationResponseDto.FromEntity(
+                applicationEntity, 
+                AddressDto.FromEntity(applicationEntity.Institution.Address));
+        }
+        catch
+        {
+            await unitOfWork.RollbackAsync();
+            throw;
+        }
     }
 
-    public async Task<ApplicationResponseDto?> UpdateApplicationAsync(Guid id,
-        UpdateSchoolApplicationDto updatedApplication)
+    public async Task<ApplicationResponseDto> UpdateAsync(Guid id, UpdateInstitutionApplicationDto updatedApplication)
     {
-        var application =
-            await applicationRepository.UpdateApplicationAsync(id,
-                UpdateSchoolApplicationDto.ToEntity(updatedApplication));
+        try
+        {
+            await unitOfWork.BeginTransactionAsync();
+
+            var application = await unitOfWork.Applications.UpdateAsync(id,
+                                  UpdateInstitutionApplicationDto.ToEntity(updatedApplication))
+                              ?? throw new NotFoundException($"Application with ID {id} not found");
         
-        return application != null ? ApplicationResponseDto.FromEntity(application, SchoolAddressResponseDto
-            .FromEntity(application.School.Address, application.School.Id)) : null;
+            if(application.Institution is null) 
+                throw new NotFoundException($"Institution not found for application {id}");
+
+            await unitOfWork.SaveChangesAsync();
+            await unitOfWork.CommitAsync();
         
+            return ApplicationResponseDto.FromEntity(
+                application, 
+                AddressDto.FromEntity(application.Institution.Address));
+        }
+        catch
+        {
+            await unitOfWork.RollbackAsync();
+            throw;
+        }
     }
 
-    public async Task<bool> DeleteApplicationAsync(Guid id) =>
-        await applicationRepository.DeleteApplicationAsync(id);
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        try
+        {
+            await unitOfWork.BeginTransactionAsync();
+
+            var application = await unitOfWork.Applications.GetByIdAsync(id)
+                ?? throw new NotFoundException($"Application with ID {id} not found");
+            
+            var result = await unitOfWork.Applications.DeleteAsync(id);
+            
+            await unitOfWork.SaveChangesAsync();
+            await unitOfWork.CommitAsync();
+            
+            await smtpService.SendEmailWithCodeAsync(
+                application.FirstName,
+                application.LastName,
+                application.Email,
+                application.Code,
+                EmailTemplateType.ApplicationDenied
+            );
+            
+            return result;
+        }
+        catch
+        {
+            await unitOfWork.RollbackAsync();
+            throw;
+        }
+    }
 }

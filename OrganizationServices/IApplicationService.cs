@@ -1,18 +1,18 @@
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Api.Dto.Response;
+using UniTrackRemaster.Data.Models.Enums;
 
 namespace OrganizationServices;
 
 public interface IApplicationService
 {
-    public Task<ApplicationResponseDto?> GetApplicationByIdAsync(Guid id);
-    public Task<List<ApplicationResponseDto>> GetAllApplicationsAsync();
-    public Task<ApplicationResponseDto?> GetApplicationByCodeAsync(string code, string email);
-    public Task<ApplicationResponseDto?> GetApplicationBySchoolIdAsync(Guid id);
-    public Task<ApplicationResponseDto> CreateApplicationAsync(CreateSchoolApplicationDto application);
-    public Task<ApplicationResponseDto?> UpdateApplicationAsync(Guid id,
-        UpdateSchoolApplicationDto updatedApplication);
-    public Task ApproveApplicationAsync(Guid id);
-    public Task<bool> DeleteApplicationAsync(Guid id);
-
+    Task<ApplicationResponseDto> GetByIdAsync(Guid id);
+    Task<List<ApplicationResponseDto>> GetAllAsync();
+    Task<ApplicationResponseDto> GetByCodeAsync(string code, string email);
+    Task<ApplicationResponseDto> GetByInstitutionIdAsync(Guid id);
+    Task<ApplicationResponseDto> CreateAsync(CreateInstitutionApplicationDto application);
+    Task<ApplicationResponseDto> UpdateAsync(Guid id, UpdateInstitutionApplicationDto updatedApplication);
+    Task ApproveAsync(Guid id);
+    Task<bool> DeleteAsync(Guid id);
 }
+
