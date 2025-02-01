@@ -12,7 +12,7 @@ public class Parent: BaseEntity
         public required Guid UserId { get; set; }
         public ApplicationUser? User { get; set; }
         
-        public required ICollection<Student> Children {get; set;}
+        public required IList<Student> Children {get; set;}
 
     #endregion
 }
