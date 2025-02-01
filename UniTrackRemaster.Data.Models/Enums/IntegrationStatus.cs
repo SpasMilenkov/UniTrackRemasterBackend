@@ -5,6 +5,7 @@ public enum IntegrationStatus
     RequiresVerification,
     Verified,
     AdditionalDataSubmitted,
+    Denied,
     Active,
     Inactive
 }
