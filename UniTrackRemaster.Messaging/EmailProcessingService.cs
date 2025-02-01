@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using MimeKit;
 using NCrontab;
 using UniTrackRemaster.Messaging.Dto;
+using UniTrackRemaster.Messaging.Enums;
 
 namespace UniTrackRemaster.Messaging;
 
@@ -131,7 +132,7 @@ public class EmailProcessingService(
                 lastName: recipient.Name.Split(' ').LastOrDefault() ?? "",
                 emailAddress: recipient.Address,
                 link: string.Empty,
-                templateType: "processed");
+                templateType: EmailTemplateType.Processed);
 
             logger.LogInformation("Sent follow-up email to {address} for processed message {messageId}", recipient.Address, email.MessageId);
         }
