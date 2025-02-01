@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Auth;
 
 public record ResetPasswordDto
 {

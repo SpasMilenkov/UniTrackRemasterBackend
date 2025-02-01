@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using UniTrackRemaster.Data.Models.Enums;
 
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Auth;
 
 public record RegisterDto
 {
