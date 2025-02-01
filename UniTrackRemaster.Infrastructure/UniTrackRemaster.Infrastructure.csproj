@@ -5,6 +5,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>Infrastructure</RootNamespace>
+    	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    	<DocumentationFile>$(SolutionDir)UniTrackRemaster.Api/$(AssemblyName).xml</DocumentationFile>
+    	<NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
 
@@ -19,10 +22,13 @@
     <ItemGroup>
       <ProjectReference Include="..\OrganizationServices\OrganizationServices.csproj" />
       <ProjectReference Include="..\StorageService\StorageService.csproj" />
+      <ProjectReference Include="..\UniTrackBackend.Services.Student\UniTrackBackend.Services.Student.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data.Repositories\UniTrackRemaster.Data.Repositories.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Mappings\UniTrackRemaster.Mappings.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data\UniTrackRemaster.Data.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Academics\UniTrackRemaster.Services.Academics.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Admin\UniTrackRemaster.Services.Admin.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Services.Authentication\UniTrackRemaster.Services.Authentication.csproj" />
     </ItemGroup>
 
