@@ -1,26 +1,46 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniTrackRemaster.Api.Dto.Response;
 using UniTrackRemaster.Services.Authentication;
 
 namespace UniTrackRemaster.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController(IRoleService roleService) : ControllerBase
     {
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllRoles()
+        [HttpGet("current")]
+        public ActionResult<string> GetCurrentUser()
         {
-            var roles = await roleService.GetAllRolesAsync();
-            return Ok(roles.Select((role) => role.Name != null ? new RoleResponseDto(role.Id, role.Name) : null));
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(userId);
         }
 
-        [HttpGet("public")]
-        public async Task<IActionResult> GetAllPublicUsers()
+        // If you need to get specific user details
+        [HttpGet("{id}")]
+        public ActionResult<string> GetUser(string id)
         {
-            var roles = await roleService.GetPublicRolesAsync();
-            
-            return Ok(roles.Select((role) => role.Name != null ? new RoleResponseDto(role.Id, role.Name) : null));
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            // Only allow access if the requested ID matches the current user's ID
+            if (id != currentUserId)
+            {
+                return Forbid();
+            }
+
+            return Ok(currentUserId);
         }
     }
 }
