@@ -2,22 +2,15 @@ using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Analytics;
 
-public class PersonalReport: BaseEntity
+public class PersonalReport : BaseEntity
 {
-    #region Properties
-
     public Guid Id { get; set; }
-    public required string Title { get; set; }
-    public required DateTime From { get; set; }
-    public required DateTime To { get; set; }
-    public required string ShortDescription { get; set; }
-    public required string DetailedDescription { get; set; }
-    public required decimal NumericalRating { get; set; }
-
-    #endregion
-    #region NavigationProperties
-
-    public required Guid UserId { get; set; }
-    public ApplicationUser? User { get; set; }
-    #endregion
+    public required string AcademicYear { get; set; }
+    public decimal GPA { get; set; }
+    public int TotalCredits { get; set; }
+    public int AttendanceRate { get; set; }
+    
+    public Guid StudentId { get; set; }
+    public Student Student { get; set; }
+    public IList<ReportEntry> Entries { get; set; }
 }

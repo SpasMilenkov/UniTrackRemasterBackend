@@ -14,7 +14,7 @@ public class SchoolReport: BaseEntity
 
     #endregion
     #region NavigationProperties
-        public ICollection<AcademicalGroupReport>? ClassReport { get; set; }
+        public IList<AcademicalGroupReport>? ClassReport { get; set; }
 
     #endregion
 }
