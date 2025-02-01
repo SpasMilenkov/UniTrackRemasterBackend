@@ -1,4 +1,3 @@
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using UniTrackRemaster.Api.Dto.Request;
+using UniTrackRemaster.Api.Dto.Auth;
 using UniTrackRemaster.Commons.Enums;
 using UniTrackRemaster.Data.Context;
 using UniTrackRemaster.Data.Models.Users;
@@ -136,7 +135,6 @@ public class AuthService(
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                SchoolId = model.OrgId,
                 EmailConfirmed = false,
                 AvatarUrl = "https://www.world-stroke.org/images/remote/https_secure.gravatar.com/avatar/9c62f39db51175255c24ef887c0b7101/"
             };
@@ -205,7 +203,8 @@ public class AuthService(
             var user = await userManager.FindByEmailAsync(model.Email);
             if (user is null || !await userManager.CheckPasswordAsync(user, model.Password))
                 return null;
-            
+
+
             return user;
         }
         catch (Exception e)
@@ -213,7 +212,6 @@ public class AuthService(
             logger.LogError(e, "An error occurred while logging in the user");
             throw;
         }
-
     }
     public async Task LogoutUser(ApplicationUser user)
     {
@@ -323,9 +321,6 @@ public class AuthService(
         var roleList = await userManager.GetRolesAsync(user);
         var role = roleList.FirstOrDefault();
         return role is null ? nameof(Roles.Guest) :
-            // the system does not allow more than one role per user
-            // no time to allow it to handle more than one :^) so
-            // we assume that there is no other thing in the list than the role we need
             roleList.First();
     } 
 }
