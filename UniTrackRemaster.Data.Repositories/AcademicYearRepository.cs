@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data.Context;
 using UniTrackRemaster.Data.Models.Academical;
 
