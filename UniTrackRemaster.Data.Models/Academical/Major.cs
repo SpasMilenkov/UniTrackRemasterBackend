@@ -1,18 +1,25 @@
 
 using UniTrackRemaster.Data.Models.JunctionEntities;
+using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Academical;
 
-public class Major: BaseEntity
+public class Major : BaseEntity
 {
-    #region Properties
-
     public Guid Id { get; set; }
     public required string Name { get; set; }
-    #endregion
-    #region NavigationProperties
+    public required string Code { get; set; }
+    public string ShortDescription { get; set; }
+    public string DetailedDescription { get; set; }
+    public int RequiredCredits { get; set; }
+    public int DurationInYears { get; set; }
+    public string CareerOpportunities { get; set; }
+    public string AdmissionRequirements { get; set; }
     
-    public ICollection<SubjectGradeTeacher> SubjectGradeTeachers { get; set; }
-
-    #endregion
+    public Guid FacultyId { get; set; }
+    public Faculty Faculty { get; set; }
+    
+    public IList<Course> Courses { get; set; }
+    public IList<Student> Students { get; set; }
+    public IList<SubjectGradeTeacher> SubjectGradeTeachers { get; set; }
 }
