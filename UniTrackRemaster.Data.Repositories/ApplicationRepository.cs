@@ -1,74 +1,102 @@
 using Microsoft.EntityFrameworkCore;
 using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data.Context;
+using UniTrackRemaster.Data.Models.Enums;
 using UniTrackRemaster.Data.Models.Events;
 using UniTrackRemaster.Data.Models.Organizations;
 
 namespace UniTrackRemaster.Data.Repositories;
 
-public class ApplicationRepository(UniTrackDbContext context): IApplicationRepository
+public class ApplicationRepository : IApplicationRepository
 {
-    public async Task<Application?> GetApplicationByIdAsync(Guid id) => await context.Applications
-            .Include(a => a.School)
-            .ThenInclude(s => s.Address)
-            .FirstOrDefaultAsync(a => a.Id == id);
-        
-    public async Task<Application?> GetApplicationBySchoolIdAsync(Guid id) => await context.Applications
-        .Include(a => a.School)
-        .ThenInclude(s => s.Address)
-        .FirstOrDefaultAsync(a => a.SchoolId == id);
+    private readonly UniTrackDbContext _context;
 
-    public async Task<Application?> GetApplicationByEmailAsync(string email) => await context.Applications
-        .Include(a => a.School)
-        .ThenInclude(s => s.Address)
-        .FirstOrDefaultAsync(a => a.Email == email); 
-
-    public async Task<List<Application>> GetAllApplicationsAsync() => await context.Applications
-        .Include(a => a.School)
-        .ThenInclude(s => s.Address)
-        .ToListAsync();
-
-    public async Task<Application> CreateApplicationAsync(Application application)
+    public ApplicationRepository(UniTrackDbContext context)
     {
-        context.Applications.Add(application);
-        await context.SaveChangesAsync();
-        return application;
+        _context = context;
     }
 
-    public async Task<Application?> UpdateApplicationAsync(Guid id, Application updatedApplication)
+    public async Task<Application?> GetByIdAsync(Guid id) => 
+        await _context.Applications
+            .Include(a => a.Institution)
+            .ThenInclude(i => i.Address)
+            .FirstOrDefaultAsync(a => a.Id == id);
+        
+    public async Task<Application?> GetByInstitutionIdAsync(Guid id) => 
+        await _context.Applications
+            .Include(a => a.Institution)
+            .ThenInclude(i => i.Address)
+            .FirstOrDefaultAsync(a => a.InstitutionId == id);
+
+    public async Task<Application?> GetByEmailAsync(string email) => 
+        await _context.Applications
+            .Include(a => a.Institution)
+            .ThenInclude(i => i.Address)
+            .FirstOrDefaultAsync(a => a.Email == email);
+
+    public async Task<List<Application>> GetAllAsync() => 
+        await _context.Applications
+            .Include(a => a.Institution)
+            .ThenInclude(i => i.Address)
+            .ToListAsync();
+
+    public async Task<Application> CreateAsync(Application application)
     {
-        var application = await context.Applications.FindAsync(id);
-        if (application == null) return null;
+        await _context.Applications.AddAsync(application);
+        await _context.SaveChangesAsync();
+        
+        return await GetByIdAsync(application.Id);
+    }
+
+    public async Task<Application?> UpdateAsync(Guid id, Application updatedApplication)
+    {
+        var application = await _context.Applications
+            .Include(a => a.Institution)
+            .ThenInclude(i => i.Address)
+            .FirstOrDefaultAsync(a => a.Id == id);
+            
+        if (application == null) 
+            return null;
 
         application.FirstName = updatedApplication.FirstName;
         application.LastName = updatedApplication.LastName;
-        application.Email = updatedApplication.Email;
         application.Phone = updatedApplication.Phone;
+        application.Status = updatedApplication.Status;
 
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return application;
     }
 
-    public async Task<Application> ApproveApplication(Guid id)
+    public async Task<Application?> ApproveAsync(Guid id)
     {
-        var application = await context.Applications
-            .Include(a => a.School)
-            .ThenInclude(s => s.Address)
+        var application = await _context.Applications
+            .Include(a => a.Institution)
+            .ThenInclude(i => i.Address)
             .FirstOrDefaultAsync(a => a.Id == id);
-        if(application is null) return null;
+            
+        if (application is null) 
+            return null;
         
-        application.School.IntegrationStatus = IntegrationStatus.Verified;
+        application.Status = ApplicationStatus.Approved;
+        application.Institution.IntegrationStatus = IntegrationStatus.Verified;
 
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return application;
     }
-    public async Task<bool> DeleteApplicationAsync(Guid id)
+
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var application = await context.Applications.FindAsync(id);
-        if (application == null) return false;
+        var application = await _context.Applications
+            .Include(a => a.Institution)
+            .FirstOrDefaultAsync(a => a.Id == id);
+            
+        if (application == null) 
+            return false;
         
-        context.Applications.Remove(application);
-        await context.SaveChangesAsync();
+        application.Status = ApplicationStatus.Denied;
+        application.Institution.IntegrationStatus = IntegrationStatus.Denied;
+        
+        await _context.SaveChangesAsync();
         return true;
     }
 }
