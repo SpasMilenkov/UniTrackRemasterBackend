@@ -2,7 +2,7 @@ using UniTrackRemaster.Data.Models.Organizations;
 
 namespace UniTrackRemaster.Data.Models.Location;
 
-public class SchoolAddress: BaseEntity
+public class Address: BaseEntity
 {
     public Guid Id { get; set; }
     public string Country { get; set; }
