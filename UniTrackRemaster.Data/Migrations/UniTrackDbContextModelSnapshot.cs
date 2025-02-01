@@ -141,19 +141,435 @@ namespace UniTrackRemaster.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SchoolTeacher", b =>
+            modelBuilder.Entity("ParentStudent", b =>
                 {
-                    b.Property<Guid>("SchoolsId")
+                    b.Property<Guid>("ChildrenId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("TeachersId")
+                    b.Property<Guid>("ParentId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("SchoolsId", "TeachersId");
+                    b.HasKey("ChildrenId", "ParentId");
 
-                    b.HasIndex("TeachersId");
+                    b.HasIndex("ParentId");
 
-                    b.ToTable("SchoolTeacher");
+                    b.ToTable("ParentStudents", (string)null);
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.AcademicYear", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("InstitutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstitutionId");
+
+                    b.ToTable("AcademicYears");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Attendance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsExcused")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SubjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Attendances");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Club", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("InstitutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("MaxMembers")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MeetingSchedule")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("TeacherSupervisorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstitutionId");
+
+                    b.HasIndex("TeacherSupervisorId");
+
+                    b.ToTable("Club");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ClubEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClubId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClubId");
+
+                    b.ToTable("ClubEvent");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ClubMembership", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClubId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("JoinDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClubId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("ClubMembership");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Course", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<int>("Credits")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("MajorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SemesterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MajorId");
+
+                    b.HasIndex("SemesterId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.CourseAssignment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("MaxScore")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CourseAssignment");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactPhone")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("FacultyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
+
+                    b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ElectiveSubject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("GradeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("MaxStudents")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GradeId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("ElectiveSubject");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Faculty", b =>
@@ -161,6 +577,16 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactPhone")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -179,13 +605,19 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UniversityId")
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UniversityId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -205,9 +637,15 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
 
+                    b.Property<Guid>("HomeRoomTeacherId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("SubjectId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
@@ -216,7 +654,50 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SubjectId");
+
                     b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.HomeRoomTeacher", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AcademicYearId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<Guid>("GradeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Responsibilities")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcademicYearId");
+
+                    b.HasIndex("GradeId")
+                        .IsUnique();
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("HomeRoomTeacher");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Major", b =>
@@ -225,15 +706,41 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("AdmissionRequirements")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CareerOpportunities")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
 
-                    b.Property<Guid?>("FacultyId")
+                    b.Property<string>("DetailedDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("DurationInYears")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("FacultyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("RequiredCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ShortDescription")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -293,6 +800,198 @@ namespace UniTrackRemaster.Data.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Marks");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ParentTeacherMeeting", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<Guid>("HomeRoomTeacherId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ScheduledTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeRoomTeacherId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("ParentTeacherMeeting");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Semester", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AcademicYearId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcademicYearId");
+
+                    b.ToTable("Semesters");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.StudentAssignment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AssignmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Feedback")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("Score")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("SubmissionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentAssignment");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.StudentCourse", b =>
+                {
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("EnrollmentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("StudentId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("StudentCourse");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.StudentElective", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<Guid>("ElectiveSubjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EnrollmentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ElectiveSubjectId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentElective");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Subject", b =>
@@ -385,43 +1084,36 @@ namespace UniTrackRemaster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("AcademicYear")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("AttendanceRate")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
 
-                    b.Property<string>("DetailedDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("NumericalRating")
+                    b.Property<decimal>("GPA")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("To")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("TotalCredits")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("StudentId")
+                        .IsUnique();
 
                     b.ToTable("PersonalReports");
                 });
@@ -461,6 +1153,47 @@ namespace UniTrackRemaster.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Recommendations");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Analytics.ReportEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MetricName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PersonalReportId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalReportId");
+
+                    b.ToTable("ReportEntry");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Analytics.SchoolReport", b =>
@@ -588,10 +1321,10 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("OrganizerId")
+                    b.Property<Guid?>("InstitutionId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("SchoolId")
+                    b.Property<Guid>("OrganizerId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("StudentId")
@@ -608,9 +1341,6 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UniversityId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
@@ -618,15 +1348,13 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizerId");
+                    b.HasIndex("InstitutionId");
 
-                    b.HasIndex("SchoolId");
+                    b.HasIndex("OrganizerId");
 
                     b.HasIndex("StudentId");
 
                     b.HasIndex("TeacherId");
-
-                    b.HasIndex("UniversityId");
 
                     b.ToTable("Events");
                 });
@@ -688,11 +1416,11 @@ namespace UniTrackRemaster.Data.Migrations
                     b.ToTable("Participants");
                 });
 
-            modelBuilder.Entity("UniTrackRemaster.Data.Models.Images.SchoolImage", b =>
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Images.Image", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
+                        .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<DateTime>("CreatedAt")
@@ -700,7 +1428,7 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
 
-                    b.Property<Guid>("SchoolId")
+                    b.Property<Guid>("InstitutionId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -714,9 +1442,9 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SchoolId");
+                    b.HasIndex("InstitutionId");
 
-                    b.ToTable("SchoolImages");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.JunctionEntities.SubjectGradeTeacher", b =>
@@ -744,15 +1472,14 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasIndex("MajorId");
 
-                    b.HasIndex("SubjectId")
-                        .IsUnique();
+                    b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
 
                     b.ToTable("SubjectGradeTeacher");
                 });
 
-            modelBuilder.Entity("UniTrackRemaster.Data.Models.Location.SchoolAddress", b =>
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Location.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -814,6 +1541,9 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("InstitutionId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -822,8 +1552,8 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("SchoolId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
@@ -835,20 +1565,24 @@ namespace UniTrackRemaster.Data.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.HasIndex("InstitutionId");
+
                     b.HasIndex("Phone")
                         .IsUnique();
-
-                    b.HasIndex("SchoolId");
 
                     b.ToTable("Applications");
                 });
 
-            modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.School", b =>
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.Institution", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<string>("Accreditations")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("AddressId")
                         .HasColumnType("uuid");
@@ -861,8 +1595,23 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int>("IntegrationStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("EstablishedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("IntegrationStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("text");
 
                     b.Property<string>("Motto")
                         .HasColumnType("text");
@@ -871,13 +1620,12 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string[]>("Programs")
-                        .HasColumnType("text[]");
-
-                    b.Property<Guid?>("SchoolReportId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -892,9 +1640,50 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("SchoolReportId");
+                    b.ToTable("Institutions", (string)null);
+                });
 
-                    b.ToTable("Schools");
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.School", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<string>("ExtracurricularActivities")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("HasSpecialEducation")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasUniform")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("InstitutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string[]>("Programs")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid?>("SchoolReportId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("StudentCount")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("StudentTeacherRatio")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstitutionId")
+                        .IsUnique();
+
+                    b.HasIndex("SchoolReportId")
+                        .IsUnique();
+
+                    b.ToTable("Schools", (string)null);
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.University", b =>
@@ -904,31 +1693,44 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("NOW()");
+                    b.Property<double>("AcceptanceRate")
+                        .HasColumnType("double precision");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
+                    b.Property<string[]>("Departments")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text[]");
+
+                    b.Property<int[]>("FocusAreas")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<int>("GraduateCount")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("HasStudentHousing")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("InstitutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ResearchFunding")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UndergraduateCount")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("UniversityReportId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("NOW()");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UniversityReportId");
+                    b.HasIndex("InstitutionId")
+                        .IsUnique();
 
-                    b.ToTable("Universities");
+                    b.HasIndex("UniversityReportId")
+                        .IsUnique();
+
+                    b.ToTable("Universities", (string)null);
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.Admin", b =>
@@ -943,6 +1745,28 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
 
+                    b.Property<string>("Department")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("InstitutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
@@ -953,9 +1777,43 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("InstitutionId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.AdminPermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AdminId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<int>("Permission")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Scope")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
+
+                    b.ToTable("AdminPermission");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.ApplicationRole", b =>
@@ -1015,6 +1873,9 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsLinked")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1047,9 +1908,6 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.Property<DateTime?>("RefreshTokenValidity")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("SchoolId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -1095,7 +1953,8 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Parents");
                 });
@@ -1115,13 +1974,16 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Property<Guid>("GradeId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("InstitutionId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsSchoolStudent")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsUniversityStudent")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("ParentId")
+                    b.Property<Guid?>("MajorId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("PersonalReportId")
@@ -1145,15 +2007,16 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasIndex("GradeId");
 
-                    b.HasIndex("ParentId");
+                    b.HasIndex("InstitutionId");
 
-                    b.HasIndex("PersonalReportId");
+                    b.HasIndex("MajorId");
 
                     b.HasIndex("SchoolId");
 
                     b.HasIndex("UniversityId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Students");
                 });
@@ -1180,7 +2043,8 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("SuperAdmins");
                 });
@@ -1200,11 +2064,17 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
 
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("InstitutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SubjectId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .HasColumnType("text");
-
-                    b.Property<Guid?>("UniversityId")
-                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
@@ -1218,9 +2088,14 @@ namespace UniTrackRemaster.Data.Migrations
 
                     b.HasIndex("ClassGradeId");
 
-                    b.HasIndex("UniversityId");
+                    b.HasIndex("DepartmentId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("InstitutionId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Teachers");
                 });
@@ -1291,33 +2166,220 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SchoolTeacher", b =>
+            modelBuilder.Entity("ParentStudent", b =>
                 {
-                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.School", null)
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Student", null)
                         .WithMany()
-                        .HasForeignKey("SchoolsId")
+                        .HasForeignKey("ChildrenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UniTrackRemaster.Data.Models.Users.Teacher", null)
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Parent", null)
                         .WithMany()
-                        .HasForeignKey("TeachersId")
+                        .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.AcademicYear", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", "Institution")
+                        .WithMany()
+                        .HasForeignKey("InstitutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Institution");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Attendance", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Student", "Student")
+                        .WithMany("AttendanceRecords")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Club", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", "Institution")
+                        .WithMany()
+                        .HasForeignKey("InstitutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Teacher", "TeacherSupervisor")
+                        .WithMany("SupervisedClubs")
+                        .HasForeignKey("TeacherSupervisorId");
+
+                    b.Navigation("Institution");
+
+                    b.Navigation("TeacherSupervisor");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ClubEvent", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Club", "Club")
+                        .WithMany("Events")
+                        .HasForeignKey("ClubId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Club");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ClubMembership", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Club", "Club")
+                        .WithMany("Memberships")
+                        .HasForeignKey("ClubId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Student", "Student")
+                        .WithMany("ClubMemberships")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Club");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Course", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Major", "Major")
+                        .WithMany("Courses")
+                        .HasForeignKey("MajorId");
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Semester", "Semester")
+                        .WithMany("Courses")
+                        .HasForeignKey("SemesterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Major");
+
+                    b.Navigation("Semester");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.CourseAssignment", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Course", "Course")
+                        .WithMany("Assignments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Department", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Faculty", "Faculty")
+                        .WithMany("Departments")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Faculty");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ElectiveSubject", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Grade", "Grade")
+                        .WithMany("ElectiveSubjects")
+                        .HasForeignKey("GradeId");
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Teacher", "Teacher")
+                        .WithMany("ElectiveSubjects")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grade");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Faculty", b =>
                 {
-                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.University", null)
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.University", "University")
                         .WithMany("Faculties")
-                        .HasForeignKey("UniversityId");
+                        .HasForeignKey("UniversityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("University");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Grade", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Subject", null)
+                        .WithMany("Grades")
+                        .HasForeignKey("SubjectId");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.HomeRoomTeacher", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.AcademicYear", "AcademicYear")
+                        .WithMany()
+                        .HasForeignKey("AcademicYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Grade", "Grade")
+                        .WithOne("HomeRoomTeacher")
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Academical.HomeRoomTeacher", "GradeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Teacher", "Teacher")
+                        .WithMany("HomeRoomAssignments")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AcademicYear");
+
+                    b.Navigation("Grade");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Major", b =>
                 {
-                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Faculty", null)
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Faculty", "Faculty")
                         .WithMany("Majors")
-                        .HasForeignKey("FacultyId");
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Faculty");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Mark", b =>
@@ -1331,13 +2393,13 @@ namespace UniTrackRemaster.Data.Migrations
                     b.HasOne("UniTrackRemaster.Data.Models.Academical.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("UniTrackRemaster.Data.Models.Users.Teacher", "Teacher")
                         .WithMany()
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Student");
@@ -1345,6 +2407,93 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ParentTeacherMeeting", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.HomeRoomTeacher", "HomeRoomTeacher")
+                        .WithMany("ParentMeetings")
+                        .HasForeignKey("HomeRoomTeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Parent", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HomeRoomTeacher");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Semester", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.AcademicYear", "AcademicYear")
+                        .WithMany("Semesters")
+                        .HasForeignKey("AcademicYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AcademicYear");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.StudentAssignment", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.CourseAssignment", "Assignment")
+                        .WithMany("StudentAssignments")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.StudentCourse", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Course", "Course")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.StudentElective", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.ElectiveSubject", "ElectiveSubject")
+                        .WithMany("StudentElectives")
+                        .HasForeignKey("ElectiveSubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Student", "Student")
+                        .WithMany("Electives")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ElectiveSubject");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Analytics.AcademicalGroupReport", b =>
@@ -1360,13 +2509,13 @@ namespace UniTrackRemaster.Data.Migrations
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Analytics.PersonalReport", b =>
                 {
-                    b.HasOne("UniTrackRemaster.Data.Models.Users.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Student", "Student")
+                        .WithOne("PersonalReport")
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Analytics.PersonalReport", "StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Analytics.Recommendation", b =>
@@ -1378,6 +2527,17 @@ namespace UniTrackRemaster.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Analytics.ReportEntry", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Analytics.PersonalReport", "PersonalReport")
+                        .WithMany("Entries")
+                        .HasForeignKey("PersonalReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PersonalReport");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Events.Attender", b =>
@@ -1393,15 +2553,15 @@ namespace UniTrackRemaster.Data.Migrations
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Events.Event", b =>
                 {
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", null)
+                        .WithMany("Events")
+                        .HasForeignKey("InstitutionId");
+
                     b.HasOne("UniTrackRemaster.Data.Models.Events.Organizer", "Organizer")
                         .WithMany("OrganizedEvents")
                         .HasForeignKey("OrganizerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.School", null)
-                        .WithMany("Events")
-                        .HasForeignKey("SchoolId");
 
                     b.HasOne("UniTrackRemaster.Data.Models.Users.Student", null)
                         .WithMany("Events")
@@ -1410,10 +2570,6 @@ namespace UniTrackRemaster.Data.Migrations
                     b.HasOne("UniTrackRemaster.Data.Models.Users.Teacher", null)
                         .WithMany("Events")
                         .HasForeignKey("TeacherId");
-
-                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.University", null)
-                        .WithMany("Events")
-                        .HasForeignKey("UniversityId");
 
                     b.Navigation("Organizer");
                 });
@@ -1444,13 +2600,15 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("UniTrackRemaster.Data.Models.Images.SchoolImage", b =>
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Images.Image", b =>
                 {
-                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.School", null)
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", "Institution")
                         .WithMany("Images")
-                        .HasForeignKey("SchoolId")
+                        .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Institution");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.JunctionEntities.SubjectGradeTeacher", b =>
@@ -1466,8 +2624,8 @@ namespace UniTrackRemaster.Data.Migrations
                         .HasForeignKey("MajorId");
 
                     b.HasOne("UniTrackRemaster.Data.Models.Academical.Subject", "Subject")
-                        .WithOne("SubjectGradeTeacher")
-                        .HasForeignKey("UniTrackRemaster.Data.Models.JunctionEntities.SubjectGradeTeacher", "SubjectId")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1486,59 +2644,98 @@ namespace UniTrackRemaster.Data.Migrations
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.Application", b =>
                 {
-                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.School", "School")
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", "Institution")
                         .WithMany()
-                        .HasForeignKey("SchoolId")
+                        .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("School");
+                    b.Navigation("Institution");
                 });
 
-            modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.School", b =>
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.Institution", b =>
                 {
-                    b.HasOne("UniTrackRemaster.Data.Models.Location.SchoolAddress", "Address")
+                    b.HasOne("UniTrackRemaster.Data.Models.Location.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UniTrackRemaster.Data.Models.Analytics.SchoolReport", "SchoolReport")
-                        .WithMany()
-                        .HasForeignKey("SchoolReportId");
-
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.School", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", "Institution")
+                        .WithOne()
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Organizations.School", "InstitutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Analytics.SchoolReport", "SchoolReport")
+                        .WithOne()
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Organizations.School", "SchoolReportId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Institution");
 
                     b.Navigation("SchoolReport");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.University", b =>
                 {
-                    b.HasOne("UniTrackRemaster.Data.Models.Analytics.UniversityReport", "UniversityReport")
-                        .WithMany()
-                        .HasForeignKey("UniversityReportId")
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", "Institution")
+                        .WithOne()
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Organizations.University", "InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Analytics.UniversityReport", "UniversityReport")
+                        .WithOne()
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Organizations.University", "UniversityReportId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Institution");
 
                     b.Navigation("UniversityReport");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.Admin", b =>
                 {
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", "Institution")
+                        .WithMany("Admins")
+                        .HasForeignKey("InstitutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("UniTrackRemaster.Data.Models.Users.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Institution");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.AdminPermission", b =>
+                {
+                    b.HasOne("UniTrackRemaster.Data.Models.Users.Admin", "Admin")
+                        .WithMany("Permissions")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.Parent", b =>
                 {
                     b.HasOne("UniTrackRemaster.Data.Models.Users.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Users.Parent", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1550,36 +2747,34 @@ namespace UniTrackRemaster.Data.Migrations
                     b.HasOne("UniTrackRemaster.Data.Models.Academical.Grade", "Grade")
                         .WithMany("Students")
                         .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("UniTrackRemaster.Data.Models.Users.Parent", null)
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", null)
+                        .WithMany("Students")
+                        .HasForeignKey("InstitutionId");
 
-                    b.HasOne("UniTrackRemaster.Data.Models.Analytics.PersonalReport", "PersonalReport")
-                        .WithMany()
-                        .HasForeignKey("PersonalReportId");
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Major", null)
+                        .WithMany("Students")
+                        .HasForeignKey("MajorId");
 
                     b.HasOne("UniTrackRemaster.Data.Models.Organizations.School", "School")
-                        .WithMany("Students")
+                        .WithMany()
                         .HasForeignKey("SchoolId");
 
                     b.HasOne("UniTrackRemaster.Data.Models.Organizations.University", "University")
-                        .WithMany("Students")
+                        .WithMany()
                         .HasForeignKey("UniversityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("UniTrackRemaster.Data.Models.Users.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Users.Student", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Grade");
-
-                    b.Navigation("PersonalReport");
 
                     b.Navigation("School");
 
@@ -1591,8 +2786,8 @@ namespace UniTrackRemaster.Data.Migrations
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.SuperAdmin", b =>
                 {
                     b.HasOne("UniTrackRemaster.Data.Models.Users.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Users.SuperAdmin", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1603,43 +2798,117 @@ namespace UniTrackRemaster.Data.Migrations
                 {
                     b.HasOne("UniTrackRemaster.Data.Models.Academical.Grade", "ClassGrade")
                         .WithMany()
-                        .HasForeignKey("ClassGradeId");
+                        .HasForeignKey("ClassGradeId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.University", null)
-                        .WithMany("Lecturers")
-                        .HasForeignKey("UniversityId");
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Department", null)
+                        .WithMany("Teachers")
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Organizations.Institution", "Institution")
+                        .WithMany("Teachers")
+                        .HasForeignKey("InstitutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniTrackRemaster.Data.Models.Academical.Subject", null)
+                        .WithMany("Teachers")
+                        .HasForeignKey("SubjectId");
 
                     b.HasOne("UniTrackRemaster.Data.Models.Users.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("UniTrackRemaster.Data.Models.Users.Teacher", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ClassGrade");
 
+                    b.Navigation("Institution");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.AcademicYear", b =>
+                {
+                    b.Navigation("Semesters");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Club", b =>
+                {
+                    b.Navigation("Events");
+
+                    b.Navigation("Memberships");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Course", b =>
+                {
+                    b.Navigation("Assignments");
+
+                    b.Navigation("StudentCourses");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.CourseAssignment", b =>
+                {
+                    b.Navigation("StudentAssignments");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Department", b =>
+                {
+                    b.Navigation("Teachers");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.ElectiveSubject", b =>
+                {
+                    b.Navigation("StudentElectives");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Faculty", b =>
                 {
+                    b.Navigation("Departments");
+
                     b.Navigation("Majors");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Grade", b =>
                 {
+                    b.Navigation("ElectiveSubjects");
+
+                    b.Navigation("HomeRoomTeacher");
+
                     b.Navigation("Students");
 
                     b.Navigation("SubjectGradeTeacher");
                 });
 
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.HomeRoomTeacher", b =>
+                {
+                    b.Navigation("ParentMeetings");
+                });
+
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Major", b =>
                 {
+                    b.Navigation("Courses");
+
+                    b.Navigation("Students");
+
                     b.Navigation("SubjectGradeTeachers");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Semester", b =>
+                {
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Academical.Subject", b =>
                 {
-                    b.Navigation("SubjectGradeTeacher");
+                    b.Navigation("Grades");
+
+                    b.Navigation("Teachers");
+                });
+
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Analytics.PersonalReport", b =>
+                {
+                    b.Navigation("Entries");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Analytics.SchoolReport", b =>
@@ -1662,41 +2931,53 @@ namespace UniTrackRemaster.Data.Migrations
                     b.Navigation("OrganizedEvents");
                 });
 
-            modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.School", b =>
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.Institution", b =>
                 {
+                    b.Navigation("Admins");
+
                     b.Navigation("Events");
 
                     b.Navigation("Images");
 
                     b.Navigation("Students");
+
+                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Organizations.University", b =>
                 {
-                    b.Navigation("Events");
-
                     b.Navigation("Faculties");
-
-                    b.Navigation("Lecturers");
-
-                    b.Navigation("Students");
                 });
 
-            modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.Parent", b =>
+            modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.Admin", b =>
                 {
-                    b.Navigation("Children");
+                    b.Navigation("Permissions");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.Student", b =>
                 {
+                    b.Navigation("AttendanceRecords");
+
+                    b.Navigation("ClubMemberships");
+
+                    b.Navigation("Electives");
+
                     b.Navigation("Events");
 
                     b.Navigation("Marks");
+
+                    b.Navigation("PersonalReport");
                 });
 
             modelBuilder.Entity("UniTrackRemaster.Data.Models.Users.Teacher", b =>
                 {
+                    b.Navigation("ElectiveSubjects");
+
                     b.Navigation("Events");
+
+                    b.Navigation("HomeRoomAssignments");
+
+                    b.Navigation("SupervisedClubs");
                 });
 #pragma warning restore 612, 618
         }
