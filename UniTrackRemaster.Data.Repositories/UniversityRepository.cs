@@ -79,7 +79,7 @@ public class UniversityRepository : IUniversityRepository
         institution.Motto = initDto.Motto;
         institution.EstablishedDate = initDto.EstablishedDate;
         institution.IntegrationStatus = IntegrationStatus.Active;
-        
+        institution.Type = initDto.Type;
         application.Status = ApplicationStatus.Verified;
 
         await context.UniversityReports.AddAsync(universityReport);
