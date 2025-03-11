@@ -21,5 +21,19 @@ public enum InstitutionType
     [Display(Name = "Technical College")]
     TechnicalCollege,
     [Display(Name = "Liberal Arts College")]
-    LiberalArtsCollege
+    LiberalArtsCollege,
+    [Display(Name = "Primary School")]
+    PrimarySchool,
+    [Display(Name = "Secondary School")]
+    SecondarySchool,
+    [Display(Name = "High School")]
+    HighSchool,
+    [Display(Name = "Vocational School")]
+    VocationalSchool,
+    [Display(Name = "Special Education School")]
+    SpecialEducationSchool,
+    [Display(Name = "Language School")]
+    LanguageSchool,
+    [Display(Name = "Other")]
+    Other
 }

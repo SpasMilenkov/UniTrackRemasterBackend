@@ -1,13 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using OrganizationServices.Exceptions.School;
 using UniTrackRemaster.Api.Dto.Institution;
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data.Context;
-using UniTrackRemaster.Data.Exceptions;
 using UniTrackRemaster.Data.Models.Enums;
-using UniTrackRemaster.Data.Models.Events;
-using UniTrackRemaster.Data.Models.Location;
 using UniTrackRemaster.Data.Models.Organizations;
 
 namespace UniTrackRemaster.Data.Repositories;

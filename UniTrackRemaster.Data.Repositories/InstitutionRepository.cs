@@ -12,7 +12,6 @@ public class InstitutionRepository(UniTrackDbContext context) : IInstitutionRepo
         return await context.Institutions
             .Include(e => e.Address)
             .Include(e => e.Images)
-            .Include(e => e.Accreditations)
             .Include(e => e.Students)
             .Include(e => e.Teachers)
             .Include(e => e.Events)
