@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UniTrackRemaster.Services.Storage\UniTrackRemaster.Services.Storage.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Data.Commons\UniTrackRemaster.Data.Commons.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Data\UniTrackRemaster.Data.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Messaging\UniTrackRemaster.Services.Messaging.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Authentication\UniTrackRemaster.Services.Authentication.csproj" />
+    </ItemGroup>
+
+</Project>

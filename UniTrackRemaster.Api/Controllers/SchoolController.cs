@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using OrganizationServices;
-using StorageService;
+using UniTrackRemaster.Services.Organization;
 using UniTrackRemaster.Api.Dto.Institution;
 using UniTrackRemaster.Api.Dto.Request;
 
