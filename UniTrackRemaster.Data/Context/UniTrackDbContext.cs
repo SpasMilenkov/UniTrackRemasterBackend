@@ -183,9 +183,6 @@ public class UniTrackDbContext(DbContextOptions<UniTrackDbContext> options)
             modelBuilder.Entity<SuperAdmin>()
                 .Property(s => s.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
-            modelBuilder.Entity<AcademicYear>()
-                .Property(a => a.Id)
-                .HasDefaultValueSql("uuid_generate_v4()");
             #endregion
 
             #region Organizations
@@ -230,12 +227,8 @@ public class UniTrackDbContext(DbContextOptions<UniTrackDbContext> options)
             #endregion
 
             #region Academical
-            modelBuilder.Entity<School>()
-                .Property(s => s.Id)
-                .HasDefaultValueSql("uuid_generate_v4()");
-            
-            modelBuilder.Entity<University>()
-                .Property(u => u.Id)
+            modelBuilder.Entity<AcademicYear>()
+                .Property(a => a.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
             
             modelBuilder.Entity<Image>().Property(s => s.Id).HasDefaultValueSql("uuid_generate_v4()");
@@ -243,15 +236,6 @@ public class UniTrackDbContext(DbContextOptions<UniTrackDbContext> options)
             #endregion
 
             #region JunctionEntities
-            modelBuilder.Entity<School>()
-                .Property(s => s.Id)
-                .HasDefaultValueSql("uuid_generate_v4()");
-            
-            modelBuilder.Entity<University>()
-                .Property(u => u.Id)
-                .HasDefaultValueSql("uuid_generate_v4()");
-            
-
             #endregion
             
             #region Location
