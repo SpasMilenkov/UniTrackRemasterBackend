@@ -1,4 +1,4 @@
-namespace UniTrackRemaster.Messaging;
+namespace UniTrackRemaster.Services.Messaging;
 
 public interface ITemplateService
 {

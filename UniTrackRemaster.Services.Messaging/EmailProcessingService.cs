@@ -4,10 +4,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using MimeKit;
 using NCrontab;
-using UniTrackRemaster.Messaging.Dto;
-using UniTrackRemaster.Messaging.Enums;
+using UniTrackRemaster.Services.Messaging.Dto;
+using UniTrackRemaster.Services.Messaging.Enums;
 
-namespace UniTrackRemaster.Messaging;
+namespace UniTrackRemaster.Services.Messaging;
 
 public class EmailProcessingService(
     IServiceScopeFactory scopeFactory,

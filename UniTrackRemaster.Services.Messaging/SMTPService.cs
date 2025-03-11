@@ -3,10 +3,10 @@ using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System.Net.Http.Json;
-using UniTrackRemaster.Messaging.Dto;
-using UniTrackRemaster.Messaging.Enums;
+using UniTrackRemaster.Services.Messaging.Dto;
+using UniTrackRemaster.Services.Messaging.Enums;
 
-namespace UniTrackRemaster.Messaging;
+namespace UniTrackRemaster.Services.Messaging;
 
 public class SmtpService(IConfiguration configuration, ITemplateService templateService) : ISmtpService
 {

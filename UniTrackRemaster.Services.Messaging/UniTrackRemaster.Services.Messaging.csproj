@@ -4,7 +4,6 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>UniTrackRemaster.Messaging</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StorageService\StorageService.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Storage\UniTrackRemaster.Services.Storage.csproj" />
     </ItemGroup>
 
 </Project>

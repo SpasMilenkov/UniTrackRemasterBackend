@@ -1,9 +1,9 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using StorageService;
+using UniTrackRemaster.Services.Storage;
 
-namespace UniTrackRemaster.Messaging;
+namespace UniTrackRemaster.Services.Messaging;
 
 public class TemplateService(IConfiguration configuration, ILogger<TemplateService> logger, FirebaseStorageService? firebaseStorage = null)
     : ITemplateService

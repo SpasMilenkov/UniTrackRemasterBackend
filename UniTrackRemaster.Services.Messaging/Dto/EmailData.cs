@@ -1,4 +1,4 @@
-namespace UniTrackRemaster.Messaging.Dto;
+namespace UniTrackRemaster.Services.Messaging.Dto;
 
 public class EmailData
 {

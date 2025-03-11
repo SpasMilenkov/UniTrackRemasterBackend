@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace UniTrackRemaster.Messaging.Dto;
+namespace UniTrackRemaster.Services.Messaging.Dto;
 
 // Class to deserialize the token response from the oauth process
 // Needed for authenticating with Google

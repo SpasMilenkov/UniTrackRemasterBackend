@@ -2,7 +2,7 @@ using MailKit;
 using MailKit.Net.Imap;
 using MimeKit;
 
-namespace UniTrackRemaster.Messaging;
+namespace UniTrackRemaster.Services.Messaging;
 
 
 public interface IImapService

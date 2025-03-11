@@ -1,4 +1,4 @@
-namespace UniTrackRemaster.Messaging.Enums;
+namespace UniTrackRemaster.Services.Messaging.Enums;
 
 public enum EmailTemplateType
 {

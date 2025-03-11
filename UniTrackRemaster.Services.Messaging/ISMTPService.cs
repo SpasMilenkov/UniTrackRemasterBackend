@@ -1,7 +1,6 @@
+using UniTrackRemaster.Services.Messaging.Enums;
 
-using UniTrackRemaster.Messaging.Enums;
-
-namespace UniTrackRemaster.Messaging;
+namespace UniTrackRemaster.Services.Messaging;
 
 public interface ISmtpService
 {

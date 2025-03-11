@@ -5,9 +5,9 @@ using MailKit.Search;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
-using UniTrackRemaster.Messaging.Dto;
+using UniTrackRemaster.Services.Messaging.Dto;
 
-namespace UniTrackRemaster.Messaging;
+namespace UniTrackRemaster.Services.Messaging;
 
 public class ImapService(IConfiguration configuration) : IImapService
 {
