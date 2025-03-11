@@ -1,7 +1,7 @@
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
 
-namespace StorageService;
+namespace UniTrackRemaster.Services.Storage;
 
 public class FirebaseStorageService: IFirebaseStorageService
 {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace StorageService;
+namespace UniTrackRemaster.Services.Storage;
 
 public interface IFirebaseStorageService
 {
