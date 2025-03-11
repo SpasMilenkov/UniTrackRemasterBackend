@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using StorageService;
+using UniTrackRemaster.Services.Storage;
 using UniTrackRemaster.Api.Dto.Institution;
 using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data.Models.Academical;
 using UniTrackRemaster.Data.Models.Images;
 using UniTrackRemaster.Data.Models.Users;
-using UniTrackRemaster.Messaging;
+using UniTrackRemaster.Services.Messaging;
 using UniTrackRemaster.Services.Authentication;
 
-namespace OrganizationServices;
+namespace UniTrackRemaster.Services.Organization;
 
 public class UniversityService : IUniversityService
 {

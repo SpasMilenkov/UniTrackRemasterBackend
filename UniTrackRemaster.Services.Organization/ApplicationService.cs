@@ -3,10 +3,10 @@ using UniTrackRemaster.Api.Dto.Response;
 using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data.Exceptions;
 using UniTrackRemaster.Data.Models.Organizations;
-using UniTrackRemaster.Messaging;
-using UniTrackRemaster.Messaging.Enums;
+using UniTrackRemaster.Services.Messaging;
+using UniTrackRemaster.Services.Messaging.Enums;
 
-namespace OrganizationServices;
+namespace UniTrackRemaster.Services.Organization;
 public class ApplicationService(IUnitOfWork unitOfWork, ISmtpService smtpService) : IApplicationService
 {
     public async Task<ApplicationResponseDto> GetByIdAsync(Guid id)

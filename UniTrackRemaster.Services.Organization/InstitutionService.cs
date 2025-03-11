@@ -1,12 +1,12 @@
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data.Exceptions;
-using StorageService;
+using UniTrackRemaster.Services.Storage;
 using Microsoft.AspNetCore.Http;
 using UniTrackRemaster.Api.Dto.Institution;
 using UniTrackRemaster.Data.Models.Images;
 
-namespace OrganizationServices;
+namespace UniTrackRemaster.Services.Organization;
 
 public class InstitutionService : IInstitutionService
 {

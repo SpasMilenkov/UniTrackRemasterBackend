@@ -1,6 +1,6 @@
 using UniTrackRemaster.Api.Dto.Image;
 
-namespace OrganizationServices;
+namespace UniTrackRemaster.Services.Organization;
 
 public interface IImageService
 {

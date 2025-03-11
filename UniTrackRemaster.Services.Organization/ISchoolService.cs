@@ -3,7 +3,7 @@ using UniTrackRemaster.Api.Dto.Institution;
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Api.Dto.Response;
 
-namespace OrganizationServices;
+namespace UniTrackRemaster.Services.Organization;
 
 public interface ISchoolService
 {

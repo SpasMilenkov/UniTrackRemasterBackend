@@ -2,7 +2,7 @@ using UniTrackRemaster.Api.Dto.Image;
 using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data.Exceptions;
 
-namespace OrganizationServices;
+namespace UniTrackRemaster.Services.Organization;
 public class ImageService : IImageService
 {
     private readonly IImageRepository _imageRepository;

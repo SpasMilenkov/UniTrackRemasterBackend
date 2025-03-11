@@ -2,7 +2,7 @@ using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Api.Dto.Response;
 using UniTrackRemaster.Data.Models.Enums;
 
-namespace OrganizationServices;
+namespace UniTrackRemaster.Services.Organization;
 
 public interface IApplicationService
 {

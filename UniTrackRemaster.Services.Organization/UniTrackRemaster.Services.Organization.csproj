@@ -7,10 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StorageService\StorageService.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Storage\UniTrackRemaster.Services.Storage.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data.Commons\UniTrackRemaster.Data.Commons.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data\UniTrackRemaster.Data.csproj" />
-      <ProjectReference Include="..\UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Messaging\UniTrackRemaster.Services.Messaging.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Services.Authentication\UniTrackRemaster.Services.Authentication.csproj" />
     </ItemGroup>
 

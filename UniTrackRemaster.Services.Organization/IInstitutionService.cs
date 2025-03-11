@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using UniTrackRemaster.Api.Dto.Institution;
 using UniTrackRemaster.Api.Dto.Request;
 
-namespace OrganizationServices;
+namespace UniTrackRemaster.Services.Organization;
 
 public interface IInstitutionService
 {
