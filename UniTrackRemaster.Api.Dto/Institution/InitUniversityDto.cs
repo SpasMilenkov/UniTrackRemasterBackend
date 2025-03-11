@@ -39,4 +39,6 @@ public record InitUniversityDto(
     bool HasStudentHousing,
     [Required]
     [MinLength(1, ErrorMessage = "At least one department is required.")]
-    string[] Departments);
+    string[] Departments,
+    [Required]
+    InstitutionType Type);
