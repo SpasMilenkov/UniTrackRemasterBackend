@@ -24,11 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OrganizationServices\OrganizationServices.csproj" />
-      <ProjectReference Include="..\UniTrackBackend.Services.Student\UniTrackBackend.Services.Student.csproj" />
-      <ProjectReference Include="..\UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Organization\UniTrackRemaster.Services.Organization.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Student\UniTrackRemaster.Services.Student.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Messaging\UniTrackRemaster.Services.Messaging.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Api.Dto\UniTrackRemaster.Api.Dto.csproj" />
-      <ProjectReference Include="..\UniTrackRemaster.Infrastructure\UniTrackRemaster.Infrastructure.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Api.Infrastructure\UniTrackRemaster.Api.Infrastructure.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Services.Academics\UniTrackRemaster.Services.Academics.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Services.Admin\UniTrackRemaster.Services.Admin.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Services.Authentication\UniTrackRemaster.Services.Authentication.csproj" />

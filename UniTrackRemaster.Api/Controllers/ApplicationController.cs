@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using OrganizationServices;
+using UniTrackRemaster.Services.Organization;
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Api.Dto.Response;
 using UniTrackRemaster.Data.Exceptions;

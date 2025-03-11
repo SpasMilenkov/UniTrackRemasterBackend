@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Infrastructure;
 using Prometheus;
 using UniTrackRemaster.Data.Seeding;
@@ -9,7 +10,11 @@ AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
     Console.WriteLine($"Unhandled exception: {eventArgs.ExceptionObject}");
 };
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });;
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentityServices(builder.Configuration);

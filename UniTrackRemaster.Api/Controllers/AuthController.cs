@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using UniTrackRemaster.Api.Dto.Auth;
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Api.Dto.Response;
-using UniTrackRemaster.Messaging;
-using UniTrackRemaster.Messaging.Enums;
+using UniTrackRemaster.Services.Messaging;
+using UniTrackRemaster.Services.Messaging.Enums;
 using UniTrackRemaster.Services.Authentication;
 
 namespace UniTrackRemaster.Controllers
