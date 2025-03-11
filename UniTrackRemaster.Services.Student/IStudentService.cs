@@ -1,7 +1,7 @@
 using UniTrackRemaster.Api.Dto.Request;
 using UniTrackRemaster.Api.Dto.Response;
 
-namespace UniTrackBackend.Services.Student;
+namespace UniTrackRemaster.Services.Student;
 
 public interface IStudentService
 {

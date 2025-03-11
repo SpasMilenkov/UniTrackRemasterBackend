@@ -7,7 +7,7 @@ using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data.Exceptions;
 using UniTrackRemaster.Data.Models.Users;
 
-namespace UniTrackBackend.Services.Student;
+namespace UniTrackRemaster.Services.Student;
 
 public class StudentService : IStudentService
 {
