@@ -1,12 +1,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OrganizationServices;
-using StorageService;
-using UniTrackBackend.Services.Student;
+using UniTrackRemaster.Services.Organization;
+using UniTrackRemaster.Services.Storage;
+using UniTrackRemaster.Services.Student;
 using UniTrackRemaster.Commons;
 using UniTrackRemaster.Data;
 using UniTrackRemaster.Data.Repositories;
-using UniTrackRemaster.Messaging;
+using UniTrackRemaster.Services.Messaging;
 using UniTrackRemaster.Services.Academics;
 using UniTrackRemaster.Services.Admin;
 using UniTrackRemaster.Services.Authentication;
