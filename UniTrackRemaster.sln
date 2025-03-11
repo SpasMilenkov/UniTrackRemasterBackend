@@ -18,19 +18,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Data.Repos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Services.Authentication", "UniTrackRemaster.Services.Authentication\UniTrackRemaster.Services.Authentication.csproj", "{E2B1FEA8-2C0B-4C29-89CA-9C01A5A42DB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackBackend.Services.Student", "UniTrackBackend.Services.Student\UniTrackBackend.Services.Student.csproj", "{171A034F-D000-451A-9E09-04E1BABF55B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Services.Student", "UniTrackRemaster.Services.Student\UniTrackRemaster.Services.Student.csproj", "{171A034F-D000-451A-9E09-04E1BABF55B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Api.Dto", "UniTrackRemaster.Api.Dto\UniTrackRemaster.Api.Dto.csproj", "{F6D907D3-4BE2-4C56-97D5-42FD144E2AA3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Data.Models", "UniTrackRemaster.Data.Models\UniTrackRemaster.Data.Models.csproj", "{F6541CF7-1BFA-4572-9F66-902E797DE3D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Infrastructure", "UniTrackRemaster.Infrastructure\UniTrackRemaster.Infrastructure.csproj", "{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Api.Infrastructure", "UniTrackRemaster.Api.Infrastructure\UniTrackRemaster.Api.Infrastructure.csproj", "{DF4376CA-716D-43A2-96EE-01D4AB96A9F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Messaging", "UniTrackRemaster.Messaging\UniTrackRemaster.Messaging.csproj", "{66D198F8-7526-4316-A0BB-AF4568E11448}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Services.Messaging", "UniTrackRemaster.Services.Messaging\UniTrackRemaster.Services.Messaging.csproj", "{66D198F8-7526-4316-A0BB-AF4568E11448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageService", "StorageService\StorageService.csproj", "{9A7C9835-CA87-4231-A68A-AC63E116AD5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Services.Storage", "UniTrackRemaster.Services.Storage\UniTrackRemaster.Services.Storage.csproj", "{9A7C9835-CA87-4231-A68A-AC63E116AD5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrganizationServices", "OrganizationServices\OrganizationServices.csproj", "{02F7DB76-698C-416C-98CC-8B8CC4FF23C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Services.Organization", "UniTrackRemaster.Services.Organization\UniTrackRemaster.Services.Organization.csproj", "{02F7DB76-698C-416C-98CC-8B8CC4FF23C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTrackRemaster.Services.Admin", "UniTrackRemaster.Services.Admin\UniTrackRemaster.Services.Admin.csproj", "{1C6AE2E1-CAFC-476B-A46F-20FFE218A124}"
 EndProject
