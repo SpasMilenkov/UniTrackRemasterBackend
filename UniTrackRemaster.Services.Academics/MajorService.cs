@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Logging;
 using UniTrackRemaster.Api.Dto.Major;
-using UniTrackRemaster.Api.Dto.Request;
-using UniTrackRemaster.Api.Dto.Response;
 using UniTrackRemaster.Commons;
+using UniTrackRemaster.Commons.Repositories;
+using UniTrackRemaster.Commons.Services;
 using UniTrackRemaster.Data.Exceptions;
 using UniTrackRemaster.Data.Models.Academical;
 
@@ -93,9 +93,6 @@ public class MajorService : IMajorService
 
         if (major.Students?.Any() == true)
             throw new ValidationException("Cannot delete major with enrolled students");
-
-        if (major.Courses?.Any() == true)
-            throw new ValidationException("Cannot delete major with associated courses");
 
         await _majorRepository.DeleteAsync(id);
     }
