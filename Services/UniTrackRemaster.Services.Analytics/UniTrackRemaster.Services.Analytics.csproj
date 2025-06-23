@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../UniTrackRemaster.Api.Dto/UniTrackRemaster.Api.Dto.csproj" />
+    <ProjectReference Include="../../UniTrackRemaster.Data.Models/UniTrackRemaster.Data.Models.csproj" />
+    <ProjectReference Include="../../UniTrackRemaster.Data/UniTrackRemaster.Data.csproj" />
+    <ProjectReference Include="../AI/UniTrackRemaster.Services.AI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions">
+      <HintPath>..\..\..\..\..\.nuget\packages\microsoft.extensions.hosting.abstractions\9.0.0\lib\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="QuestPDF" Version="2025.5.1" />
+  </ItemGroup>
+
+</Project>
