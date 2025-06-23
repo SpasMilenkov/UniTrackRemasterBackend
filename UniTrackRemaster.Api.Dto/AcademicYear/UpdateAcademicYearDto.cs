@@ -1,4 +1,4 @@
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.AcademicYear;
 
 
 public record UpdateAcademicYearDto(

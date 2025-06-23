@@ -1,6 +1,4 @@
-using UniTrackRemaster.Data.Models.Location;
-
-namespace UniTrackRemaster.Api.Dto.Response;
+namespace UniTrackRemaster.Api.Dto.Institution;
 
 public class SchoolAddressResponseDto
 (
@@ -11,7 +9,7 @@ public class SchoolAddressResponseDto
  Guid SchoolId
 )
 {
-    public static SchoolAddressResponseDto FromEntity(Address address, Guid schoolId)
+    public static SchoolAddressResponseDto FromEntity(Data.Models.Location.Address address, Guid schoolId)
     {
         return new SchoolAddressResponseDto(
             address.Country,

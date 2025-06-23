@@ -1,14 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-using UniTrackRemaster.Data.Models.Organizations;
-
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Application;
 
 public record UpdateInstitutionApplicationDto(
     string FirstName,
     string LastName,
     string Phone)
 {
-    public static Application ToEntity(UpdateInstitutionApplicationDto dto) => new()
+    public static Data.Models.Organizations.Application ToEntity(UpdateInstitutionApplicationDto dto) => new()
     {
         FirstName = dto.FirstName,
         LastName = dto.LastName,

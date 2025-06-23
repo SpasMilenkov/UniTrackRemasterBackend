@@ -1,8 +1,7 @@
 using UniTrackRemaster.Data.Models.Academical;
 using UniTrackRemaster.Data.Models.Enums;
-using UniTrackRemaster.Data.Models.Users;
 
-namespace UniTrackRemaster.Api.Dto.Response;
+namespace UniTrackRemaster.Api.Dto.Admin;
 
 public record AdminDto(
     Guid Id,
@@ -13,12 +12,13 @@ public record AdminDto(
     string? Department,
     DateTime StartDate,
     AdminRole Role,
-    AdminStatus Status,
+    ProfileStatus Status,
     string? Notes,
     Guid InstitutionId,
-    string InstitutionName)
+    string InstitutionName,
+    ProfileStatus ProfileStatus)
 {
-    public static AdminDto FromEntity(Admin admin) => new(
+    public static AdminDto FromEntity(Data.Models.Users.Admin admin) => new(
         admin.Id,
         admin.User?.FirstName ?? "",
         admin.User?.LastName ?? "",
@@ -30,6 +30,7 @@ public record AdminDto(
         admin.Status,
         admin.Notes,
         admin.InstitutionId,
-        admin.Institution?.Name ?? ""
+        admin.Institution?.Name ?? "",
+        admin.Status
     );
 }

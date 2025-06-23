@@ -1,8 +1,7 @@
-using UniTrackRemaster.Api.Dto.Request;
+using UniTrackRemaster.Api.Dto.Address;
 using UniTrackRemaster.Data.Models.Enums;
-using UniTrackRemaster.Data.Models.Organizations;
 
-namespace UniTrackRemaster.Api.Dto.Response;
+namespace UniTrackRemaster.Api.Dto.Application;
 
 public record ApplicationResponseDto(
     Guid Id,
@@ -14,7 +13,7 @@ public record ApplicationResponseDto(
     ApplicationStatus Status,
     InstitutionDetails Institution)
 {
-    public static ApplicationResponseDto FromEntity(Application entity, AddressDto address) => new(
+    public static ApplicationResponseDto FromEntity(Data.Models.Organizations.Application entity, AddressDto address) => new(
         entity.Id,
         entity.FirstName,
         entity.LastName,

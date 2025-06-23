@@ -13,7 +13,6 @@ public record MajorResponseDto(
     Guid FacultyId,
     string FacultyName,
     int StudentCount,
-    int CourseCount,
     DateTime CreatedAt,
     DateTime UpdatedAt)
 {
@@ -30,7 +29,6 @@ public record MajorResponseDto(
         major.FacultyId,
         major.Faculty.Name,
         major.Students?.Count ?? 0,
-        major.Courses?.Count ?? 0,
         major.CreatedAt,
         major.UpdatedAt
     );
