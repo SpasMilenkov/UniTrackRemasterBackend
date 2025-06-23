@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UniTrackRemaster.Api.Dto.Request;
-using UniTrackRemaster.Api.Dto.Response;
-using UniTrackRemaster.Services.Admin;
+using UniTrackRemaster.Api.Dto.Admin;
+using UniTrackRemaster.Commons.Services;
+using UniTrackRemaster.Services.User.Admins;
 
 namespace UniTrackRemaster.Controllers
 {

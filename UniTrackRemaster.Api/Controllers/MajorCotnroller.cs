@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniTrackRemaster.Api.Dto.Major;
-using UniTrackRemaster.Api.Dto.Request;
-using UniTrackRemaster.Api.Dto.Response;
+using UniTrackRemaster.Commons.Services;
 using UniTrackRemaster.Data.Models.Academical;
 using UniTrackRemaster.Services.Academics;
 
