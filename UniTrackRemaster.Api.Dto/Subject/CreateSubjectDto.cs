@@ -1,8 +1,31 @@
-using System.ComponentModel.DataAnnotations;
+using UniTrackRemaster.Data.Models.Enums;
 
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Subject;
 
 public record CreateSubjectDto(
-    [Required] string Name,
-    [Required] string ShortDescription,
-    string? DetailedDescription);
+    string Name,
+    string Code,
+    string ShortDescription,
+    string? DetailedDescription,
+    // Type categorization
+    SubjectType SubjectType,
+    // Educational context properties
+    AcademicLevel? AcademicLevel,
+    int? MinGradeLevel,
+    int? MaxGradeLevel,
+    // Credit information
+    int? CreditHours,
+    decimal? CreditValue,
+    // Elective-specific properties
+    bool IsElective,
+    ElectiveType? ElectiveType,
+    int? MaxStudents,
+    bool HasLab,
+    // Primary teacher and department
+    Guid? PrimaryTeacherId,
+    Guid? DepartmentId,
+    // Collections for direct relationships
+    IEnumerable<Guid>? TeacherIds,
+    IEnumerable<Guid>? GradeIds,
+    Guid InstitutionId
+);
