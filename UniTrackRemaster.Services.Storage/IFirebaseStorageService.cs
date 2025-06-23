@@ -9,4 +9,6 @@ public interface IFirebaseStorageService
     Task<List<string>> UploadFilesAsync(IEnumerable<IFormFile> files, string basePath);
     Task<string> CreateSignedUrl(string objectName);
     Task DeleteFileAsync(string objectPath);
+    Task<List<string>> CreateSignedUrlsBatch(IEnumerable<string> objectNames);
+    Task DeleteFilesBatch(IEnumerable<string> objectPaths);
 }

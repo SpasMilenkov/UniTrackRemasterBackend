@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Http;
 
 namespace UniTrackRemaster.Services.Storage;
 
-public class FirebaseStorageService: IFirebaseStorageService
+public class FirebaseStorageService : IFirebaseStorageService
 {
     private readonly StorageClient _storageClient;
     private readonly string _bucketName;
 
     public FirebaseStorageService(string credentialsPath, string bucketName)
     {
-        
+
         var credential = Google.Apis.Auth.OAuth2.GoogleCredential
             .FromFile(credentialsPath)
             .CreateScoped(Google.Apis.Storage.v1.StorageService.Scope.DevstorageFullControl);
@@ -22,7 +22,7 @@ public class FirebaseStorageService: IFirebaseStorageService
     public async Task<string> UploadFileAsync(IFormFile file)
     {
         var uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-        
+
         using var memoryStream = new MemoryStream();
         await file.CopyToAsync(memoryStream);
         memoryStream.Position = 0;
@@ -35,7 +35,7 @@ public class FirebaseStorageService: IFirebaseStorageService
 
         return dataObject.Name;
     }
-    
+
     public async Task<string> UploadFileAsync(Stream stream, string customPath)
     {
         var dataObject = await _storageClient.UploadObjectAsync(
@@ -81,14 +81,14 @@ public class FirebaseStorageService: IFirebaseStorageService
     public async Task<List<string>> UploadFilesAsync(IEnumerable<IFormFile> files, string basePath)
     {
         var uploadTasks = new List<Task<string>>();
-        
+
         foreach (var file in files)
         {
             if (file.Length <= 0) continue;
-            
+
             var uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
             var fullPath = $"{basePath}/{uniqueFileName}";
-            
+
             using var memoryStream = new MemoryStream();
             await file.CopyToAsync(memoryStream);
             memoryStream.Position = 0;
@@ -104,5 +104,69 @@ public class FirebaseStorageService: IFirebaseStorageService
 
         var results = await Task.WhenAll(uploadTasks);
         return results.ToList();
+    }
+    public async Task<List<string>> CreateSignedUrlsBatch(IEnumerable<string> objectNames)
+    {
+        var objectNamesList = objectNames.ToList();
+        if (!objectNamesList.Any())
+            return new List<string>();
+
+        // Create signed URLs concurrently
+        var urlSigner = _storageClient.CreateUrlSigner();
+        if (urlSigner is null)
+            throw new InvalidOperationException("Url signer is null");
+
+        var tasks = objectNamesList.Select(async objectName =>
+        {
+            try
+            {
+                return await urlSigner.SignAsync(
+                    _bucketName,
+                    objectName,
+                    duration: new TimeSpan(0, 15, 0),
+                    HttpMethod.Get);
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the entire batch
+                // You might want to use your logging framework here
+                Console.WriteLine($"Failed to create signed URL for {objectName}: {ex.Message}");
+                return string.Empty; // Return empty string for failed URLs
+            }
+        });
+
+        var results = await Task.WhenAll(tasks);
+        return results.Where(url => !string.IsNullOrEmpty(url)).ToList();
+    }
+
+    public async Task DeleteFilesBatch(IEnumerable<string> objectPaths)
+    {
+        var objectPathsList = objectPaths.ToList();
+        if (!objectPathsList.Any())
+            return;
+
+        // Delete files concurrently
+        var tasks = objectPathsList.Select(async objectPath =>
+        {
+            try
+            {
+                await _storageClient.DeleteObjectAsync(_bucketName, objectPath);
+                return true;
+            }
+            catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                // File doesn't exist - log but don't fail
+                Console.WriteLine($"File not found during batch delete: {objectPath}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log other errors but don't fail the entire batch
+                Console.WriteLine($"Failed to delete file {objectPath}: {ex.Message}");
+                return false;
+            }
+        });
+
+        await Task.WhenAll(tasks);
     }
 }
