@@ -1,4 +1,15 @@
 namespace UniTrackRemaster.Services.Organization.Exceptions.Application;
 
-public class DuplicateApplicationException(string email)
-    : Exception($"An application with email {email} already exists.");
+/// <summary>
+/// Thrown when attempting to create a duplicate resource
+/// </summary>
+public class DuplicateApplicationException : ApplicationException
+{
+    public string Email { get; }
+    
+    public DuplicateApplicationException(string email) 
+        : base($"An application already exists for email '{email}'.")
+    {
+        Email = email;
+    }
+}
