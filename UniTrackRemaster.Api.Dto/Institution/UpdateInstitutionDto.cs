@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using UniTrackRemaster.Api.Dto.Request;
+using UniTrackRemaster.Api.Dto.Address;
 using UniTrackRemaster.Data.Models.Enums;
-using UniTrackRemaster.Data.Models.Organizations;
 
 namespace UniTrackRemaster.Api.Dto.Institution;
 

@@ -1,12 +1,16 @@
+using UniTrackRemaster.Commons.Repositories;
+
 namespace UniTrackRemaster.Commons;
 
 public interface IUnitOfWork : IDisposable, IAsyncDisposable
 {
     IAdminRepository Admins { get; }
+    IParentRepository Parents { get; }
+    IAcademicYearRepository AcademicYears { get; }
+    IGradingSystemRepository GradingSystems { get; }
     IApplicationRepository Applications { get; }
-    IAttendanceRepository Attendances { get; }
+    IAbsenceRepository Absences { get; }
     IUniversityRepository Universities { get; }
-    ICourseRepository Courses { get; }
     IDepartmentRepository Departments { get; }
     IFacultyRepository Faculties { get; }
     IInstitutionRepository Institutions { get; }
@@ -18,6 +22,12 @@ public interface IUnitOfWork : IDisposable, IAsyncDisposable
     IStudentRepository Students { get; }
     ISubjectRepository Subjects { get; }
     ITeacherRepository Teachers { get; }
+    IMarkRepository Marks { get; }
+    IEventRepository Events { get; }
+    IParticipantRepository Participants { get; }
+    IOrganizerRepository Organizers { get; }
+    IAttenderRepository Attenders { get; }
+    IEventNotificationRepository EventNotifications { get; }
 
     Task BeginTransactionAsync(CancellationToken cancellationToken = default);
     Task CommitAsync(CancellationToken cancellationToken = default);

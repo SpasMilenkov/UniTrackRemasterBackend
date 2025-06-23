@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using UniTrackRemaster.Api.Dto.Auth;
 using UniTrackRemaster.Commons.Enums;
+using UniTrackRemaster.Commons.Services;
 using UniTrackRemaster.Data.Context;
 using UniTrackRemaster.Data.Models.Users;
 
@@ -32,12 +33,12 @@ public class AuthService(
             var roles = userManager.GetRolesAsync(user).Result;
 
             var claims = new List<Claim>
-            {
-                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
-            };
-            
+                {
+                    new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
+                };
+
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var token = new JwtSecurityToken(
@@ -56,7 +57,7 @@ public class AuthService(
             throw;
         }
     }
-    
+
     public async Task<string> GenerateRefreshToken(ApplicationUser user)
     {
         try
@@ -136,7 +137,7 @@ public class AuthService(
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 EmailConfirmed = false,
-                AvatarUrl = "https://www.world-stroke.org/images/remote/https_secure.gravatar.com/avatar/9c62f39db51175255c24ef887c0b7101/"
+                AvatarUrl = null
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
@@ -159,7 +160,7 @@ public class AuthService(
             throw;
         }
     }
-    
+
     public async Task<ApplicationUser> RegisterGuest(RegisterGuestDto model)
     {
         try
@@ -171,7 +172,7 @@ public class AuthService(
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 EmailConfirmed = false,
-                AvatarUrl = "https://www.world-stroke.org/images/remote/https_secure.gravatar.com/avatar/9c62f39db51175255c24ef887c0b7101/"
+                AvatarUrl = null
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
@@ -240,7 +241,7 @@ public class AuthService(
             throw;
         }
     }
-    
+
     public async Task<IdentityResult?> ResetPassword(ResetPasswordDto dto)
     {
         try
@@ -282,14 +283,14 @@ public class AuthService(
         try
         {
             var user = await userManager.FindByEmailAsync(email);
-            if (user is null )
+            if (user is null)
             {
                 logger.LogWarning("User with that email doesnt exist or has not confirmed it");
                 return null;
             }
 
             if (await userManager.IsEmailConfirmedAsync(user)) return user;
-            
+
             logger.LogWarning("User with that email has not confirmed it");
             return null;
         }
@@ -299,28 +300,24 @@ public class AuthService(
             throw;
         }
     }
-
-    public async Task<ApplicationUser?> GetUserById(string id)
+    public async Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
     {
         try
         {
-            var user = await userManager.FindByIdAsync(id);
-            if (user is null)
-                logger.LogWarning("User with that id does not exist ${id}", id);
-            return user;
+            var result = await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            return result;
         }
         catch (Exception e)
         {
-            logger.LogError(e, "An error occurred while trying to fetch a user");
+            logger.LogError(e, "An error occurred while changing the user's password");
             throw;
         }
     }
-
     public async Task<string> GetUserRole(ApplicationUser user)
     {
         var roleList = await userManager.GetRolesAsync(user);
         var role = roleList.FirstOrDefault();
         return role is null ? nameof(Roles.Guest) :
             roleList.First();
-    } 
+    }
 }

@@ -41,4 +41,9 @@ public record InitUniversityDto(
     [MinLength(1, ErrorMessage = "At least one department is required.")]
     string[] Departments,
     [Required]
-    InstitutionType Type);
+    InstitutionType Type)
+{
+    private List<FocusArea> focusAreas;
+    private List<string> departments;
+}
+

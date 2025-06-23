@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using UniTrackRemaster.Data.Models.Enums;
 
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Faculty;
 
 public record UpdateFacultyDto(
     string? Name,

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using MimeKit;
 using NCrontab;
+using UniTrackRemaster.Commons.Services;
 using UniTrackRemaster.Services.Messaging.Dto;
 using UniTrackRemaster.Services.Messaging.Enums;
 

@@ -1,12 +1,14 @@
+using System.Security.Claims;
 using System.Web;
 using Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniTrackRemaster.Api.Dto.Auth;
-using UniTrackRemaster.Api.Dto.Request;
-using UniTrackRemaster.Api.Dto.Response;
+using UniTrackRemaster.Commons.Services;
 using UniTrackRemaster.Services.Messaging;
 using UniTrackRemaster.Services.Messaging.Enums;
 using UniTrackRemaster.Services.Authentication;
+using UniTrackRemaster.Services.User;
 
 namespace UniTrackRemaster.Controllers
 {
@@ -15,7 +17,8 @@ namespace UniTrackRemaster.Controllers
     public class AuthController(
         IAuthService authService,
         ISmtpService smtpService,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IUserService userService)
         : ControllerBase
     {
         /// <summary>
@@ -39,8 +42,6 @@ namespace UniTrackRemaster.Controllers
                 var user = await authService.LoginUser(model);
                 if (user is null)
                     return Unauthorized();
-                
-                if(!user.EmailConfirmed) return Unauthorized();
 
                 var token = authService.GenerateJwtToken(user);
                 var refreshToken = await authService.GenerateRefreshToken(user);
@@ -262,7 +263,7 @@ namespace UniTrackRemaster.Controllers
                 return BadRequest("User ID and Token are required");
             }
 
-            var user = await authService.GetUserById(userId);
+            var user = await userService.GetUserById(Guid.Parse(userId));
 
             if (user == null) return BadRequest("Email could not be confirmed");
             var result = await authService.ConfirmEmail(user, token);
@@ -309,7 +310,56 @@ namespace UniTrackRemaster.Controllers
             return Ok("If an account with this email exists, a password reset link has been sent.");
         }
 
+        /// <summary>
+        /// Changes the password for the authenticated user.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows an authenticated user to change their password.
+        /// It requires the current password and the new password.
+        /// </remarks>
+        /// <param name="model">The model containing current password and new password.</param>
+        /// <response code="200">Password changed successfully.</response>
+        /// <response code="400">Bad request if the model is invalid or the current password is incorrect.</response>
+        /// <response code="401">Unauthorized if the user is not authenticated.</response>
+        [HttpPost("change-password")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            // Get the current user
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await userService.GetUserById(Guid.Parse(userId));
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            // Change the password
+            var result = await authService.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok("Password changed successfully");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return BadRequest(ModelState);
+        }
         /// <summary>
         /// Resets a user's password.
         /// </summary>

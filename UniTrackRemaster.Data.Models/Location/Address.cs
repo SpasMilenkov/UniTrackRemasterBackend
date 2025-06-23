@@ -1,5 +1,3 @@
-using UniTrackRemaster.Data.Models.Organizations;
-
 namespace UniTrackRemaster.Data.Models.Location;
 
 public class Address: BaseEntity

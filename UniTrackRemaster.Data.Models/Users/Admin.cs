@@ -1,4 +1,5 @@
 using UniTrackRemaster.Data.Models.Academical;
+using UniTrackRemaster.Data.Models.Enums;
 using UniTrackRemaster.Data.Models.Organizations;
 
 namespace UniTrackRemaster.Data.Models.Users;
@@ -11,17 +12,15 @@ public class Admin : BaseEntity
     public string? Department { get; set; }
     public DateTime StartDate { get; set; }
     public AdminRole Role { get; set; }
-    public AdminStatus Status { get; set; }
-    public string? Notes { get; set; }
+        public string? Notes { get; set; }
+    public ProfileStatus Status { get; set; } = ProfileStatus.Pending;
     #endregion
-    
+
     #region NavigationProperties
     public required Guid UserId { get; set; }
     public ApplicationUser? User { get; set; }
-    
+
     public required Guid InstitutionId { get; set; }
     public Institution? Institution { get; set; }
-    
-    public ICollection<AdminPermission>? Permissions { get; set; }
     #endregion
 }

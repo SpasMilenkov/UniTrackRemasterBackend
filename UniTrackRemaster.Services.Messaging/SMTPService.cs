@@ -2,39 +2,24 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
-using System.Net.Http.Json;
-using UniTrackRemaster.Services.Messaging.Dto;
+using UniTrackRemaster.Commons.Services;
 using UniTrackRemaster.Services.Messaging.Enums;
 
 namespace UniTrackRemaster.Services.Messaging;
 
 public class SmtpService(IConfiguration configuration, ITemplateService templateService) : ISmtpService
 {
-    private readonly string? _clientId = configuration["Gmail:OAuth2:ClientId"];
-    private readonly string? _clientSecret = configuration["Gmail:OAuth2:ClientSecret"];
-    private readonly string? _refreshToken = configuration["Gmail:OAuth2:RefreshToken"];
-    private readonly string? _emailAddress = configuration["Gmail:EmailAddress"];
-
-    private async Task<string?> GetAccessTokenAsync()
-    {
-        using var client = new HttpClient();
-        const string tokenEndpoint = "https://oauth2.googleapis.com/token";
-        var content = new FormUrlEncodedContent([
-            new KeyValuePair<string, string?>("client_id", _clientId),
-            new KeyValuePair<string, string?>("client_secret", _clientSecret),
-            new KeyValuePair<string, string?>("refresh_token", _refreshToken),
-            new KeyValuePair<string, string?>("grant_type", "refresh_token")
-        ]);
-
-        var response = await client.PostAsync(tokenEndpoint, content);
-        var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
-        return result?.AccessToken;
-    }
+    private readonly string? _smtpHost = configuration["Mailtrap:Host"];
+    private readonly int _smtpPort = configuration.GetValue("Mailtrap:Port", 587);
+    private readonly string? _username = configuration["Mailtrap:Username"];
+    private readonly string? _password = configuration["Mailtrap:Password"];
+    private readonly string? _fromEmail = configuration["Mailtrap:FromEmail"];
+    private readonly string? _fromName = configuration["Mailtrap:FromName"];
 
     public async Task SendEmailAsync(string firstName, string lastName, string emailAddress, string? link, EmailTemplateType templateType)
     {
         var email = new MimeMessage();
-        email.From.Add(new MailboxAddress("UniTrack", _emailAddress));
+        email.From.Add(new MailboxAddress(_fromName ?? "UniTrack", _fromEmail));
         email.To.Add(new MailboxAddress($"{firstName} {lastName}", emailAddress));
 
         var emailContent = templateType switch
@@ -65,11 +50,11 @@ public class SmtpService(IConfiguration configuration, ITemplateService template
 
         await SendEmailInternalAsync(email);
     }
-    
+
     public async Task SendEmailAsync(string emailAddress, string? link, EmailTemplateType templateType)
     {
         var email = new MimeMessage();
-        email.From.Add(new MailboxAddress("UniTrack", _emailAddress));
+        email.From.Add(new MailboxAddress(_fromName ?? "UniTrack", _fromEmail));
         email.To.Add(new MailboxAddress(emailAddress, emailAddress));
 
         var emailContent = templateType switch
@@ -101,29 +86,12 @@ public class SmtpService(IConfiguration configuration, ITemplateService template
         await SendEmailInternalAsync(email);
     }
 
-    // Private helper to avoid code duplication
-    private async Task SendEmailInternalAsync(MimeMessage email)
-    {
-        using var smtp = new SmtpClient();
-        await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-
-        // Get OAuth2 access token
-        var oauth2Token = await GetAccessTokenAsync();
-
-        // Use SaslMechanismOAuth2 for authentication
-        var saslMechanism = new SaslMechanismOAuth2(_emailAddress, oauth2Token);
-        await smtp.AuthenticateAsync(saslMechanism);
-
-        await smtp.SendAsync(email);
-        await smtp.DisconnectAsync(true);
-    }
-    
     public async Task SendEmailWithCodeAsync(string firstName, string lastName, string emailAddress, string code, EmailTemplateType templateType)
     {
         var email = new MimeMessage();
-        email.From.Add(new MailboxAddress("UniTrack", _emailAddress));
+        email.From.Add(new MailboxAddress(_fromName ?? "UniTrack", _fromEmail));
         email.To.Add(new MailboxAddress($"{firstName} {lastName}", emailAddress));
-    
+
         var emailContent = templateType switch
         {
             EmailTemplateType.ApplicationApproved => await templateService.GetTemplateAsync("ApplicationApproved"),
@@ -145,30 +113,22 @@ public class SmtpService(IConfiguration configuration, ITemplateService template
             Text = emailContent
         };
 
-        using var smtp = new SmtpClient();
-        await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-
-        var oauth2Token = await GetAccessTokenAsync();
-        var saslMechanism = new SaslMechanismOAuth2(_emailAddress, oauth2Token);
-        await smtp.AuthenticateAsync(saslMechanism);
-
-        await smtp.SendAsync(email);
-        await smtp.DisconnectAsync(true);
+        await SendEmailInternalAsync(email);
     }
-    // New method specifically for admin credentials
+
     public async Task SendAdminCredentialsEmailAsync(string emailAddress, string username, string password)
     {
         var email = new MimeMessage();
-        email.From.Add(new MailboxAddress("UniTrack", _emailAddress));
+        email.From.Add(new MailboxAddress(_fromName ?? "UniTrack", _fromEmail));
         email.To.Add(new MailboxAddress(emailAddress, emailAddress));
 
         var emailContent = await templateService.GetTemplateAsync("AdminCredentials");
-    
+
         // Replace the credential placeholders
         emailContent = emailContent
             .Replace("{Username}", username)
             .Replace("{Password}", password);
-        
+
         email.Subject = "Your UniTrack Admin Account";
 
         email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -178,5 +138,30 @@ public class SmtpService(IConfiguration configuration, ITemplateService template
 
         await SendEmailInternalAsync(email);
     }
-}
 
+    // Private helper to avoid code duplication
+    private async Task SendEmailInternalAsync(MimeMessage email)
+    {
+        using var smtp = new SmtpClient();
+
+        try
+        {
+            // Connect to Mailtrap SMTP server
+            await smtp.ConnectAsync(_smtpHost, _smtpPort, SecureSocketOptions.StartTls);
+
+            // Authenticate with username and password (much simpler than OAuth2)
+            await smtp.AuthenticateAsync(_username, _password);
+
+            await smtp.SendAsync(email);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception or handle it as needed
+            throw new InvalidOperationException($"Failed to send email: {ex.Message}", ex);
+        }
+        finally
+        {
+            await smtp.DisconnectAsync(true);
+        }
+    }
+}

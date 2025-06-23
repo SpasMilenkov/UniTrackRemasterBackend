@@ -1,9 +1,9 @@
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Institution;
 
-public class SchoolFilterDto
-{
-    public string? SearchTerm { get; set; }
-    public List<string>? Types { get; set; }
-    public int Page { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
-}
+    public class SchoolFilterDto
+    {
+        public string? SearchTerm { get; set; }
+        public List<string>? Types { get; set; }
+        public int Page { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
+    }

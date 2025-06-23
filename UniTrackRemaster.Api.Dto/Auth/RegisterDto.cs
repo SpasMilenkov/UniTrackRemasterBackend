@@ -28,9 +28,6 @@ public record RegisterDto
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
     public required string ConfirmPassword { get; init; }
 
-    [Required(ErrorMessage = "Organization type is required.")]
-    public required OrgType OrgType { get; init; }
-
     [Required(ErrorMessage = "Organization ID is required.")]
     public required Guid OrgId { get; init; }
 

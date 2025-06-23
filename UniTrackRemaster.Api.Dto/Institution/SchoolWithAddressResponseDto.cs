@@ -1,7 +1,6 @@
-using UniTrackRemaster.Data.Models.Location;
 using UniTrackRemaster.Data.Models.Organizations;
 
-namespace UniTrackRemaster.Api.Dto.Response;
+namespace UniTrackRemaster.Api.Dto.Institution;
 
 public record SchoolWithAddressResponseDto(
     Guid Id,
@@ -18,7 +17,7 @@ public record SchoolWithAddressResponseDto(
     IList<string> Images
 ) : SchoolBaseResponseDto(Id, Name, Motto, Description, Type, EstablishedDate, Programs, Email, Phone)
 {
-    public static SchoolWithAddressResponseDto FromEntity(School school, string signedLogoUrl, IList<string> signedUrls, Address address)
+    public static SchoolWithAddressResponseDto FromEntity(School school, string signedLogoUrl, IList<string> signedUrls, Data.Models.Location.Address address)
     {
         var institution = school.Institution;
         return new SchoolWithAddressResponseDto

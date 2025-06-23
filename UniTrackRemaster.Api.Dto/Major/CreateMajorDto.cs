@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace UniTrackRemaster.Data.Models.Academical;
+namespace UniTrackRemaster.Api.Dto.Major;
 
 public record CreateMajorDto(
     [Required] string Name,

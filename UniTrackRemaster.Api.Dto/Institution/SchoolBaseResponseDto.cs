@@ -1,6 +1,6 @@
 using UniTrackRemaster.Data.Models.Organizations;
 
-namespace UniTrackRemaster.Api.Dto.Response;
+namespace UniTrackRemaster.Api.Dto.Institution;
 
 public record SchoolBaseResponseDto(
     Guid Id,

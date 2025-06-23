@@ -1,40 +1,33 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using UniTrackRemaster.Services.Storage;
 using UniTrackRemaster.Api.Dto.Institution;
+using UniTrackRemaster.Api.Dto.University;
 using UniTrackRemaster.Commons;
+using UniTrackRemaster.Commons.Services;
+using UniTrackRemaster.Data.Exceptions;
 using UniTrackRemaster.Data.Models.Academical;
 using UniTrackRemaster.Data.Models.Images;
+using UniTrackRemaster.Data.Models.Organizations;
 using UniTrackRemaster.Data.Models.Users;
 using UniTrackRemaster.Services.Messaging;
 using UniTrackRemaster.Services.Authentication;
+using UniTrackRemaster.Data.Models.Enums;
 
 namespace UniTrackRemaster.Services.Organization;
 
-public class UniversityService : IUniversityService
+public class UniversityService(
+    IUnitOfWork unitOfWork,
+    UserManager<ApplicationUser> userManager,
+    IFirebaseStorageService firebaseStorage,
+    ISmtpService smtpService,
+    IImageService imageService,
+    IPasswordGenerator passwordGenerator,
+    ILogger<UniversityService> logger)
+    : IUniversityService
 {
-    private readonly IUnitOfWork unitOfWork;
-    private readonly UserManager<ApplicationUser> userManager;
-    private readonly IFirebaseStorageService firebaseStorage;
-    private readonly ISmtpService smtpService;
-    private readonly IImageService ImageService;
-    private readonly IPasswordGenerator _passwordGenerator;
-    
-    public UniversityService(
-        IUnitOfWork unitOfWork,
-        UserManager<ApplicationUser> userManager,
-        IFirebaseStorageService firebaseStorage,
-        ISmtpService smtpService,
-        IImageService imageService,
-        IPasswordGenerator passwordGenerator)
-    {
-        this.unitOfWork = unitOfWork;
-        this.userManager = userManager;
-        this.firebaseStorage = firebaseStorage;
-        this.smtpService = smtpService;
-        this.ImageService = imageService;
-        this._passwordGenerator = passwordGenerator;
-    }
 
     public async Task<Guid> InitUniversityAsync(InitUniversityDto universityData, IFormFile? logo, List<IFormFile> images)
     {
@@ -45,7 +38,7 @@ public class UniversityService : IUniversityService
             var university = await unitOfWork.Universities.InitUniversityAsync(universityData);
             
             // Generate random password for admin
-            var password = _passwordGenerator.GenerateSecurePassword();
+            var password = passwordGenerator.GenerateSecurePassword();
             
             // Create admin user
             var adminUser = new ApplicationUser
@@ -56,7 +49,8 @@ public class UniversityService : IUniversityService
                 LastName = "Administrator",
                 EmailConfirmed = true,
                 IsLinked = true,
-                AvatarUrl = "https://t3.ftcdn.net/jpg/00/64/67/52/360_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg"
+                Institutions = new List<Institution>() {university.Institution},
+                AvatarUrl = null
             };
             
             var result = await userManager.CreateAsync(adminUser, password);
@@ -79,7 +73,7 @@ public class UniversityService : IUniversityService
                 InstitutionId = university.InstitutionId,
                 Position = "System Administrator",
                 Role = AdminRole.SystemAdmin,
-                Status = AdminStatus.Active,
+                Status = ProfileStatus.Active,
                 StartDate = DateTime.UtcNow,
                 Id = Guid.NewGuid(),
                 UserId = user.Id
@@ -115,7 +109,7 @@ public class UniversityService : IUniversityService
                 fileUrls.Add(fileUrl);
             }
 
-            await ImageService.AddBulkAsync(fileUrls, university.InstitutionId);
+            await imageService.AddBulkAsync(fileUrls, university.InstitutionId);
 
             await smtpService.SendAdminCredentialsEmailAsync(
                 university.Institution.Email,
@@ -131,6 +125,98 @@ public class UniversityService : IUniversityService
         catch
         {
             await unitOfWork.RollbackAsync();
+            throw;
+        }
+    }
+    
+    /// <inheritdoc />
+    public async Task<IEnumerable<UniversityResponseDto>> GetAllAsync(string? searchQuery = null)
+    {
+        var universities = await unitOfWork.Universities.GetAllAsync(searchQuery);
+        return universities.Select(UniversityResponseDto.FromEntity);
+    }
+
+    /// <inheritdoc />
+    public async Task<UniversityResponseDto> GetByIdAsync(Guid id)
+    {
+        var university = await unitOfWork.Universities.GetByIdAsync(id);
+        if (university == null)
+            throw new NotFoundException($"University with ID {id} not found");
+            
+        return UniversityResponseDto.FromEntity(university);
+    }
+
+    /// <inheritdoc />
+    public async Task<UniversityResponseDto> GetByInstitutionIdAsync(Guid institutionId)
+    {
+        var university = await unitOfWork.Universities.GetByInstitutionIdAsync(institutionId);
+        if (university == null)
+            throw new NotFoundException($"University with institution ID {institutionId} not found");
+            
+        return UniversityResponseDto.FromEntity(university);
+    }
+    /// <inheritdoc />
+    public async Task<UniversityResponseDto> UpdateAsync(Guid id, UpdateUniversityDto dto)
+    {
+        var university = await unitOfWork.Universities.GetByIdAsync(id);
+        if (university == null)
+            throw new NotFoundException($"University with ID {id} not found");
+
+        try
+        {
+            await unitOfWork.BeginTransactionAsync();
+
+            // Update only the properties that were provided
+            if (dto.FocusAreas != null) university.FocusAreas = dto.FocusAreas;
+            if (dto.UndergraduateCount.HasValue) university.UndergraduateCount = dto.UndergraduateCount.Value;
+            if (dto.GraduateCount.HasValue) university.GraduateCount = dto.GraduateCount.Value;
+            if (dto.AcceptanceRate.HasValue) university.AcceptanceRate = dto.AcceptanceRate.Value;
+            if (dto.ResearchFunding.HasValue) university.ResearchFunding = dto.ResearchFunding.Value;
+            if (dto.HasStudentHousing.HasValue) university.HasStudentHousing = dto.HasStudentHousing.Value;
+            if (dto.Departments != null) university.Departments = dto.Departments;
+
+            await unitOfWork.Universities.UpdateAsync(university);
+            await unitOfWork.CommitAsync();
+
+            // Retrieve the updated university with all its associations
+            var updatedUniversity = await unitOfWork.Universities.GetByIdAsync(id);
+            return UniversityResponseDto.FromEntity(updatedUniversity);
+        }
+        catch (Exception ex)
+        {
+            await unitOfWork.RollbackAsync();
+            logger.LogError(ex, "Error occurred while updating university with ID {Id}", id);
+            throw;
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task DeleteAsync(Guid id)
+    {
+        var university = await unitOfWork.Universities.GetByIdAsync(id);
+        if (university == null)
+            throw new NotFoundException($"University with ID {id} not found");
+
+        try
+        {
+            await unitOfWork.BeginTransactionAsync();
+
+            // Check for related entities
+            if (university.Faculties?.Any() == true)
+                throw new ValidationException("Cannot delete university with associated faculties");
+
+            await unitOfWork.Universities.DeleteAsync(id);
+            await unitOfWork.CommitAsync();
+        }
+        catch (ValidationException)
+        {
+            await unitOfWork.RollbackAsync();
+            throw;
+        }
+        catch (Exception ex)
+        {
+            await unitOfWork.RollbackAsync();
+            logger.LogError(ex, "Error occurred while deleting university with ID {Id}", id);
             throw;
         }
     }

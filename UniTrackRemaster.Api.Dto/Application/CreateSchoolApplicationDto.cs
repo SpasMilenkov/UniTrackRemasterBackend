@@ -1,11 +1,9 @@
-using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
+using UniTrackRemaster.Api.Dto.Address;
 using UniTrackRemaster.Data.Models.Enums;
-using UniTrackRemaster.Data.Models.Events;
-using UniTrackRemaster.Data.Models.Organizations;
 
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Application;
 
 public record CreateInstitutionApplicationDto(
     string FirstName,
@@ -33,7 +31,7 @@ public record CreateInstitutionApplicationDto(
         }
         return code.ToString();
     }
-    public static Application ToEntity(CreateInstitutionApplicationDto dto, Guid institutionId) => new()
+    public static Data.Models.Organizations.Application ToEntity(CreateInstitutionApplicationDto dto, Guid institutionId) => new()
     {
         Id = Guid.NewGuid(),
         FirstName = dto.FirstName,

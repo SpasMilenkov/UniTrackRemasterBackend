@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using UniTrackRemaster.Data.Models.Location;
 
-namespace UniTrackRemaster.Api.Dto.Request;
+namespace UniTrackRemaster.Api.Dto.Address;
 public record AddressDto(
     [Required]
     [StringLength(100, MinimumLength = 2, ErrorMessage = "Country name should be between 2 and 100 characters.")] 
@@ -19,14 +18,14 @@ public record AddressDto(
     [RegularExpression(@"^\d{4,10}$", ErrorMessage = "Postal code must be between 4 and 10 digits.")]
     string PostalCode)
 {
-    public static AddressDto FromEntity(Address entity) => new(
+    public static AddressDto FromEntity(Data.Models.Location.Address entity) => new(
         entity.Country,
         entity.Settlement,
         entity.Street,
         entity.PostalCode
     );
 
-    public static Address ToEntity(AddressDto dto) => new()
+    public static Data.Models.Location.Address ToEntity(AddressDto dto) => new()
     {
         Id = Guid.NewGuid(),
         Country = dto.Country,

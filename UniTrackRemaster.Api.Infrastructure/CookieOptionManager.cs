@@ -30,7 +30,7 @@ public static class CookieOptionManager
         { 
             HttpOnly = true,
             Secure = true,
-            Expires = DateTime.UtcNow.AddMinutes(2),
+            Expires = DateTime.UtcNow.AddMinutes(5),
             Domain = _cookieDomain,
             IsEssential = true
         };
