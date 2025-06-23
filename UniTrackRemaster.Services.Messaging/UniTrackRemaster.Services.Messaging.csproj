@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="MailKit" Version="4.9.0" />
+      <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
@@ -20,6 +21,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="../UniTrackRemaster.Api.Dto/UniTrackRemaster.Api.Dto.csproj" />
+      <ProjectReference Include="../UniTrackRemaster.Data/UniTrackRemaster.Data.csproj" />
+      <ProjectReference Include="../UniTrackRemaster.Services.User/UniTrackRemaster.Services.User.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Services.Storage\UniTrackRemaster.Services.Storage.csproj" />
     </ItemGroup>
 

@@ -5,6 +5,7 @@ using MailKit.Search;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using UniTrackRemaster.Commons.Services;
 using UniTrackRemaster.Services.Messaging.Dto;
 
 namespace UniTrackRemaster.Services.Messaging;
@@ -27,7 +28,6 @@ public class ImapService(IConfiguration configuration) : IImapService
             new KeyValuePair<string, string>("refresh_token", _refreshToken ?? throw new InvalidOperationException()),
             new KeyValuePair<string, string>("grant_type", "refresh_token")
         ]);
-
         var response = await client.PostAsync(tokenEndpoint, content);
         var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
         if(result is null) throw new InvalidOperationException();
