@@ -1,14 +1,14 @@
-using UniTrackRemaster.Data.Models.Users;
+using UniTrackRemaster.Data.Models.Enums;
 
-namespace UniTrackRemaster.Api.Dto.Response;
+namespace UniTrackRemaster.Api.Dto.Student;
 
 public record StudentResponseDto(
     Guid Id,
+    Guid UserId,
     string FirstName,
     string LastName,
     string Email,
     bool IsSchoolStudent,
-    bool IsUniversityStudent,
     Guid? SchoolId,
     string? SchoolName,
     Guid? UniversityId,
@@ -17,28 +17,28 @@ public record StudentResponseDto(
     string GradeName,
     int? MarkCount,
     int? AttendanceCount,
-    int? ClubMembershipsCount,
     int? ElectivesCount,
+    ProfileStatus Status,
     DateTime CreatedAt,
     DateTime UpdatedAt)
 {
-    public static StudentResponseDto FromEntity(Student student) => new(
+    public static StudentResponseDto FromEntity(Data.Models.Users.Student student) => new(
         student.Id,
+        student.User?.Id ?? Guid.Empty,
         student.User?.FirstName ?? "",
         student.User?.LastName ?? "",
         student.User?.Email ?? "",
         student.IsSchoolStudent,
-        student.IsUniversityStudent,
         student.SchoolId,
-        student.School?.Institution.Name,
+        student.School?.Institution?.Name,
         student.UniversityId,
-        student.University?.Institution.Name,
+        student.University?.Institution?.Name,
         student.GradeId,
         student.Grade?.Name ?? "",
         student.Marks?.Count,
         student.AttendanceRecords?.Count,
-        student.ClubMemberships?.Count,
         student.Electives?.Count,
+        student.Status, // Added Status
         student.CreatedAt,
         student.UpdatedAt
     );
