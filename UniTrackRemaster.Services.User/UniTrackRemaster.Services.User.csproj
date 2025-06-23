@@ -9,6 +9,14 @@
     <ItemGroup>
       <ProjectReference Include="..\UniTrackRemaster.Api.Dto\UniTrackRemaster.Api.Dto.csproj" />
       <ProjectReference Include="..\UniTrackRemaster.Data.Commons\UniTrackRemaster.Data.Commons.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Data\UniTrackRemaster.Data.csproj" />
+      <ProjectReference Include="..\UniTrackRemaster.Services.Storage\UniTrackRemaster.Services.Storage.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Http.Features">
+        <HintPath>..\..\..\..\..\..\usr\lib\dotnet\shared\Microsoft.AspNetCore.App\8.0.12\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
