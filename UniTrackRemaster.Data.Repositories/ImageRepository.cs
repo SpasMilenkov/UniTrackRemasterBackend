@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UniTrackRemaster.Commons;
+using UniTrackRemaster.Commons.Repositories;
 using UniTrackRemaster.Data.Context;
-using UniTrackRemaster.Data.Models.Analytics;
 using UniTrackRemaster.Data.Models.Images;
 
 namespace UniTrackRemaster.Data.Repositories;

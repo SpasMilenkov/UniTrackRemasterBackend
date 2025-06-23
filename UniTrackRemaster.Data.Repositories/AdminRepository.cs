@@ -1,26 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using UniTrackRemaster.Commons;
+using UniTrackRemaster.Commons.Repositories;
 using UniTrackRemaster.Data.Context;
 using UniTrackRemaster.Data.Models.Academical;
+using UniTrackRemaster.Data.Models.Enums;
 using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Repositories;
 
-public class AdminRepository : IAdminRepository
+public class AdminRepository(UniTrackDbContext context) : Repository<Admin>(context), IAdminRepository
 {
-    private readonly UniTrackDbContext _context;
-
-    public AdminRepository(UniTrackDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<IEnumerable<Admin>> GetAllAsync()
     {
         return await _context.Admins
             .Include(a => a.User)
             .Include(a => a.Institution)
-            .Include(a => a.Permissions)
             .ToListAsync();
     }
 
@@ -29,7 +23,6 @@ public class AdminRepository : IAdminRepository
         return await _context.Admins
             .Include(a => a.User)
             .Include(a => a.Institution)
-            .Include(a => a.Permissions)
             .FirstOrDefaultAsync(a => a.Id == id);
     }
 
@@ -38,7 +31,6 @@ public class AdminRepository : IAdminRepository
         return await _context.Admins
             .Include(a => a.User)
             .Include(a => a.Institution)
-            .Include(a => a.Permissions)
             .FirstOrDefaultAsync(a => a.UserId == userId);
     }
 
@@ -47,7 +39,6 @@ public class AdminRepository : IAdminRepository
         return await _context.Admins
             .Include(a => a.User)
             .Include(a => a.Institution)
-            .Include(a => a.Permissions)
             .Where(a => a.InstitutionId == institutionId)
             .ToListAsync();
     }
@@ -83,6 +74,37 @@ public class AdminRepository : IAdminRepository
     public async Task<bool> HasActiveAdminAsync(Guid institutionId)
     {
         return await _context.Admins
-            .AnyAsync(a => a.InstitutionId == institutionId && a.Status == AdminStatus.Active);
+            .AnyAsync(a => a.InstitutionId == institutionId && a.Status == ProfileStatus.Active);
+    }
+    public async Task<IEnumerable<Admin>> GetPendingByUserIdAsync(Guid userId)
+    {
+        return await _context.Admins
+            .Include(a => a.User)
+            .Include(a => a.Institution)
+            .Where(a => a.UserId == userId && a.Status == ProfileStatus.Pending)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Admin>> GetByInstitutionAsync(Guid institutionId, ProfileStatus? status = null)
+    {
+        var query = _context.Admins
+            .Include(a => a.User)
+            .Where(a => a.InstitutionId == institutionId);
+
+        if (status.HasValue)
+        {
+            query = query.Where(a => a.Status == status.Value);
+        }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<IEnumerable<Admin>> GetByStatusAsync(ProfileStatus status)
+    {
+        return await _context.Admins
+            .Include(a => a.User)
+            .Include(a => a.Institution)
+            .Where(a => a.Status == status)
+            .ToListAsync();
     }
 }

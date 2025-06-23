@@ -1,25 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using UniTrackRemaster.Commons;
+using UniTrackRemaster.Commons.Repositories;
 using UniTrackRemaster.Data.Context;
 using UniTrackRemaster.Data.Models.Academical;
 
 namespace UniTrackRemaster.Data.Repositories;
 
-public class MajorRepository : IMajorRepository
+public class MajorRepository(UniTrackDbContext context) : Repository<Major>(context), IMajorRepository
 {
-    private readonly UniTrackDbContext _context;
-
-    public MajorRepository(UniTrackDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<Major?> GetByIdAsync(Guid id)
     {
         return await _context.Majors
             .Include(m => m.Faculty)
             .Include(m => m.Students)
-            .Include(m => m.Courses)
             .FirstOrDefaultAsync(m => m.Id == id);
     }
 
@@ -28,7 +21,6 @@ public class MajorRepository : IMajorRepository
         return await _context.Majors
             .Include(m => m.Faculty)
             .Include(m => m.Students)
-            .Include(m => m.Courses)
             .Where(m => m.FacultyId == facultyId)
             .ToListAsync();
     }
