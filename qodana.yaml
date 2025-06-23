@@ -3,27 +3,101 @@
 #             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
 #-------------------------------------------------------------------------------#
 version: "1.0"
-
 #Specify IDE code to run analysis without container (Applied in CI/CD pipeline)
 ide: QDNET
-
 #Specify inspection profile for code analysis
 profile:
   name: qodana.starter
+include:
+  - name: ConvertIfStatementToReturnStatement
+  - name: ConvertIfStatementToNullCoalescingAssignment
+  - name: AutoPropertyCanBeMadeGetOnly.Global
+  - name: HeapView.BoxingAllocation
+  - name: ClassNeverInstantiated.Global
+  - name: ClassWithVirtualMembersNeverInherited.Global
+  - name: HeapView.ClosureAllocation
+  - name: ConvertIfStatementToSwitchStatement
+  - name: ConvertConstructorToMemberInitializers
+  - name: ConvertToPrimaryConstructor
+  - name: UseAwaitUsing
+  - name: ConvertClosureToMethodGroup
+  - name: ConvertToConstant.Local
+  - name: HeapView.DelegateAllocation
+  - name: CanSimplifyDictionaryLookupWithTryAdd
+  - name: CanSimplifyDictionaryLookupWithTryGetValue
+  - name: EmptyRegion
+  - name: ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+  - name: InlineTemporaryVariable
+  - name: InvertIf
+  - name: LoopCanBeConvertedToQuery
+  - name: MemberCanBePrivate.Global
+  - name: MemberCanBeMadeStatic.Local
+  - name: MergeIntoNegatedPattern
+  - name: MergeIntoPattern
+  - name: MergeIntoLogicalPattern
+  - name: MergeSequentialChecks
+  - name: UnusedMethodReturnValue.Global
+  - name: MethodSupportsCancellation
+  - name: HeapView.ObjectAllocation
+  - name: HeapView.ObjectAllocation.Evident
+  - name: HeapView.ObjectAllocation.Possible
+  - name: ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+  - name: PropertyCanBeMadeInitOnly.Global
+  - name: RedundantIfElseBlock
+  - name: RedundantEmptyObjectCreationArgumentList
+  - name: RedundantLambdaSignatureParentheses
+  - name: RedundantStringInterpolation
+  - name: ArrangeRedundantParentheses
+  - name: ReplaceSubstringWithRangeIndexer
+  - name: ConvertSwitchStatementToSwitchExpression
+  - name: UseNullPropagation
+  - name: ReplaceWithPrimaryConstructorParameter
+  - name: ReplaceWithSingleCallToFirst
+  - name: CA1861
+  - name: CA1860
+  - name: CA1825
+  - name: CA1816
+  - name: CA1826
+  - name: CA2016
+  - name: CA2208
+  - name: CA1822
+  - name: CA1846
+  - name: CA1854
+  - name: CA2254
+  - name: CA1866
+  - name: CA1845
+  - name: CA1862
+  - name: RouteTemplates.ParameterConstraintCanBeSpecified
+  - name: SimplifyLinqExpressionUseAll
+  - name: SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+  - name: EntityFramework.ModelValidation.CircularDependency
+  - name: UnusedType.Global
+  - name: UnusedMemberInSuper.Global
+  - name: UnusedMember.Global
+  - name: HtmlUnknownTarget
+  - name: UnusedParameter.Global
+  - name: UseCollectionExpression
+  - name: UseDeconstruction
+  - name: ArrangeTypeMemberModifiers
+  - name: UseObjectOrCollectionInitializer
+  - name: SuggestVarOrType_Elsewhere
+  - name: SuggestVarOrType_BuiltInTypes
+  - name: SuggestVarOrType_SimpleTypes
+  - name: ArrangeNamespaceBody
+  - name: ArrangeTrailingCommaInMultilineLists
+  - name: ArrangeObjectCreationWhenTypeEvident
+  - name: ArrangeObjectCreationWhenTypeNotEvident
 
 #Enable inspections
 #include:
 #  - name: <SomeEnabledInspectionId>
-
 #Disable inspections
 #exclude:
 #  - name: <SomeDisabledInspectionId>
 #    paths:
 #      - <path/where/not/run/inspection>
-
 #Execute shell command before Qodana execution (Applied in CI/CD pipeline)
 #bootstrap: sh ./prepare-qodana.sh
-
 #Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
 #plugins:
 #  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
