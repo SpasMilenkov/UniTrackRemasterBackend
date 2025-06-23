@@ -1,4 +1,4 @@
-using UniTrackRemaster.Data.Models.Enums;
+ using UniTrackRemaster.Data.Models.Enums;
 using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Academical;
