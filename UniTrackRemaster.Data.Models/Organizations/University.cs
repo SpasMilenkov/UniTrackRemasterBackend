@@ -1,9 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using UniTrackRemaster.Data.Models.Academical;
 using UniTrackRemaster.Data.Models.Analytics;
 using UniTrackRemaster.Data.Models.Enums;
-using UniTrackRemaster.Data.Models.Events;
-using UniTrackRemaster.Data.Models.Users;
 
 namespace UniTrackRemaster.Data.Models.Organizations;
 
@@ -22,8 +19,7 @@ public class University
     
     #region NavigationProperties
     public IList<Faculty>? Faculties { get; set; }
-    public Guid UniversityReportId { get; set; }
-    public UniversityReport? UniversityReport { get; set; }
+    public Guid? UniversityReportId { get; set; }
     public Guid InstitutionId { get; set; }
     public Institution? Institution { get; set; }
     #endregion

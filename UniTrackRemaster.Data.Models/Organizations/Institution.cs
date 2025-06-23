@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using UniTrackRemaster.Data.Models.Academical;
 using UniTrackRemaster.Data.Models.Enums;
 using UniTrackRemaster.Data.Models.Events;
 using UniTrackRemaster.Data.Models.Images;
@@ -29,5 +30,7 @@ public class Institution : BaseEntity
     public IList<Student>? Students { get; set; }
     public IList<Teacher>? Teachers { get; set; }
     public IList<Admin>? Admins { get; set; } 
+    public IList<Parent>? Parents { get; set; } 
     public IList<Event>? Events { get; set; }
+    public IList<Subject>? Subjects { get; set; }
 }
