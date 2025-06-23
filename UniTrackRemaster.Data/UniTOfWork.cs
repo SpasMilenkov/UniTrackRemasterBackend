@@ -1,93 +1,110 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using UniTrackRemaster.Commons;
+using UniTrackRemaster.Commons.Repositories;
 using UniTrackRemaster.Data.Context;
 
 namespace UniTrackRemaster.Data;
 
-public sealed class UnitOfWork : IUnitOfWork
+public sealed class UnitOfWork(
+    UniTrackDbContext dbContext,
+    IAdminRepository adminRepository,
+    IParentRepository parentRepository,
+    IGradingSystemRepository gradingSystemRepository,
+    IAcademicYearRepository academicYearRepository,
+    IApplicationRepository applicationRepository,
+    IAbsenceRepository absenceRepository,
+    IDepartmentRepository departmentRepository,
+    IFacultyRepository facultyRepository,
+    IGradeRepository gradeRepository,
+    IImageRepository imageRepository,
+    IMajorRepository majorRepository,
+    ISchoolRepository schoolRepository,
+    ISemesterRepository semesterRepository,
+    IStudentRepository studentRepository,
+    ISubjectRepository subjectRepository,
+    ITeacherRepository teacherRepository,
+    IUniversityRepository universityRepository,
+    IMarkRepository markRepository,
+    IEventRepository eventRepository,
+    IParticipantRepository participantRepository,
+    IOrganizerRepository organizerRepository,
+    IAttenderRepository attenderRepository,
+    IEventNotificationRepository eventNotificationRepository,
+    IInstitutionRepository institutions) : IUnitOfWork
 {
-    private readonly UniTrackDbContext _dbContext;
+    private readonly UniTrackDbContext _dbContext = dbContext;
     private IDbContextTransaction _transaction;
     private bool _disposed;
 
-    public IAdminRepository Admins { get; }
-    public IApplicationRepository Applications { get; }
-    public IInstitutionRepository Institutions { get; }
-    public IAttendanceRepository Attendances { get; }
-    public IUniversityRepository Universities { get; }
-    public ICourseRepository Courses { get; }
-    public IDepartmentRepository Departments { get; }
-    public IFacultyRepository Faculties { get; }
-    public IGradeRepository Grades { get; }
-    public IImageRepository Images { get; }
-    public IMajorRepository Majors { get; }
-    public ISchoolRepository Schools { get; }
-    public ISemesterRepository Semesters { get; }
-    public IStudentRepository Students { get; }
-    public ISubjectRepository Subjects { get; }
-    public ITeacherRepository Teachers { get; }
+    public IAdminRepository Admins { get; } = adminRepository;
+    public IParentRepository Parents { get; } = parentRepository;
+    public IAcademicYearRepository AcademicYears { get; } = academicYearRepository;
+    public IGradingSystemRepository GradingSystems { get; } = gradingSystemRepository;
+    public IMarkRepository Marks { get; } = markRepository;
+    public IApplicationRepository Applications { get; } = applicationRepository;
+    public IInstitutionRepository Institutions { get; } = institutions;
+    public IAbsenceRepository Absences { get; } = absenceRepository;
+    public IUniversityRepository Universities { get; } = universityRepository;
+    public IDepartmentRepository Departments { get; } = departmentRepository;
+    public IFacultyRepository Faculties { get; } = facultyRepository;
+    public IGradeRepository Grades { get; } = gradeRepository;
+    public IImageRepository Images { get; } = imageRepository;
+    public IMajorRepository Majors { get; } = majorRepository;
+    public ISchoolRepository Schools { get; } = schoolRepository;
+    public ISemesterRepository Semesters { get; } = semesterRepository;
+    public IStudentRepository Students { get; } = studentRepository;
+    public ISubjectRepository Subjects { get; } = subjectRepository;
+    public ITeacherRepository Teachers { get; } = teacherRepository;
+    public IEventRepository Events { get; } = eventRepository;
+    public IParticipantRepository Participants { get; } = participantRepository;
+    public IOrganizerRepository Organizers { get; } = organizerRepository;
+    public IAttenderRepository Attenders { get; } = attenderRepository;
+    public IEventNotificationRepository EventNotifications { get; } = eventNotificationRepository;
 
-    public UnitOfWork(
-        UniTrackDbContext dbContext,
-        IAdminRepository adminRepository,
-        IApplicationRepository applicationRepository,
-        IAttendanceRepository attendanceRepository,
-        ICourseRepository courseRepository,
-        IDepartmentRepository departmentRepository,
-        IFacultyRepository facultyRepository,
-        IGradeRepository gradeRepository,
-        IImageRepository imageRepository,
-        IMajorRepository majorRepository,
-        ISchoolRepository schoolRepository,
-        ISemesterRepository semesterRepository,
-        IStudentRepository studentRepository,
-        ISubjectRepository subjectRepository,
-        ITeacherRepository teacherRepository,
-        IUniversityRepository universityRepository,
-        IInstitutionRepository institutions)
-    {
-        _dbContext = dbContext;
-        Admins = adminRepository;
-        Applications = applicationRepository;
-        Attendances = attendanceRepository;
-        Courses = courseRepository;
-        Departments = departmentRepository;
-        Faculties = facultyRepository;
-        Grades = gradeRepository;
-        Images = imageRepository;
-        Majors = majorRepository;
-        Schools = schoolRepository;
-        Semesters = semesterRepository;
-        Students = studentRepository;
-        Subjects = subjectRepository;
-        Teachers = teacherRepository;
-        Universities = universityRepository;
-        Institutions = institutions;
-    }
+
+    private int _transactionCount = 0;
 
     public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
-        _transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+        // If this is the first transaction request, create a new transaction
+        if (_transactionCount == 0)
+        {
+            _transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+        }
+
+        // Increment the transaction counter
+        _transactionCount++;
     }
 
     public async Task CommitAsync(CancellationToken cancellationToken = default)
     {
-        try
+        // Decrement the transaction counter
+        _transactionCount--;
+
+        // Only commit when all nested transactions are complete
+        if (_transactionCount == 0)
         {
-            await SaveChangesAsync(cancellationToken);
-            await _transaction.CommitAsync(cancellationToken);
-        }
-        finally
-        {
-            await _transaction.DisposeAsync();
-            _transaction = null;
+            try
+            {
+                await SaveChangesAsync(cancellationToken);
+                await _transaction.CommitAsync(cancellationToken);
+            }
+            finally
+            {
+                await _transaction.DisposeAsync();
+                _transaction = null;
+            }
         }
     }
+
 
     public async Task RollbackAsync(CancellationToken cancellationToken = default)
     {
         if (_transaction is null) return;
-        
+
+        // Reset the counter since we're rolling back
+        _transactionCount = 0;
+
         try
         {
             await _transaction.RollbackAsync(cancellationToken);
@@ -98,7 +115,6 @@ public sealed class UnitOfWork : IUnitOfWork
             _transaction = null;
         }
     }
-
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await _dbContext.SaveChangesAsync(cancellationToken);
@@ -130,11 +146,11 @@ public sealed class UnitOfWork : IUnitOfWork
     private async ValueTask DisposeAsyncCore()
     {
         if (_disposed) return;
-        
+
         await _dbContext.DisposeAsync();
         if (_transaction is not null)
             await _transaction.DisposeAsync();
-        
+
         _disposed = true;
     }
 }
