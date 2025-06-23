@@ -5,7 +5,7 @@ namespace UniTrackRemaster.Api.Dto.Auth;
 public record LoginDto(
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(ErrorMessage = "Invalid email format.")]
-    [StringLength(30, ErrorMessage = "Email cannot be longer than 30 characters.")]
+    [StringLength(50, ErrorMessage = "Email cannot be longer than 30 characters.")]
     string Email,
 
     [Required(ErrorMessage = "Password is required.")]
